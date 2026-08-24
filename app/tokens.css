@@ -1,0 +1,156 @@
+/* Tijanić Savić — advokatska kancelarija
+   Design tokeni · pravac „Kabinet" (tamnozelena podloga)
+   Izvučeno iz: Tijanic Savic - Sajt.dc.html, ekran 1b */
+
+:root {
+  /* ── Boje ─────────────────────────────────────────────── */
+  --ts-green-900: #0B2F24;              /* glavna podloga sajta */
+  --ts-green-800: #0F382C;              /* mastilo / podloga na svetlim sekcijama */
+  --ts-green-700: #1B4A3B;              /* linije i pregrade na tamnoj podlozi */
+  --ts-gold: #C49A45;                   /* linije, romb, dugme */
+  --ts-gold-light: #D4AF37;             /* tekst zlatnom na tamnoj podlozi */
+  --ts-cream: #EFECE6;                  /* tekst na tamnoj podlozi, svetli paneli */
+  --ts-paper: #F6F4F0;                  /* najsvetlija podloga */
+  --ts-ink: #1E2622;                    /* tekući tekst na svetlom */
+  --ts-grey-green: #55605A;             /* sitni tekst, oznake sekcija */
+  --ts-line-light: #DFDBD3;             /* pregrade na svetloj podlozi */
+
+  /* poluprozirne varijante */
+  --ts-cream-62: rgba(239, 236, 230, 0.62);   /* sekundarni tekst na zelenom */
+  --ts-gold-50: rgba(196, 154, 69, 0.5);      /* tanke zlatne linije */
+
+  /* semantičke uloge */
+  --ts-bg: var(--ts-green-900);
+  --ts-bg-alt: var(--ts-cream);
+  --ts-fg: var(--ts-cream);
+  --ts-fg-muted: var(--ts-cream-62);
+  --ts-fg-on-light: var(--ts-ink);
+  --ts-accent: var(--ts-gold);
+  --ts-border: var(--ts-green-700);
+  --ts-border-on-light: var(--ts-line-light);
+
+  /* ── Tipografija ──────────────────────────────────────── */
+  --ts-font-display: 'Cormorant Garamond', Georgia, serif;   /* naslovi, ime kancelarije */
+  --ts-font-body: 'IBM Plex Sans', system-ui, sans-serif;    /* tekući tekst */
+  --ts-font-mono: 'IBM Plex Mono', ui-monospace, monospace;  /* oznake, podaci */
+
+  --ts-weight-display: 300;
+  --ts-weight-display-strong: 500;
+  --ts-weight-body: 300;
+
+  /* skala (desktop) */
+  --ts-text-hero: 76px;
+  --ts-text-h1: 46px;
+  --ts-text-h2: 34px;
+  --ts-text-h3: 30px;
+  --ts-text-name: 32px;
+  --ts-text-lead: 19px;
+  --ts-text-body: 17px;
+  --ts-text-body-sm: 15.5px;
+  --ts-text-label: 11px;                /* mono, uppercase */
+  --ts-text-micro: 8.5px;               /* mono, uppercase, pod imenom */
+
+  /* skala (mobilni 390) */
+  --ts-text-hero-mobile: 42px;
+  --ts-text-h2-mobile: 30px;
+  --ts-text-body-mobile: 16px;
+
+  --ts-leading-display: 1.14;
+  --ts-leading-heading: 1.26;
+  --ts-leading-body: 1.8;
+
+  --ts-tracking-label: 0.22em;          /* mono oznake sekcija */
+  --ts-tracking-micro: 0.24em;          /* „ADVOKATSKA KANCELARIJA" */
+  --ts-tracking-name: 0.24em;           /* ime kancelarije u navigaciji */
+  --ts-tracking-button: 0.18em;
+
+  /* ── Prostor ──────────────────────────────────────────── */
+  --ts-space-1: 6px;
+  --ts-space-2: 12px;
+  --ts-space-3: 18px;
+  --ts-space-4: 26px;
+  --ts-space-5: 40px;
+  --ts-space-6: 64px;
+  --ts-space-7: 96px;
+  --ts-space-8: 120px;
+
+  --ts-pad-page-x: 64px;                /* desktop levo/desno */
+  --ts-pad-page-x-mobile: 24px;
+  --ts-pad-section-y: 96px;
+  --ts-pad-nav-y: 32px;
+  --ts-measure: 900px;                  /* max širina naslova */
+  --ts-measure-text: 660px;             /* max širina pasusa */
+
+  /* ── Linije i detalji ─────────────────────────────────── */
+  --ts-hairline: 1px;
+  --ts-rule: var(--ts-hairline) solid var(--ts-border);
+  --ts-rule-gold: var(--ts-hairline) solid var(--ts-gold);
+  --ts-diamond-size: 7px;               /* romb rotiran 45° između linija */
+  --ts-radius: 0;                       /* bez zaobljenja, sve je oštro */
+
+  /* ── Logo ─────────────────────────────────────────────── */
+  --ts-logo-mono-nav: 48px;             /* visina monograma u navigaciji */
+  --ts-logo-mono-nav-mobile: 34px;
+  --ts-logo-vertical-footer: 132px;
+  --ts-logo-vertical-footer-mobile: 104px;
+}
+
+/* Primeri upotrebe */
+body {
+  margin: 0;
+  background: var(--ts-bg);
+  color: var(--ts-fg);
+  font-family: var(--ts-font-body);
+  font-weight: var(--ts-weight-body);
+  font-size: var(--ts-text-body);
+  line-height: var(--ts-leading-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--ts-gold-light); }
+a:hover { color: var(--ts-gold); }
+
+.ts-hero {
+  font-family: var(--ts-font-display);
+  font-weight: var(--ts-weight-display);
+  font-size: var(--ts-text-hero);
+  line-height: var(--ts-leading-display);
+  max-width: var(--ts-measure);
+  text-wrap: pretty;
+}
+
+.ts-label {
+  font-family: var(--ts-font-mono);
+  font-size: var(--ts-text-label);
+  letter-spacing: var(--ts-tracking-label);
+  text-transform: uppercase;
+  color: var(--ts-gold-light);
+}
+
+.ts-button {
+  font-family: var(--ts-font-mono);
+  font-size: var(--ts-text-label);
+  letter-spacing: var(--ts-tracking-button);
+  text-transform: uppercase;
+  background: var(--ts-gold);
+  color: var(--ts-green-900);
+  padding: 17px 34px;
+  border: none;
+  border-radius: var(--ts-radius);
+}
+
+.ts-button--ghost {
+  background: transparent;
+  color: var(--ts-gold-light);
+  border: var(--ts-rule-gold);
+}
+
+.ts-panel {                              /* svetli panel unutar zelene strane */
+  background: var(--ts-bg-alt);
+  color: var(--ts-fg-on-light);
+  padding: var(--ts-space-6);
+}
+
+@media (max-width: 640px) {
+  .ts-hero { font-size: var(--ts-text-hero-mobile); }
+}
