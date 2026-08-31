@@ -11,6 +11,6 @@
     { "source": "/sr/(.*)", "destination": "/", "permanent": true }
   ],
   "rewrites": [
-    { "source": "/studio/(.*)", "destination": "/studio/index.html" }
+    { "source": "/studio/(.*)", "destination": "/studio/" }
   ]
 }
