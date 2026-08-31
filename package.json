@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typegen": "sanity schema extract --path sanity/schema.json && sanity typegen generate"
   },
   "dependencies": {
     "@sanity/image-url": "^1.2.0",

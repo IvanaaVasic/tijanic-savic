@@ -1,0 +1,117 @@
+/* Two 1px gold rules at 0.5 opacity, with a 7px gold square rotated 45 degrees
+   between them and 15px of space on either side.
+   docs/design/design.md, "Recurring elements — Gold rule + diamond". */
+
+.rule {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.rule::before,
+.rule::after {
+  content: "";
+  flex: 1;
+  height: var(--hairline);
+  background: var(--gold-50);
+}
+
+/* The diamond must not shrink when the rules claim the space for themselves. */
+.diamond {
+  flex: none;
+  width: var(--diamond-size);
+  height: var(--diamond-size);
+  background: var(--gold);
+  transform: rotate(45deg);
+}
+
+/* ── Drawing itself in ───────────────────────────────────────────────────── */
+
+/* A divider that has ended up inside a block being revealed draws itself out of
+   the middle: the diamond appears, the two rules run outward from it. Every
+   other divider — the hero's and the footer's — never sees the attribute and so
+   simply stands there.
+
+   data-reveal is set by components/Reveal on the block around this one. CSS
+   Modules leave attribute selectors alone, which is why the state reaches in
+   here at all; .rule and .diamond below are still scoped to this file.
+
+   The delay puts the drawing after the block has arrived, not underneath it —
+   otherwise the line would draw while the whole panel is still fading in, and
+   nobody would see it. */
+
+/* The rules grow away from the diamond, so each is anchored at its inner end —
+   the left rule at its right edge, the right rule at its left. The origin sits
+   in the resting state, not in the hidden one: it is not animated, so leaving it
+   there would drop it back to the centre the moment the attribute goes and the
+   rule would open out both ways instead of running outward. */
+.rule::before,
+.rule::after {
+  transition: transform var(--draw-duration) var(--reveal-ease)
+    calc(var(--reveal-delay, 0ms) + var(--draw-delay));
+}
+
+.rule::before {
+  transform-origin: right;
+}
+
+.rule::after {
+  transform-origin: left;
+}
+
+.diamond {
+  transition: opacity var(--reveal-duration) var(--reveal-ease)
+    calc(var(--reveal-delay, 0ms) + var(--draw-delay));
+}
+
+[data-reveal="hidden"] .rule::before,
+[data-reveal="hidden"] .rule::after {
+  transform: scaleX(0);
+}
+
+/* The diamond is already rotated 45°, and a second transform on the same
+   element would overwrite the first — so it fades rather than scales. */
+[data-reveal="hidden"] .diamond {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce), print {
+  [data-reveal="hidden"] .rule::before,
+  [data-reveal="hidden"] .rule::after {
+    transform: none;
+  }
+
+  [data-reveal="hidden"] .diamond {
+    opacity: 1;
+  }
+}
+
+/* Mobile-first: the narrower values come first, desktop arrives in the
+   min-width query. Hero and footer have two different mobile widths, not one. */
+
+.hero {
+  composes: rule;
+  width: var(--divider-hero-mobile);
+}
+
+.footer {
+  composes: rule;
+  width: var(--divider-footer-mobile);
+}
+
+/* Inside the cream panel the width is not fixed — the rules stretch to the
+   edges of the content. */
+.panel {
+  composes: rule;
+  width: 100%;
+}
+
+@media (min-width: 900px) {
+  .hero {
+    width: var(--divider-hero);
+  }
+
+  .footer {
+    width: var(--divider-footer);
+  }
+}

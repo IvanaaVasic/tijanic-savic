@@ -1,0 +1,37 @@
+/* The two states of a revealed block. The transition is declared on the resting
+   state, where it does nothing until the attribute appears — and the attribute
+   only ever appears from Reveal.tsx.
+
+   data-reveal is an attribute, not a class, on purpose: CSS Modules do not hash
+   attribute selectors, so a component further down can react to the state of the
+   block around it. Divider does exactly that — see Divider.module.css. */
+
+.reveal {
+  transition:
+    opacity var(--reveal-duration) var(--reveal-ease) var(--reveal-delay, 0ms),
+    transform var(--reveal-duration) var(--reveal-ease) var(--reveal-delay, 0ms);
+}
+
+.reveal[data-reveal="hidden"] {
+  opacity: 0;
+  transform: translateY(var(--reveal-rise));
+}
+
+/* Reveal.tsx already checks this and then never hides anything, so this block is
+   a second lock on the same door: if the setting changes after the page has
+   loaded, the movement stops but nothing stays invisible. */
+@media (prefers-reduced-motion: reduce) {
+  .reveal[data-reveal="hidden"] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Printing does not scroll, so nothing further down the page would ever be
+   revealed and the sheets would come out blank from the Team section on. */
+@media print {
+  .reveal[data-reveal="hidden"] {
+    opacity: 1;
+    transform: none;
+  }
+}

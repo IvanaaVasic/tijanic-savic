@@ -1,0 +1,122 @@
+/* 02 Team — section 3 from docs/design/design.md.
+   Desktop: section 24/64/96, 46px gap, cards in a row 40px apart.
+   Below 900px: section 16/16/40, 26px gap.
+   Mobile-first, desktop arrives in the min-width query.
+
+   The number of lawyers is not fixed. The row reflows on its own: one lawyer
+   does not stretch a card across the full width, three fit in a row, a fourth
+   drops to the next one. The cards are also the one thing here that does not
+   wait for the 900px breakpoint — see the note on .cards. */
+
+/* This is the only section whose band on mobile is narrower than the rest of
+   the page — 16px, the same as around the cream panel, as design.md states. */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding: 16px var(--pad-panel-x-mobile) 40px;
+}
+
+/* ── Section label ─────────────────────────────────────────────────────── */
+
+/* The rule aligns with the text baseline, not with the middle: a flex container
+   aligns an empty element with no baseline of its own along its bottom edge, so
+   the rule lands exactly on the label's baseline. */
+.head {
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
+  padding: 0 8px;
+}
+
+/* An h2 that carries the mono label style — hence the explicit weight and size;
+   the default heading style would embolden and enlarge it. */
+.label {
+  display: flex;
+  gap: 18px;
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: var(--text-label-mobile);
+  letter-spacing: var(--tracking-label);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+}
+
+/* Gold by explicit agreement. In the mockup this rule is #1B4A3B
+   (--green-line), and design.md says the same — do not put it back to green
+   without asking. */
+.rule {
+  flex: 1;
+  height: var(--hairline);
+  background: var(--gold-50);
+}
+
+/* ── Cards ─────────────────────────────────────────────────────────────── */
+
+/* auto-fit, not a fixed column count, and deliberately outside the media query:
+   the row is driven by the space it has, not by the site's breakpoint. Empty
+   tracks collapse to zero, so two lawyers split the row in half, three split it
+   in thirds, and a fourth drops to the next row.
+
+   That it sits here and not at 900 is the point. The rest of the site turns
+   desktop at 900 because the header and the About stat row need that much room;
+   a pair of cards does not. Held back to 900 they stacked full width between
+   768 and 899 and the bio ran to 117 characters a line. Reflowing on their own,
+   two cards go side by side as soon as 2 × 300px + the gap fits — about 685px —
+   which is roughly 40 characters a line.
+
+   min(300px, 100%) and not a bare 300px: on the narrowest phone the column has
+   273px to give, a bare minimum of 300px would hold the track open anyway and
+   the card would hang 27px off the right edge of the screen. min() lets the
+   floor drop to the container's own width when there is less than 300px. */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+  gap: 26px;
+  padding: 0;
+  list-style: none;
+}
+
+/* The card fills the height of its cell: the row is as tall as the longest bio,
+   and every card in it follows that height.
+
+   min-width: 0 because the card is a flex item and would otherwise refuse to go
+   below its own min-content width — the same reason About and Contact carry it
+   on their columns. */
+.item {
+  display: flex;
+  min-width: 0;
+}
+
+/* One lawyer: the card stays as wide as it would be with two, instead of
+   stretching across the whole row. 636px is that half on the widest the page
+   goes — (1440 − 2×64 − 40) / 2. */
+.item:only-child {
+  max-width: 636px;
+}
+
+/* ── From 900px up ─────────────────────────────────────────────────────── */
+
+@media (min-width: 900px) {
+  .section {
+    gap: 46px;
+    padding: 24px var(--pad-page-x) 96px;
+  }
+
+  .head {
+    padding: 0;
+  }
+
+  .label {
+    font-size: var(--text-label);
+  }
+
+  /* Only the gap grows here; the columns themselves are set outside the query
+     and reflow on their own. */
+  .cards {
+    gap: 40px;
+  }
+}

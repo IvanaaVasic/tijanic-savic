@@ -1,0 +1,15 @@
+# Cloudflare Pages. The first rule that matches wins, so the order is not free.
+
+# One host, one address. The canonical link, the sitemap and hreflang all name
+# the apex domain, so www must not answer with a copy of the site — two hosts
+# serving the same pages is duplicate content.
+https://www.tijanicsaviclegal.rs/*   https://tijanicsaviclegal.rs/:splat   301
+
+# Serbian is the default locale and lives at the site root, with no prefix.
+# /sr/ existed in an earlier version of the routing — keep the old links alive.
+/sr               /                     301
+/sr/*             /                     301
+
+# The Studio resolves its own subroutes in the browser. Without this rule F5
+# inside the Studio returns a 404, even though clicking through it works.
+/studio/*         /studio/index.html    200

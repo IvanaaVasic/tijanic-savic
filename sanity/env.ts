@@ -1,26 +1,27 @@
-// Vrednosti dolaze iz .env.local (lokalno) i iz podešavanja hostinga (build).
-// NEXT_PUBLIC_ prefiks je nužan jer iste vrednosti koristi i Studio u browseru.
+// The values come from .env.local (locally) and from the hosting configuration
+// (at build time). The NEXT_PUBLIC_ prefix is required because the Studio uses
+// the same values in the browser.
 
-function obavezna(vrednost: string | undefined, ime: string): string {
-  if (!vrednost) {
+function required(value: string | undefined, name: string): string {
+  if (!value) {
     throw new Error(
-      `Nedostaje env varijabla ${ime}. Prepiši .env.example u .env.local i popuni je.`
+      `Missing env variable ${name}. Copy .env.example to .env.local and fill it in.`
     );
   }
-  return vrednost;
+  return value;
 }
 
-export const projectId = obavezna(
+export const projectId = required(
   process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
   "NEXT_PUBLIC_SANITY_PROJECT_ID"
 );
 
-export const dataset = obavezna(
+export const dataset = required(
   process.env.NEXT_PUBLIC_SANITY_DATASET,
   "NEXT_PUBLIC_SANITY_DATASET"
 );
 
-// Sanity API se verzioniše datumom. Zaključan je namerno — ako se ne dira,
-// odgovori sa API-ja se ne menjaju ispod nogu.
+// The Sanity API is versioned by date. It is pinned deliberately — leave it
+// alone and the API responses will not shift underneath you.
 export const apiVersion =
   process.env.NEXT_PUBLIC_SANITY_API_VERSION ?? "2025-08-21";

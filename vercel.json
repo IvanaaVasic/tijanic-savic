@@ -1,0 +1,16 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.tijanicsaviclegal.rs" }],
+      "destination": "https://tijanicsaviclegal.rs/:path*",
+      "permanent": true
+    },
+    { "source": "/sr", "destination": "/", "permanent": true },
+    { "source": "/sr/:path*", "destination": "/", "permanent": true }
+  ],
+  "rewrites": [
+    { "source": "/studio/:path*", "destination": "/studio/index.html" }
+  ]
+}

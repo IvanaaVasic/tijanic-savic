@@ -1,0 +1,149 @@
+/* The 404 page. It is not in design.md — there is no mockup for it — so it is
+   built out of parts that already exist: the footer lockup, the gold divider,
+   the mono eyebrow from the hero, and the two button shapes the site already
+   uses (one gold fill, one gold hairline frame).
+
+   A centred column on the page background, vertically centred in the viewport.
+   Mobile-first, desktop arrives in the min-width query. */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  min-height: 100vh;
+  padding: 60px var(--pad-page-x-mobile);
+  text-align: center;
+}
+
+.logo {
+  height: var(--logo-vertical-footer-mobile);
+  width: auto;
+}
+
+/* ── The code and the title ────────────────────────────────────────────── */
+
+/* Gold text on the dark ground goes through --gold-bright, never --gold. */
+.code {
+  margin-top: 6px;
+  font-family: var(--font-mono);
+  font-size: var(--text-label-mobile);
+  letter-spacing: var(--tracking-eyebrow);
+  line-height: 1;
+  color: var(--gold-bright);
+}
+
+.title {
+  max-width: var(--measure-lead);
+  font-family: var(--font-display);
+  font-weight: var(--weight-heading);
+  font-size: var(--text-h2-mobile);
+  line-height: var(--leading-heading-mobile);
+  color: var(--cream);
+  text-wrap: balance;
+}
+
+.text {
+  max-width: var(--measure-lead);
+  font-size: var(--text-body-mobile);
+  line-height: var(--leading-body);
+  color: var(--cream);
+}
+
+/* The English line is secondary — it takes the muted cream, the same one the
+   footer and the navigation use for text that is not the main message. */
+.textEn {
+  max-width: var(--measure-lead);
+  font-size: var(--text-card-mobile);
+  line-height: var(--leading-body);
+  color: var(--cream-62);
+}
+
+/* ── The two links home ────────────────────────────────────────────────── */
+
+/* Stacked on a narrow screen, side by side from 900px. Both are --tap-min tall. */
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-self: stretch;
+  margin-top: 12px;
+}
+
+.action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--tap-min);
+  padding: 17px 34px;
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-button);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+/* The filled button: gold ground, text in the page background colour. Contrast
+   5.57 — gold here is a surface, not a text colour. */
+.primary {
+  composes: action;
+  background: var(--gold);
+  color: var(--green-alt);
+}
+
+.primary:hover,
+.primary:focus-visible {
+  background: var(--gold-bright);
+}
+
+/* The secondary action is a gold hairline frame, like the phone in the header. */
+.secondary {
+  composes: action;
+  color: var(--gold-bright);
+  border: var(--border-gold);
+}
+
+.secondary:hover,
+.secondary:focus-visible {
+  background: var(--gold);
+  color: var(--green-alt);
+}
+
+/* ── From 900px up ─────────────────────────────────────────────────────── */
+
+@media (min-width: 900px) {
+  .page {
+    gap: 26px;
+    padding: 80px var(--pad-page-x);
+  }
+
+  .logo {
+    height: var(--logo-vertical-footer);
+  }
+
+  .code {
+    font-size: var(--text-label);
+  }
+
+  .title {
+    font-size: var(--text-h2);
+    line-height: var(--leading-heading);
+  }
+
+  .text {
+    font-size: var(--text-lead);
+    line-height: var(--leading-lead);
+  }
+
+  .textEn {
+    font-size: var(--text-body);
+  }
+
+  .actions {
+    flex-direction: row;
+    justify-content: center;
+    align-self: center;
+    gap: 18px;
+  }
+}

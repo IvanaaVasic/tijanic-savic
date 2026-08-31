@@ -1,0 +1,212 @@
+/* 03 Contact — section 4 from docs/design/design.md.
+   Desktop: wrapper 0/64/72, panel 60/56, left column 470px (358 + 2x56), the map
+   fills the rest; blocks 22px apart, 18px above the rule.
+   Below 900px: wrapper 0/16/40, panel 34/28/36, everything in one column, blocks
+   18px apart and 16px above the rule, map 240px tall.
+   Mobile-first, desktop arrives in the min-width query.
+
+   A deliberate departure from the mockups: the map is inset into the panel
+   instead of touching its edge — it got a gold hairline frame and a link below
+   it, and both need cream around them. On mobile it sits below the data, not
+   above it. */
+
+/* The green band around the panel — content never touches the screen edge. Past
+   --content-max the band stops growing and the panel sits in the middle of the
+   page instead of stretching with the window. */
+.wrapper {
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding: 0 var(--pad-panel-x-mobile) 40px;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  padding: 34px 28px 36px;
+  background: var(--cream);
+
+  /* The default colour on the cream background. The values override it to
+     --ink, the small captions to --grey-green. */
+  color: var(--green-deep);
+}
+
+/* ── Left column ───────────────────────────────────────────────────────── */
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* One line: 03 / KONTAKT. Unlike the About section, the slash stays here on
+   desktop too — the left column has no narrow strip for the label. */
+.label {
+  display: flex;
+  gap: 18px;
+  font-family: var(--font-mono);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-label);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--grey-green);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-heading);
+  font-size: var(--text-contact-mobile);
+  line-height: var(--leading-heading-mobile);
+}
+
+/* ── Data blocks ───────────────────────────────────────────────────────── */
+
+.blocks {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* The rule above a block divides content, it is not decoration — hence
+   --line-light, not gold. */
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 16px;
+  border-top: var(--border-light);
+}
+
+/* An h3 with the mono caption style: explicit weight and size, because the
+   default heading style would embolden and enlarge it.
+   9.5px on desktop as well — that is what design.md says for this section, even
+   though the token carries the -mobile suffix. */
+.caption {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: var(--text-micro-mobile);
+  letter-spacing: var(--tracking-label);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--grey-green);
+}
+
+/* Applies to <address> too, which the browser italicises by default. */
+.value {
+  font-size: var(--text-value-mobile);
+  font-style: normal;
+  line-height: var(--leading-body);
+  color: var(--ink);
+}
+
+.row {
+  display: block;
+}
+
+/* ── Phone numbers ─────────────────────────────────────────────────────── */
+
+/* No gap on mobile: the row is exactly --tap-min tall, so the spacing comes out
+   of the tap target itself. If the spacing were a gap as well, neighbouring
+   targets would overlap and a finger would hit the wrong number. */
+.phones {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* baseline, not center: the label is smaller than the number and has to sit on
+   the same line, otherwise it floats above the digits. */
+.phoneRow {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+/* inline-flex with min-height lifts the tap target to 44px while the letters
+   keep their size. The row baseline still works — an inline-flex box takes its
+   baseline from its own text, so the label sits next to the digits. */
+.number {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-min);
+  font-size: var(--text-value-mobile);
+  line-height: var(--leading-body);
+  color: var(--ink);
+}
+
+.number:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.phoneLabel {
+  font-size: var(--text-suffix-mobile);
+  color: var(--grey-green);
+}
+
+/* ── From 900px up ─────────────────────────────────────────────────────── */
+
+@media (min-width: 900px) {
+  .wrapper {
+    padding: 0 var(--pad-panel-x) 72px;
+  }
+
+  .panel {
+    flex-direction: row;
+    gap: 56px;
+    padding: 60px 56px;
+  }
+
+  /* 358px + 2x56px of panel padding = the 470px from design.md. The column is
+     fixed: the map takes whatever is left, at every screen width. */
+  .content {
+    flex: none;
+    width: 358px;
+    gap: 32px;
+  }
+
+  .label {
+    font-size: var(--text-label);
+  }
+
+  .title {
+    font-size: var(--text-contact);
+    line-height: var(--leading-heading);
+  }
+
+  .blocks {
+    gap: 22px;
+  }
+
+  .block {
+    padding-top: 18px;
+  }
+
+  .value,
+  .number {
+    font-size: var(--text-value);
+  }
+
+  /* A mouse does not need 44px, so the rows go back to the tight rhythm of the
+     mockup. */
+  .phones {
+    gap: 6px;
+  }
+
+  .number {
+    display: inline;
+    min-height: 0;
+  }
+
+  .phoneLabel {
+    font-size: var(--text-suffix);
+  }
+
+  /* min-width: 0 so a wide map cannot stretch the panel past the screen width. */
+  .map {
+    flex: 1;
+    min-width: 0;
+  }
+}

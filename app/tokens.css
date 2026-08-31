@@ -1,156 +1,179 @@
-/* Tijanić Savić — advokatska kancelarija
-   Design tokeni · pravac „Kabinet" (tamnozelena podloga)
-   Izvučeno iz: Tijanic Savic - Sajt.dc.html, ekran 1b */
+/* Tijanić Savić — law office
+   Design tokens · the "Kabinet" direction (dark green ground)
+
+   The authoritative source for every value below is docs/design/design.md,
+   together with the mockups desktop.png (1280) and mobile.png (390). If this
+   file and design.md disagree, design.md is right.
+
+   The file holds nothing but variables. It is loaded before globals.css so that
+   everything else can count on it. Components use var(--name) and never write
+   out hex values.
+
+   What is a token: colours, type sizes, line-height, letter-spacing, page
+   padding, text measures, rules, logo. What is not: the paddings and gaps of
+   individual sections — those are tuned by hand, do not sit on any scale, and
+   are listed per section in design.md. */
 
 :root {
-  /* ── Boje ─────────────────────────────────────────────── */
-  --ts-green-900: #0B2F24;              /* glavna podloga sajta */
-  --ts-green-800: #0F382C;              /* mastilo / podloga na svetlim sekcijama */
-  --ts-green-700: #1B4A3B;              /* linije i pregrade na tamnoj podlozi */
-  --ts-gold: #C49A45;                   /* linije, romb, dugme */
-  --ts-gold-light: #D4AF37;             /* tekst zlatnom na tamnoj podlozi */
-  --ts-cream: #EFECE6;                  /* tekst na tamnoj podlozi, svetli paneli */
-  --ts-paper: #F6F4F0;                  /* najsvetlija podloga */
-  --ts-ink: #1E2622;                    /* tekući tekst na svetlom */
-  --ts-grey-green: #55605A;             /* sitni tekst, oznake sekcija */
-  --ts-line-light: #DFDBD3;             /* pregrade na svetloj podlozi */
+  /* ── Colours ──────────────────────────────────────────── */
+  /* Two backgrounds in total: green for the page, cream for the panels.
+     Careful: --green-alt is the page background, --green-deep is the cards.
+     The names sound the other way round, but the mockups are authoritative. */
+  --green-alt: #0b2f24; /* background of the whole page */
+  --green-deep: #0f382c; /* team cards; text on the cream ground */
+  --green-line: #1b4a3b; /* every rule and border on the dark ground */
+  --gold: #c49a45; /* rules, diamond, borders, button fill — never text */
+  --gold-bright: #d4af37; /* the only gold allowed to carry text, and only on dark */
+  --cream: #efece6; /* the panel of the light sections; body text on green */
+  --ink: #1e2622; /* body text on cream */
+  --grey-green: #55605a; /* mono captions and labels on cream */
+  --line-light: #dfdbd3; /* rules on the cream ground */
 
-  /* poluprozirne varijante */
-  --ts-cream-62: rgba(239, 236, 230, 0.62);   /* sekundarni tekst na zelenom */
-  --ts-gold-50: rgba(196, 154, 69, 0.5);      /* tanke zlatne linije */
+  /* semi-transparent variants */
+  --cream-62: rgba(239, 236, 230, 0.62); /* secondary text on green */
+  --gold-50: rgba(196, 154, 69, 0.5); /* the gold rules of the divider */
+  --gold-70: rgba(196, 154, 69, 0.7); /* the upright rule in the header */
 
-  /* semantičke uloge */
-  --ts-bg: var(--ts-green-900);
-  --ts-bg-alt: var(--ts-cream);
-  --ts-fg: var(--ts-cream);
-  --ts-fg-muted: var(--ts-cream-62);
-  --ts-fg-on-light: var(--ts-ink);
-  --ts-accent: var(--ts-gold);
-  --ts-border: var(--ts-green-700);
-  --ts-border-on-light: var(--ts-line-light);
+  /* hatching — placeholder for photographs and the map, 45°, 6px on 6px */
+  --stripe-width: 6px;
+  --stripe-dark-line: var(--green-line); /* stripe on the dark ground */
+  --stripe-dark-base: #164034; /* ground under the stripe */
+  --stripe-light-line: #dde0d6; /* stripe on the map */
+  --stripe-light-base: #e7e9df; /* the map's ground */
 
-  /* ── Tipografija ──────────────────────────────────────── */
-  --ts-font-display: 'Cormorant Garamond', Georgia, serif;   /* naslovi, ime kancelarije */
-  --ts-font-body: 'IBM Plex Sans', system-ui, sans-serif;    /* tekući tekst */
-  --ts-font-mono: 'IBM Plex Mono', ui-monospace, monospace;  /* oznake, podaci */
+  /* ── Typography ───────────────────────────────────────── */
+  /* --font-eb-garamond, --font-plex-sans and --font-plex-mono come from
+     next/font, in lib/fonts.ts. The fallbacks in the stack hold the diacritics
+     until the font loads.
 
-  --ts-weight-display: 300;
-  --ts-weight-display-strong: 500;
-  --ts-weight-body: 300;
+     The display face is EB Garamond, not the Cormorant Garamond the mockups
+     name: Cormorant places the caron and acute on the lower-case č, š, ž and ć
+     high above the letter and shifted right, which at hero size comes apart.
+     See lib/fonts.ts. */
+  --font-display: var(--font-eb-garamond), Georgia, "Times New Roman", serif;
+  --font-body: var(--font-plex-sans), system-ui, "Segoe UI", sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "Consolas", monospace;
 
-  /* skala (desktop) */
-  --ts-text-hero: 76px;
-  --ts-text-h1: 46px;
-  --ts-text-h2: 34px;
-  --ts-text-h3: 30px;
-  --ts-text-name: 32px;
-  --ts-text-lead: 19px;
-  --ts-text-body: 17px;
-  --ts-text-body-sm: 15.5px;
-  --ts-text-label: 11px;                /* mono, uppercase */
-  --ts-text-micro: 8.5px;               /* mono, uppercase, pod imenom */
+  /* EB Garamond has no 300, so the hero shares 400 with the section titles. The
+     two never sit next to each other and are 76px against 38px apart, so the
+     hierarchy is carried by size, as it already was. */
+  --weight-hero: 400; /* EB Garamond, hero title */
+  --weight-heading: 400; /* EB Garamond, section titles and names */
+  --weight-wordmark: 500; /* EB Garamond, the office name in the header */
+  --weight-body: 300; /* Plex Sans, all running text */
+  --weight-body-strong: 600; /* "bold" from Sanity; not from the mockups */
 
-  /* skala (mobilni 390) */
-  --ts-text-hero-mobile: 42px;
-  --ts-text-h2-mobile: 30px;
-  --ts-text-body-mobile: 16px;
+  /* sizes — desktop, then the variant below 900px */
+  --text-hero: 76px;
+  --text-hero-mobile: 42px;
+  --text-h2: 38px; /* section title */
+  --text-h2-mobile: 30px;
+  --text-contact: 36px; /* the title in the Contact section */
+  --text-contact-mobile: 28px;
+  --text-stat: 34px; /* the figure in a stat; no mobile size, the row is dropped */
+  --text-name: 32px; /* a lawyer's name */
+  --text-name-mobile: 29px;
+  --text-wordmark: 21px; /* TIJANIĆ SAVIĆ in the header */
+  --text-wordmark-mobile: 13px;
+  --text-lead: 19px; /* lead paragraph */
+  --text-lead-mobile: 16px;
+  --text-body: 17px; /* body text */
+  --text-body-mobile: 15.5px;
+  --text-value: 17px; /* the data in the Contact section */
+  --text-value-mobile: 16px;
+  --text-card: 16px; /* the bio in a card */
+  --text-card-mobile: 15.5px;
+  --text-suffix: 14px; /* the name next to a phone number */
+  --text-suffix-mobile: 13px;
+  --text-mono-contact: 12px; /* email and phone in a lawyer card */
+  --text-label: 11px; /* mono label: nav, eyebrow, button */
+  --text-label-mobile: 10px;
+  --text-micro: 10px; /* stat caption, hatching signature, ADVOKAT, legal line */
+  --text-micro-mobile: 9.5px;
+  --text-tagline: 8.5px; /* ADVOKATSKA KANCELARIJA in the header */
 
-  --ts-leading-display: 1.14;
-  --ts-leading-heading: 1.26;
-  --ts-leading-body: 1.8;
+  --leading-display: 1.14; /* hero title */
+  --leading-display-mobile: 1.18;
+  --leading-heading: 1.28; /* section titles */
+  --leading-heading-mobile: 1.26;
+  --leading-lead: 1.75; /* lead paragraph */
+  --leading-lead-mobile: 1.78;
+  --leading-body: 1.85;
+  --leading-card: 1.8;
+  --leading-legal: 2; /* the two lines of legal text in the footer */
 
-  --ts-tracking-label: 0.22em;          /* mono oznake sekcija */
-  --ts-tracking-micro: 0.24em;          /* „ADVOKATSKA KANCELARIJA" */
-  --ts-tracking-name: 0.24em;           /* ime kancelarije u navigaciji */
-  --ts-tracking-button: 0.18em;
+  --tracking-eyebrow: 0.26em; /* the eyebrow above the hero title */
+  --tracking-name: 0.24em; /* the office name in the header */
+  --tracking-name-mobile: 0.2em;
+  --tracking-micro: 0.24em; /* "ADVOKATSKA KANCELARIJA" */
+  --tracking-label: 0.22em; /* section labels */
+  --tracking-button: 0.2em; /* buttons */
+  --tracking-nav: 0.18em; /* navigation items */
+  --tracking-legal: 0.12em; /* the legal line in the footer */
 
-  /* ── Prostor ──────────────────────────────────────────── */
-  --ts-space-1: 6px;
-  --ts-space-2: 12px;
-  --ts-space-3: 18px;
-  --ts-space-4: 26px;
-  --ts-space-5: 40px;
-  --ts-space-6: 64px;
-  --ts-space-7: 96px;
-  --ts-space-8: 120px;
+  /* ── Space ────────────────────────────────────────────── */
+  --pad-page-x: 64px; /* left and right, full-width content */
+  --pad-page-x-mobile: 24px;
+  --pad-panel-x: 64px; /* the green band around the cream panel */
+  --pad-panel-x-mobile: 16px;
+  --pad-nav-y: 32px; /* header, top and bottom */
+  --pad-nav-y-mobile: 20px;
+  --pad-nav-x-mobile: 22px; /* the header is narrower than the rest of the page */
 
-  --ts-pad-page-x: 64px;                /* desktop levo/desno */
-  --ts-pad-page-x-mobile: 24px;
-  --ts-pad-section-y: 96px;
-  --ts-pad-nav-y: 32px;
-  --ts-measure: 900px;                  /* max širina naslova */
-  --ts-measure-text: 660px;             /* max širina pasusa */
+  /* The widest the content ever goes. Past this the page stops stretching and
+     the content sits in the middle — on a 2560px monitor the header would
+     otherwise pull the monogram to one edge and the phone button to the other.
+     Only the content is capped: the page background, the rule under the header
+     and the one above the footer still run from edge to edge. */
+  --content-max: 1440px;
 
-  /* ── Linije i detalji ─────────────────────────────────── */
-  --ts-hairline: 1px;
-  --ts-rule: var(--ts-hairline) solid var(--ts-border);
-  --ts-rule-gold: var(--ts-hairline) solid var(--ts-gold);
-  --ts-diamond-size: 7px;               /* romb rotiran 45° između linija */
-  --ts-radius: 0;                       /* bez zaobljenja, sve je oštro */
+  --measure: 900px; /* hero title */
+  --measure-lead: 640px; /* the lead paragraph in the hero */
+  --measure-text: 720px; /* the text column in the About section */
+
+  --header-height: 112px; /* 32 + 48 monogram + 32; anchors clear it */
+  --header-height-mobile: 74px;
+  --tap-min: 44px; /* the smallest tap target on mobile */
+
+  /* ── Motion ───────────────────────────────────────────── */
+  /* The one animation on the site: a block rises a little and fades in as it
+     comes into view, once. See components/Reveal. The values are deliberately
+     small — the movement should be felt, not watched. */
+  --reveal-duration: 550ms;
+  --reveal-rise: 16px; /* how far below its place a block starts */
+  --reveal-stagger: 80ms; /* between two cards in the same row */
+  --reveal-ease: cubic-bezier(0.22, 1, 0.36, 1); /* quick, then a long settle */
+
+  /* The gold divider draws itself out of the middle once the block around it
+     has arrived — the brand's own mark, so it is the one thing allowed to draw
+     attention to itself. Slower than the block it sits in. */
+  --draw-duration: 700ms;
+  --draw-delay: calc(var(--reveal-duration) * 0.55);
+
+  /* ── Rules and details ────────────────────────────────── */
+  /* "border" is an element's frame, "divider" is the gold rule with the diamond. */
+  --hairline: 1px;
+  --border-dark: var(--hairline) solid var(--green-line);
+  --border-light: var(--hairline) solid var(--line-light);
+  --border-gold: var(--hairline) solid var(--gold);
+
+  --diamond-size: 7px; /* the square rotated 45° between the rules */
+  --divider-hero: 340px;
+  --divider-hero-mobile: 180px;
+  --divider-footer: 420px;
+  --divider-footer-mobile: 200px;
+
+  --hairline-vertical: 42px; /* the upright rule between monogram and name */
+  --hairline-vertical-mobile: 27px;
+  --hairline-tagline: 14px; /* the dashes left and right of the tagline */
+  --hairline-role: 16px; /* the dash in front of the ADVOKAT label */
+
+  --radius: 0; /* no rounding, everything is sharp */
+  --focus-offset: 4px;
 
   /* ── Logo ─────────────────────────────────────────────── */
-  --ts-logo-mono-nav: 48px;             /* visina monograma u navigaciji */
-  --ts-logo-mono-nav-mobile: 34px;
-  --ts-logo-vertical-footer: 132px;
-  --ts-logo-vertical-footer-mobile: 104px;
-}
-
-/* Primeri upotrebe */
-body {
-  margin: 0;
-  background: var(--ts-bg);
-  color: var(--ts-fg);
-  font-family: var(--ts-font-body);
-  font-weight: var(--ts-weight-body);
-  font-size: var(--ts-text-body);
-  line-height: var(--ts-leading-body);
-  -webkit-font-smoothing: antialiased;
-}
-
-a { color: var(--ts-gold-light); }
-a:hover { color: var(--ts-gold); }
-
-.ts-hero {
-  font-family: var(--ts-font-display);
-  font-weight: var(--ts-weight-display);
-  font-size: var(--ts-text-hero);
-  line-height: var(--ts-leading-display);
-  max-width: var(--ts-measure);
-  text-wrap: pretty;
-}
-
-.ts-label {
-  font-family: var(--ts-font-mono);
-  font-size: var(--ts-text-label);
-  letter-spacing: var(--ts-tracking-label);
-  text-transform: uppercase;
-  color: var(--ts-gold-light);
-}
-
-.ts-button {
-  font-family: var(--ts-font-mono);
-  font-size: var(--ts-text-label);
-  letter-spacing: var(--ts-tracking-button);
-  text-transform: uppercase;
-  background: var(--ts-gold);
-  color: var(--ts-green-900);
-  padding: 17px 34px;
-  border: none;
-  border-radius: var(--ts-radius);
-}
-
-.ts-button--ghost {
-  background: transparent;
-  color: var(--ts-gold-light);
-  border: var(--ts-rule-gold);
-}
-
-.ts-panel {                              /* svetli panel unutar zelene strane */
-  background: var(--ts-bg-alt);
-  color: var(--ts-fg-on-light);
-  padding: var(--ts-space-6);
-}
-
-@media (max-width: 640px) {
-  .ts-hero { font-size: var(--ts-text-hero-mobile); }
+  --logo-mono-nav: 48px; /* the monogram height in the header */
+  --logo-mono-nav-mobile: 34px;
+  --logo-vertical-footer: 132px;
+  --logo-vertical-footer-mobile: 104px;
 }

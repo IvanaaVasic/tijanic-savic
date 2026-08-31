@@ -6,9 +6,10 @@ export const client = createClient({
   projectId,
   dataset,
   apiVersion,
-  // Sadržaj se čita u build-time, pa hoćemo najsvežije podatke, ne CDN keš —
-  // webhook okida build odmah po objavi i CDN bi umeo da vrati staru verziju.
+  // Content is read at build time, so we want the freshest data, not the CDN
+  // cache — the webhook fires a build right after publish and the CDN would
+  // happily hand back the previous version.
   useCdn: false,
-  // Nacrti nikad ne smeju da završe u statičkom buildu.
+  // Drafts must never end up in a static build.
   perspective: "published",
 });

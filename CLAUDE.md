@@ -59,22 +59,37 @@ Copy pišeš na srpskom, latinica, sa dijakriticima (ć, č, š, ž, đ). URL-ov
 
 Brend
 
+Merodavan izvor za boje, dimenzije i tipografiju je docs/design/design.md, uz makete desktop.png i mobile.png. Sve vrednosti odatle prepisane su u app/tokens.css i u skill „brend" — taj folder je gitignorovan i postoji samo lokalno, pa ta dva fajla moraju da nose pune vrednosti. Ako se razilaze, design.md je u pravu.
+
 Boje (iz postojećeg vizuelnog identiteta — logo, vizit karte, rokovnik):
 
---green-deep: #0F382C /_ dominantna tamna površina _/
---green-alt: #0B2F24 /_ dublja varijanta, za slojevitost _/
---gold: #C49A45 /_ akcenat: linije, monogram, detalji _/
+--green-alt: #0B2F24 /_ pozadina cele stranice _/
+--green-deep: #0F382C /_ kartice tima; tekst na krem podlozi _/
+--green-line: #1B4A3B /_ sve linije i okviri na tamnoj podlozi _/
+--gold: #C49A45 /_ akcenat: linije, monogram, okviri, ispuna dugmeta _/
 --gold-bright: #D4AF37 /_ samo kad zlatna mora da nosi tekst _/
---cream: #EFECE6 /_ pozadina svetlih sekcija _/
---ink: #1E2622 /_ telo teksta na svetloj podlozi _/
+--cream: #EFECE6 /_ panel svetlih sekcija; telo teksta na zelenoj _/
+--ink: #1E2622 /_ telo teksta na krem _/
+--grey-green: #55605A /_ sitne labele i natpisi na krem _/
+--line-light: #DFDBD3 /_ linije na krem podlozi _/
 
-Zlatna nije boja teksta. Kontrast zlatne na krem podlozi je 2.21 — pada svaki standard. Zlatna služi za linije, monogram i dekorativne detalje. Ako zlatan tekst mora da postoji, ide isključivo na tamnu podlogu i tada koristi --gold-bright (6.16), ne --gold (4.97).
+Pazi: pozadina stranice je --green-alt, ne --green-deep, iako ime zvuči obrnuto. Pozadine su tačno dve — zelena za stranicu, krem za panele; kartice tima uzimaju --green-deep da sednu korak od strane.
 
-Provereni odnosi: krem na tamnozelenoj 10.98 · --ink na krem 13.14 · tamnozelena na krem 10.98. Sve tri su bezbedne za tekst.
+Zlatna nije boja teksta. Kontrast zlatne na krem podlozi je 2.21 — pada svaki standard. Zlatna služi za linije, monogram i dekorativne detalje. Ako zlatan tekst mora da postoji, ide isključivo na tamnu podlogu i tada koristi --gold-bright (6.90 na pozadini stranice), ne --gold (5.57).
+
+Provereni odnosi: --ink na krem 13.14 · krem na pozadini #0B2F24 12.31 · krem na kartici #0F382C 10.98 · --grey-green na krem 5.55 · --cream-62 na pozadini 5.62. Sve su bezbedne za tekst.
 
 Logo je monogram TS u visokokontrastnom serifu, uz ime u proređenim verzalima i tanku zlatnu liniju kao razdelnik. Taj odnos — teški serif pored proređenih verzala pored hairline zlatne linije — je vizuelni potpis brenda i treba da se oseti u tipografiji sajta.
 
-Tipografija mora da podržava Latin Extended-A (naša slova). Proveri svaki font pre nego što ga uvedeš.
+Tipografija — tri familije, sve sa Google Fonts, sve moraju da podržavaju Latin Extended-A (naša slova). Proveri svaki font pre nego što ga uvedeš.
+
+EB Garamond — naslovi, ime kancelarije, veliki brojevi. Težine 400, 500
+
+Makete traže Cormorant Garamond, ali on ne valja za naš jezik: kvačica na malom č, š, ž i akcenat na ć lebde iznad slova i pomereni su udesno, pa se u heroju na 76px odvoje od slova i seku o vrh reda. Velika slova i đ su ispravna, zato se lako previdi. Isto važi i za `Cormorant` — provereno. EB Garamond je isti garamond rod i sve crta kako treba. Nema težinu 300, pa je `--weight-hero` 400.
+IBM Plex Sans — sav tekući tekst. Težina 300
+IBM Plex Mono — oznake sekcija, labele, telefon i mejl, dugmad. Težina 400, uvek verzali sa letter-spacingom 0.12em–0.26em
+
+Skala je u pikselima, od hero naslova 76px do natpisa u zaglavlju 8.5px, i stoji kao --text-\* tokeni. Cela tabela sa mobilnim varijantama je u skillu „brend".
 
 Strukture sajta
 
@@ -92,10 +107,21 @@ Srpski je primarni jezik, engleski je drugi. Prekidač za jezik stoji u zaglavlj
 
 Rutiranje
 
-/sr/... i /en/..., oba sa prefiksom
-app/[locale]/ sa generateStaticParams za oba jezika
-Koren / preusmerava na /sr — trajno (301), kroz \_redirects fajl na hostingu, ne kroz meta refresh
+Srpski je podrazumevan i stoji na korenu, bez prefiksa. / je srpska verzija, /en/ engleska. Prefiks ima samo engleski.
+Dve obične rute, bez dinamičkog segmenta: app/(sr)/page.tsx i app/(en)/en/page.tsx. Svaka grupa ima svoj root layout, a zajedničko — html, fontovi, zaglavlje i podnožje — stoji u components/SiteShell.
+Ne vraćaj [locale] ni catch-all rutu. Uz output: 'export' Next u dev režimu baca grešku na svaku adresu koja nije u generateStaticParams, pa se 404 stranica ne vidi dok se radi.
+/sr i /sr/\* preusmeravaju na / sa 301 — zbog ranije verzije rutiranja, da stari linkovi ne puknu.
 Ugrađeni i18n iz next.config NE radi sa App Routerom ni sa statičkim exportom — ne pokušavaj
+
+404
+
+app/global-not-found.tsx renderuje ceo dokument, sa svojim <html lang>. Traži experimental.globalNotFound u next.config — bez toga Next umota 404 u generisani root layout koji nema lang, a ovaj projekat nema svoj app/layout.tsx jer su (sr), (en) i (studio) tri odvojena korena.
+Statički export od toga pravi out/404.html, koji i Cloudflare Pages i Vercel serviraju sami. Jedan fajl služi sve nepostojeće adrese, pa stranica ne zna sa kog je jezika posetilac došao — zato nosi oba jezika i dva linka na početnu.
+
+Jezik koda
+
+Kod je na engleskom: imena komponenti, fajlova, funkcija, promenljivih, CSS klasa i komentara. Srpski u kodu ostaje samo tamo gde je sadržaj — tekst koji posetilac vidi ili čuje kroz čitač ekrana, i natpisi u Sanity Studiju koje čitaju advokatice.
+Izuzetak su imena polja i tipova u Sanity šemama (podesavanja, nazivKancelarije, oNama…). Ona su zapisana u bazi zajedno sa sadržajem, pa bi preimenovanje osirotelo sve što je uneto. Ostaju na srpskom dok se ne uradi migracija.
 
 Prekidač za jezik
 
@@ -131,8 +157,9 @@ Slike sa width/height, moderni formati
 Stilovi
 CSS Modules, bez Tailwinda i bez CSS-in-JS
 Svaka komponenta ima svoj fajl: Button.tsx + Button.module.css
-Globalne stvari samo u app/globals.css — reset, CSS varijable, @font-face. Ništa drugo.
-Boje, razmaci i tipografska skala su CSS varijable u :root. Nikad hardkodovana hex vrednost u komponenti.
+Dva globalna fajla i ništa više: app/tokens.css drži samo :root varijable, app/globals.css samo reset i osnovnu tipografiju. Tokeni se uvoze prvi.
+Boje, tipografska skala, padding stranice, širine teksta i linije su CSS varijable. Nikad hardkodovana hex vrednost u komponenti.
+Razmaci između elemenata namerno nisu tokeni — dizajn je ručno štimovan i ne leži na skali. Gapove i paddinge sekcija uzimaj iz design.md, tačno onako kako tamo piše, i ne zaokružuj ih.
 Jedinice u pikselima, ne rem
 Klase imenuj po ulozi u komponenti (.wrapper, .title, .meta), ne po izgledu (.greenBox, .big)
 Media query-ji mobile-first, min-width
@@ -153,10 +180,10 @@ Oba povezana na GitHub, build na push
 
 Pošto je sadržaj zapečen u build-time, izmena u Sanityju se ne vidi sama od sebe. Sanity webhook zove Cloudflare Deploy Hook na publish, što pokreće novi build. Kašnjenje je minut do dva i to je očekivano — nemoj to "rešavati" prelaskom na ISR ili client-side dohvatanje.
 
-\_redirects fajl na hostingu vodi / na /sr sa 301.
+\_redirects fajl na hostingu vodi /sr na / sa 301 i servira /studio/\* iz jednog index.html. Isto stoji i u vercel.json, za preview.
 
 Šta ne raditi
-Ne dodavati animacije koje nisu tražene
+Ne dodavati animacije koje nisu tražene — postoji tačno jedna, `components/Reveal` (blok se podigne i pojavi kad uđe u kadar, plus zlatni razdelnik koji se iscrtava). Paralaks je razmatran i odbijen. Detalji u skillu „brend"
 Ne uvoditi biblioteku za nešto što je 20 linija CSS-a
 Ne pisati placeholder copy tipa "Lorem ipsum" — ako fali tekst, pitaj
 Ne menjati boje brenda

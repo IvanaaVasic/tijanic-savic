@@ -1,0 +1,311 @@
+/* Header — section 0 from docs/design/design.md.
+   Desktop: padding 32/64, logo 48px, mono navigation at 11px with 38px gaps,
+   phone in a gold frame. Below 900px: logo 34px and a hamburger, menu across
+   the whole screen. Mobile-first, so desktop lives in the min-width query. */
+
+/* The shared mono setting: uppercase with wide tracking. Never lowercase. */
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-nav);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── Bar ───────────────────────────────────────────────────────────────── */
+
+/* The ground and the rule live on the header, not on the bar inside it: past
+   --content-max the bar stops widening and sits in the middle, and a background
+   that stopped with it would let the page scroll through on either side while
+   the rule hung in the air as a stub. */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--green-alt);
+  border-bottom: var(--border-dark);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding: var(--pad-nav-y-mobile) var(--pad-nav-x-mobile);
+}
+
+.logo {
+  display: block;
+}
+
+.logoImage {
+  width: auto;
+  height: var(--logo-mono-nav-mobile);
+}
+
+/* ── Right-hand side, desktop ──────────────────────────────────────────── */
+
+/* Below 900px all of this lives in the menu, not in the bar. */
+.right {
+  display: none;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: 38px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  composes: mono;
+  color: var(--cream-62);
+}
+
+.linkActive {
+  composes: mono;
+  color: var(--gold-bright);
+}
+
+.link:hover,
+.link:focus-visible {
+  color: var(--gold-bright);
+}
+
+/* ── Locale switch ─────────────────────────────────────────────────────── */
+
+.locale {
+  composes: mono;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.localeActive {
+  color: var(--gold-bright);
+}
+
+.localeSlash {
+  color: var(--cream-62);
+}
+
+.localeLink {
+  color: var(--cream-62);
+}
+
+.localeLink:hover,
+.localeLink:focus-visible {
+  color: var(--gold-bright);
+}
+
+/* ── Phone in a gold frame ─────────────────────────────────────────────── */
+
+.phone {
+  composes: mono;
+  padding: 12px 20px;
+  color: var(--gold-bright);
+  border: var(--border-gold);
+}
+
+.phone:hover,
+.phone:focus-visible {
+  background: var(--gold);
+  color: var(--green-alt);
+}
+
+/* ── Hamburger ─────────────────────────────────────────────────────────── */
+
+.hamburger {
+  display: grid;
+  place-items: center;
+  width: var(--tap-min);
+  height: var(--tap-min);
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+
+  /* The tap target is 44px, but the bar is allowed to be exactly the 74px tall
+     the mockup calls for. This absorbs the excess over the logo height, so the
+     target stays large and the bar stays low. The right-hand edge stays aligned
+     with the page padding. */
+  margin-block: calc((var(--logo-mono-nav-mobile) - var(--tap-min)) / 2);
+  margin-right: calc((22px - var(--tap-min)) / 2);
+}
+
+/* Two gold rules, 22px wide, 1px thick, 5px apart. */
+.bars,
+.barsClose {
+  position: relative;
+  display: block;
+  width: 22px;
+  height: 7px;
+}
+
+.bars::before,
+.bars::after,
+.barsClose::before,
+.barsClose::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 22px;
+  height: var(--hairline);
+  background: var(--gold);
+}
+
+.bars::before {
+  top: 0;
+}
+
+.bars::after {
+  top: 6px;
+}
+
+/* Menu open: the same two rules cross into an X. No transition — not asked for. */
+.barsClose::before,
+.barsClose::after {
+  top: 3px;
+}
+
+.barsClose::before {
+  transform: rotate(45deg);
+}
+
+.barsClose::after {
+  transform: rotate(-45deg);
+}
+
+/* ── Full-screen menu ──────────────────────────────────────────────────── */
+
+.menu {
+  position: fixed;
+  inset: var(--header-height-mobile) 0 0 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 8px var(--pad-nav-x-mobile) 40px;
+  background: var(--green-alt);
+  overflow-y: auto;
+}
+
+.menu[hidden] {
+  display: none;
+}
+
+.menuLinks {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.menuLink,
+.menuLinkActive {
+  composes: mono;
+  display: flex;
+  align-items: center;
+  min-height: var(--tap-min);
+  border-bottom: var(--border-dark);
+}
+
+.menuLink {
+  color: var(--cream-62);
+}
+
+.menuLinkActive {
+  color: var(--gold-bright);
+}
+
+.menuLink:hover,
+.menuLink:focus-visible {
+  color: var(--gold-bright);
+}
+
+.menuFooter {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* The switch inside the menu keeps the same colours but gets larger tap
+   targets. */
+.menuFooter .locale {
+  gap: 10px;
+}
+
+.menuFooter .localeActive,
+.menuFooter .localeLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-min);
+}
+
+.menuPhone {
+  composes: mono;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--tap-min);
+  padding: 16px 20px;
+  color: var(--gold-bright);
+  border: var(--border-gold);
+}
+
+.menuPhone:hover,
+.menuPhone:focus-visible {
+  background: var(--gold);
+  color: var(--green-alt);
+}
+
+/* ── From 900px up ─────────────────────────────────────────────────────── */
+
+/* 900 and not the 768 this used to be, and it is the header that sets the
+   number for the whole site. The desktop bar needs about 885px of layout width:
+   monogram + wordmark + four nav items at 38px gaps + the phone in its frame.
+   Switched on at 768 it turned on 15px early — a classic scrollbar leaves 753px
+   of layout at a 768px viewport — and stayed broken well past that: `O NAMA`
+   split over two lines and the phone number wrapped inside its gold box, which
+   pushed the bar from 112px to 127px. Measured across 740–960, 900 is the first
+   width where the row settles.
+   Everything else keeps the same breakpoint, About most of all: at 753px its
+   panel left the stat column 231px, and the three captions ran together into
+   `OSNIVANJEADVOKATAPODRUČJE RADA`. One number, all ten components. */
+
+@media (min-width: 900px) {
+  .bar {
+    gap: 38px;
+    padding: var(--pad-nav-y) var(--pad-page-x);
+  }
+
+  .logoImage {
+    height: var(--logo-mono-nav);
+  }
+
+  .right {
+    display: flex;
+    align-items: center;
+    gap: 38px;
+  }
+
+  .hamburger,
+  .menu {
+    display: none;
+  }
+}

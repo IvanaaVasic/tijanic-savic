@@ -1,0 +1,176 @@
+/* Lawyer card — docs/design/design.md, part "3 — 02 Tim".
+   Desktop: portrait 380px, body 34/36/36, 16px gap, 27px narrower than the
+   portrait. Below 900px: portrait 340px, body 28/26/30, 14px gap, same width as
+   the portrait. Mobile-first, desktop arrives in the min-width query.
+
+   The card is not one rectangle: the portrait keeps the full column width while
+   the body below it is narrower. That is why the border and the background sit
+   on .portrait and .body separately, not on .card — that one is only the
+   carrier that stacks them and holds the row height. */
+
+/* flex: 1 together with .item from Team.module.css — the card fills the row
+   height, so every card in the row is the same height regardless of bio
+   length. */
+.card {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+/* ── Portrait ──────────────────────────────────────────────────────────── */
+
+/* Fixed height from design.md — 380px on desktop, 340px on mobile. In the
+   mockup the portrait is 408px and 362px respectively, but design.md wins. */
+.portrait {
+  flex: none;
+  width: 100%;
+  height: 340px;
+  border: var(--border-dark);
+  object-fit: cover;
+}
+
+/* Placeholder until the photograph arrives: 45-degree diagonal stripes, 6px on
+   and 6px off, in two shades of green. Nothing is written across them. */
+.hatching {
+  background-color: var(--stripe-dark-base);
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--stripe-dark-line) 0,
+    var(--stripe-dark-line) var(--stripe-width),
+    var(--stripe-dark-base) var(--stripe-width),
+    var(--stripe-dark-base) calc(var(--stripe-width) * 2)
+  );
+}
+
+/* ── Body ──────────────────────────────────────────────────────────────── */
+
+/* The top border is dropped: the portrait's bottom line already sits there, so
+   two lines would double up. On mobile the body is the same width as the
+   portrait — it only narrows from 900px up. */
+.body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 14px;
+  padding: 28px 26px 30px;
+  background: var(--green-deep);
+  border: var(--border-dark);
+  border-top: 0;
+}
+
+.name {
+  font-family: var(--font-display);
+  font-weight: var(--weight-heading);
+  font-size: var(--text-name-mobile);
+  line-height: 1.2;
+}
+
+/* ── Role ──────────────────────────────────────────────────────────────── */
+
+.role {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dash {
+  flex: none;
+  width: var(--hairline-role);
+  height: var(--hairline);
+  background: var(--gold);
+}
+
+.roleLabel {
+  font-family: var(--font-mono);
+  font-size: var(--text-micro-mobile);
+  letter-spacing: var(--tracking-label);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+}
+
+/* ── Bio ───────────────────────────────────────────────────────────────── */
+
+.bio {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.paragraph {
+  font-size: var(--text-card-mobile);
+  line-height: var(--leading-card);
+}
+
+/* ── Email and phone ───────────────────────────────────────────────────── */
+
+/* margin-top: auto pushes the block to the bottom of the card. That is the only
+   reason the email and phone line up when the bios differ in length — without
+   it they would follow the end of the text and float at different heights. */
+.contact {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 18px;
+  border-top: var(--border-dark);
+}
+
+/* Mono goes lowercase here and without letter-spacing, against the rest of the
+   site: an email address in caps is not an address, and tracking breaks the
+   reading. That is how it looks in the mockup too.
+   display: block — the tap target is as wide as the card even though the line
+   is low; the text itself does not stretch, because the line is as long as the
+   address.
+
+   overflow-wrap: anywhere is what keeps the card honest. An address has no
+   space in it, so nothing may break it: zara.tijanic@tijanicsaviclegal.rs is
+   238px of unbreakable mono, and with the card's 52px of padding it sets the
+   card a floor of 292px. On a 320px phone the card has 273px, so it hung off
+   the right edge of the screen. `anywhere` only ever breaks when the line has
+   no other way to fit, so at every width above that the address still reads on
+   one line, exactly as in the mockup. */
+.link {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-contact);
+  line-height: 1.2;
+  color: var(--cream);
+  overflow-wrap: anywhere;
+}
+
+/* ── From 900px up ─────────────────────────────────────────────────────── */
+
+@media (min-width: 900px) {
+  .portrait {
+    height: 380px;
+  }
+
+  /* The body is 27px narrower than the portrait — the portrait stays full width
+     while the framed text is inset, instead of the image spilling out of the
+     column. That way the last card in a row also stays inside the page margin,
+     whether there is one of them or three. The difference was measured in the
+     mockup (portrait 582px, body 555px on a 1280 canvas). The alignment is
+     left, so the inset only shows on the right. */
+  .body {
+    width: calc(100% - 27px);
+    gap: 16px;
+    padding: 34px 36px 36px;
+  }
+
+  .name {
+    font-size: var(--text-name);
+  }
+
+  .roleLabel {
+    font-size: var(--text-micro);
+  }
+
+  .bio {
+    gap: 16px;
+  }
+
+  .paragraph {
+    font-size: var(--text-card);
+  }
+}

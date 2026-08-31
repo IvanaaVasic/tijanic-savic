@@ -1,0 +1,102 @@
+/* The map in the Contact section.
+   Below 900px: a fixed 240px height, the map sits below the data.
+   From 900px: the map fills the height of the cream panel's right column.
+   Mobile-first, desktop arrives in the min-width query. */
+
+/* No gap on mobile: the space down to the link is carried by its own
+   padding-top, which is there to bring the tap target up to 44px. With a gap as
+   well the spacing would be counted twice. */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ── Frame ─────────────────────────────────────────────────────────────── */
+
+/* The gold hairline is the only piece of the brand around Google's rectangle.
+   The frame is also the reference element for the absolutely placed iframe. */
+.frame {
+  position: relative;
+  height: 240px;
+}
+
+/* The line is drawn over the iframe rather than as a border on the frame. With
+   the border on the frame, the iframe is absolute and rounding to physical
+   pixels covers the right and bottom edges — at 100% zoom the line shows only on
+   the left and top, and comes back at other zoom levels. A pseudo-element is
+   painted after the iframe, so it survives any rounding.
+   pointer-events: none — the map underneath stays pannable and clickable. */
+.frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: var(--border-gold);
+  pointer-events: none;
+}
+
+/* An iframe does not honour the width/height attributes when the container has a
+   different ratio, so it is stretched absolutely across the whole frame. Without
+   this Google leaves a white band below the map. */
+.map {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+
+  /* Google's colours are too loud for this site: white ground, green parks,
+     orange restaurant tiles. The filter takes the saturation out and puts a
+     little warmth back, so the map sits next to the cream panel instead of
+     jumping out of it.
+
+     The proper dark green map from design.md needs Google's Cloud styling and
+     an API key; this is the closest you get without a key. The values were
+     chosen by eye, comparing at 1440px — they are not calculated. */
+  filter: grayscale(0.75) sepia(0.35) brightness(0.94) contrast(1.05);
+}
+
+/* ── The link below the map ────────────────────────────────────────────── */
+
+/* Mono caps like every other caption on the cream background. The gold here is
+   the rule, not the letters — the text is --grey-green, because gold on cream
+   fails on contrast. */
+/* The gold rule has to stay tight under the letters, so the tap target cannot be
+   made with symmetric padding: the whole surplus goes above the text and takes
+   the place of the space down to the map. 29 + 10 (letters) + 5 = 44px. */
+.link {
+  align-self: flex-start;
+  padding-top: 29px;
+  padding-bottom: 5px;
+  font-family: var(--font-mono);
+  font-size: var(--text-micro-mobile);
+  letter-spacing: var(--tracking-label);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--grey-green);
+  border-bottom: var(--border-gold);
+}
+
+.link:hover {
+  color: var(--ink);
+}
+
+/* ── From 900px up ─────────────────────────────────────────────────────── */
+
+@media (min-width: 900px) {
+  /* The height comes from the cream panel: the map stretches as far as the data
+     column on the left, and min-height is the safety net that keeps it from
+     dropping below usable when the text is short. */
+  .frame {
+    flex: 1;
+    height: auto;
+    min-height: 280px;
+  }
+
+  /* A mouse does not need 44px, so the space down to the map drops to the 14px
+     from design.md. */
+  .link {
+    padding-top: 14px;
+    font-size: var(--text-micro);
+  }
+}

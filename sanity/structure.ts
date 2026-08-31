@@ -1,28 +1,32 @@
 import type { StructureBuilder, StructureResolver } from "sanity/structure";
 
-// Dokumenti kojih sme da postoji tačno jedan. Ne mogu se praviti novi,
-// brisati ni umnožavati — u meniju stoje kao jedna stavka, ne kao lista.
-export const SINGLETONI = [
+// Document types that may exist exactly once. They cannot be created, deleted
+// or duplicated — in the menu they appear as a single entry, not as a list.
+//
+// The identifiers are the schema type names, which are stored in the dataset,
+// so they stay as they are.
+export const SINGLETONS = [
   "podesavanja",
   "pocetna",
   "oNama",
   "kontakt",
 ] as const;
 
-type Singleton = (typeof SINGLETONI)[number];
+type Singleton = (typeof SINGLETONS)[number];
 
-export function jeSingleton(tip: string | undefined): boolean {
-  return (SINGLETONI as readonly string[]).includes(tip ?? "");
+export function isSingleton(type: string | undefined): boolean {
+  return (SINGLETONS as readonly string[]).includes(type ?? "");
 }
 
-function singleton(S: StructureBuilder, tip: Singleton, naslov: string) {
+function singleton(S: StructureBuilder, type: Singleton, title: string) {
   return S.listItem()
-    .title(naslov)
-    .id(tip)
-    .child(S.document().schemaType(tip).documentId(tip).title(naslov));
+    .title(title)
+    .id(type)
+    .child(S.document().schemaType(type).documentId(type).title(title));
 }
 
-export const struktura: StructureResolver = (S) =>
+// The titles are what the lawyers read in the Studio, so they stay in Serbian.
+export const structure: StructureResolver = (S) =>
   S.list()
     .title("Sadržaj")
     .items([

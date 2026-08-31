@@ -1,0 +1,176 @@
+/* About — section 2 from docs/design/design.md.
+   Desktop: wrapper 0/64/56, panel 64/72/56, two columns with an 80px gap —
+   a narrow 170px one on the left, a text column up to 720px on the right.
+   Below 900px: wrapper 0/16/32, panel 40/28/36, everything in one column,
+   22px gap. Mobile-first, desktop arrives in the min-width query. */
+
+/* The green band around the panel — content never touches the screen edge. Past
+   --content-max the band stops growing and the panel sits in the middle of the
+   page instead of stretching with the window. */
+.wrapper {
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding: 0 var(--pad-panel-x-mobile) 32px;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 40px 28px 36px;
+  background: var(--cream);
+
+  /* The default text colour on the cream background. The paragraphs override it
+     to --ink, the small labels to --grey-green. */
+  color: var(--green-deep);
+}
+
+/* ── Section label ─────────────────────────────────────────────────────── */
+
+/* One line on mobile: 01 / O NAMA. On desktop the slash disappears and two
+   lines are left in the narrow column. An 18px gap gives 20px between the
+   characters — the letter-spacing is added to the last letter as well. */
+.label {
+  display: flex;
+  gap: 18px;
+  font-family: var(--font-mono);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-label);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--grey-green);
+}
+
+/* ── Content ───────────────────────────────────────────────────────────── */
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  max-width: var(--measure-text);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-heading);
+  font-size: var(--text-h2-mobile);
+  line-height: var(--leading-heading-mobile);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Body text on the cream background is --ink, not --green-deep: the title and
+   the stats sit one step darker than the paragraphs. Both colours come from the
+   mockups. */
+.paragraph {
+  font-size: var(--text-body-mobile);
+  line-height: var(--leading-body);
+  color: var(--ink);
+}
+
+/* ── Stats ─────────────────────────────────────────────────────────────── */
+
+/* Stacked on mobile. The mockup leaves them out at 390px, but they stay here —
+   the lawyers enter them in Sanity and there is no reason for a phone to
+   swallow them. */
+.stats {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 0;
+  list-style: none;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.value {
+  font-family: var(--font-display);
+  font-weight: var(--weight-heading);
+  font-size: var(--text-stat);
+  line-height: 1;
+}
+
+.caption {
+  font-family: var(--font-mono);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-label);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--grey-green);
+}
+
+/* ── From 900px up ─────────────────────────────────────────────────────── */
+
+@media (min-width: 900px) {
+  .wrapper {
+    padding: 0 var(--pad-panel-x) 56px;
+  }
+
+  .panel {
+    flex-direction: row;
+    gap: 80px;
+    padding: 64px 72px 56px;
+  }
+
+  .label {
+    flex: none;
+    flex-direction: column;
+    gap: 15px;
+    width: 170px;
+    font-size: var(--text-label);
+  }
+
+  .slash {
+    display: none;
+  }
+
+  /* The number stays grey, the section name takes the dark green — that is how
+     it looks in the mockup. */
+  .name {
+    color: var(--green-deep);
+  }
+
+  /* min-width: 0 so a long word cannot stretch the column past --measure-text. */
+  .content {
+    flex: 1;
+    min-width: 0;
+    gap: 28px;
+  }
+
+  .title {
+    font-size: var(--text-h2);
+    line-height: var(--leading-heading);
+  }
+
+  .paragraph {
+    font-size: var(--text-body);
+  }
+
+  .divider {
+    margin-top: 12px;
+  }
+
+  /* The cells fill the row with no gaps: 1 / 1 / 1.5. The last one is wider
+     even when there are only two — the row then keeps the same rhythm as with
+     three, instead of falling apart into two halves. */
+  .stats {
+    flex-direction: row;
+    gap: 0;
+  }
+
+  .stat {
+    flex: 1 1 0;
+  }
+
+  .stat:last-child {
+    flex-grow: 1.5;
+  }
+}

@@ -1,33 +1,55 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* The only global stylesheet on the site: reset, base typography, focus.
+   Everything else lives next to its component, in a .module.css file.
+   The tokens are loaded before this file — see layout.tsx. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  margin: 0;
 }
 
-html,
+html {
+  /* The site is dark green; this makes the scrollbar and form fields follow. */
+  color-scheme: dark;
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  background: var(--green-alt);
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-weight: var(--weight-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+img,
+svg,
+video,
+canvas,
+iframe {
+  display: block;
+  max-width: 100%;
+}
+
+img,
+video {
+  height: auto;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
 }
 
 a {
@@ -35,8 +57,39 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+/* Cormorant has no real bold among the loaded weights, and the body text is 300
+   anyway — so "bold" from Sanity goes to 600, not 700. */
+strong,
+b {
+  font-weight: var(--weight-body-strong);
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+li {
+  text-wrap: pretty;
+}
+
+/* Anchors from the navigation must not end up underneath the header. */
+:target {
+  scroll-margin-top: var(--header-height);
+}
+
+:focus-visible {
+  outline: var(--border-gold);
+  outline-offset: var(--focus-offset);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

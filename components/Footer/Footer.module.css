@@ -1,0 +1,116 @@
+/* Footer — section 5 from docs/design/design.md.
+   Desktop: padding 48/64/40, centred column, 30px gap, lockup 132px, divider
+   420px, mono 10px.
+   Below 900px: padding 36/24/34, 20px gap, lockup 104px, divider 200px, mono
+   9.5px. Mobile-first, desktop arrives in the min-width query.
+
+   No background is set here — the footer sits on the page background, which
+   <body> carries. A single green rule along the top separates it from the
+   content. */
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 36px var(--pad-page-x-mobile) 34px;
+  text-align: center;
+  border-top: var(--border-dark);
+}
+
+/* ── Vertical lockup ───────────────────────────────────────────────────── */
+
+/* The height comes from a token, the width from the image's aspect ratio. */
+.logo {
+  height: var(--logo-vertical-footer-mobile);
+  width: auto;
+}
+
+/* ── Two lines of mono text ────────────────────────────────────────────── */
+
+/* The space between the lines is carried by line-height 2, so there is no gap
+   here. */
+.text {
+  font-family: var(--font-mono);
+  font-size: var(--text-micro-mobile);
+  letter-spacing: var(--tracking-legal);
+  line-height: var(--leading-legal);
+  color: var(--cream-62);
+}
+
+/* Flex rather than a plain line of text: the separator dot then has its own
+   space on both sides (14px), instead of depending on the width of the space in
+   the mono font. A wrapped line keeps the same spacing as the others, because
+   the line height still comes from line-height. */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0 14px;
+}
+
+/* The dot sits inside the item it is written in front of, so it is not left
+   hanging alone at the end of a wrapped line. */
+.item {
+  display: inline-flex;
+  gap: 14px;
+}
+
+/* A conscious departure from the mockup: at 390px the mockup leaves out the site
+   address and the tax number, but here they stay — the site address is
+   information, and the tax number is a detail that has to appear next to a
+   company by law. Since they do not fit on the same line at that width they get
+   their own, and the dot in front of them is switched off. Without this the line
+   would break by itself and leave the dot hanging. */
+.ownLine {
+  flex-basis: 100%;
+  justify-content: center;
+}
+
+.ownLine .dot {
+  display: none;
+}
+
+/* Mono goes lowercase here, like the email in the lawyer card: an address in
+   caps is not an address. The letter-spacing stays, because the whole block
+   carries it.
+
+   The tap target is as tall as the line (about 19px), below the 44px threshold.
+   That is deliberate here: an enlarged target would overlap the one in the
+   wrapped line above or below, and a missed tap is worse than a small target.
+   The phone in the header and the numbers in the Contact section keep the full
+   44px. */
+.link {
+  color: inherit;
+}
+
+.link:hover,
+.link:focus-visible {
+  color: var(--gold-bright);
+}
+
+/* ── From 900px up ─────────────────────────────────────────────────────── */
+
+@media (min-width: 900px) {
+  .footer {
+    gap: 30px;
+    padding: 48px var(--pad-page-x) 40px;
+  }
+
+  .logo {
+    height: var(--logo-vertical-footer);
+  }
+
+  .text {
+    font-size: var(--text-micro);
+  }
+
+  /* From 900px everything fits on two lines, as in the mockup. */
+  .ownLine {
+    flex-basis: auto;
+  }
+
+  .ownLine .dot {
+    display: inline;
+  }
+}
