@@ -8,9 +8,9 @@
       "permanent": true
     },
     { "source": "/sr", "destination": "/", "permanent": true },
-    { "source": "/sr/:path*", "destination": "/", "permanent": true }
+    { "source": "/sr/(.*)", "destination": "/", "permanent": true }
   ],
   "rewrites": [
-    { "source": "/studio/:path*", "destination": "/studio/index.html" }
+    { "source": "/studio/(.*)", "destination": "/studio/index.html" }
   ]
 }
