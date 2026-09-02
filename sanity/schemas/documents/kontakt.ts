@@ -16,15 +16,15 @@ export const kontakt = defineType({
 
     defineField({
       name: "telefoni",
-      title: "Telefoni",
+      title: "Telefoni i mejlovi",
       type: "array",
       description:
-        "Brojevi u sekciji Kontakt, jedan ispod drugog. Adresa i radno vreme se ne upisuju ovde — oni se povlače iz Podešavanja.",
+        "Kontakti u sekciji Kontakt, jedan ispod drugog: broj telefona, čiji je i mejl te advokatice. Adresa i radno vreme se ne upisuju ovde — oni se povlače iz Podešavanja.",
       of: [
         defineArrayMember({
           type: "object",
           name: "telefon",
-          title: "Telefon",
+          title: "Kontakt",
           fields: [
             defineField({
               name: "broj",
@@ -40,6 +40,14 @@ export const kontakt = defineType({
               type: "lokalniNaslov",
               description:
                 "Sitan tekst pored broja, da posetilac zna koga zove. Na primer: Tijanić ili kancelarija.",
+            }),
+            defineField({
+              name: "mejl",
+              title: "Mejl",
+              type: "string",
+              description:
+                "Mejl adresa iste advokatice, stoji u redu ispod broja. Ne prevodi se. Ako ostane prazno, prikazuje se samo broj.",
+              validation: (Rule) => Rule.email(),
             }),
           ],
           preview: {

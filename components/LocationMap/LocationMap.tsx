@@ -1,5 +1,5 @@
-// The map in the Contact section — Google Maps in an iframe, with a text link
-// below it that opens the same point in the real application.
+// The map in the Contact section — Google Maps in an iframe, with a button laid
+// over the lower part of it that opens the same point in the real application.
 //
 // The iframe brings Google's own look, which is not ours. So a gold hairline
 // sits around it, and a CSS filter over it calms the colours down and pulls them
@@ -17,7 +17,7 @@ import styles from "./LocationMap.module.css";
 const LABELS = {
   sr: {
     title: "Mapa sa lokacijom kancelarije",
-    open: "Otvori u Google Maps",
+    open: "Otvorite u Google mapi",
   },
   en: {
     title: "Map showing the office location",
@@ -61,16 +61,20 @@ export function LocationMap({ locale, coordinates, address, className }: Props) 
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
         />
-      </div>
 
-      <a
-        className={styles.link}
-        href={googleMapsUrl(query)}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {t.open}
-      </a>
+        {/* Inside the frame, not below it: the button sits over the lower edge
+            of the map, so the invitation is where the eye already is. It comes
+            after the iframe in the markup as well, so it is painted above it
+            and reached next by the keyboard. */}
+        <a
+          className={styles.button}
+          href={googleMapsUrl(query)}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {t.open}
+        </a>
+      </div>
     </div>
   );
 }

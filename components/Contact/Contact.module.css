@@ -103,17 +103,27 @@
   display: block;
 }
 
-/* ── Phone numbers ─────────────────────────────────────────────────────── */
+/* ── Phone numbers and emails ──────────────────────────────────────────── */
 
-/* No gap on mobile: the row is exactly --tap-min tall, so the spacing comes out
-   of the tap target itself. If the spacing were a gap as well, neighbouring
-   targets would overlap and a finger would hit the wrong number. */
+/* One list item is one lawyer: her number on the first line, her email on the
+   second. The gap therefore separates people, not lines — without it the email
+   of one and the number of the next would read as a single block.
+   14px, the same step the map link keeps below the map. */
 .phones {
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 14px;
   padding: 0;
   list-style: none;
+}
+
+/* No gap inside an entry: on mobile both rows are --tap-min tall, on desktop
+   the line-height carries the spacing. Anything more and the email would drift
+   away from the number it belongs to. */
+.entry {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
 /* baseline, not center: the label is smaller than the number and has to sit on
@@ -144,6 +154,29 @@
 .phoneLabel {
   font-size: var(--text-suffix-mobile);
   color: var(--grey-green);
+}
+
+/* The email is a piece of key information, like the number above it, so it
+   keeps the same size and the same --ink — it is not a caption.
+
+   overflow-wrap: anywhere for the same reason as in the lawyer card: an address
+   has no space in it, and the left column is a fixed 358px. It is the last line
+   of defence only — the break in front of the @ comes from the <wbr> in the
+   markup, and a real break point always wins over an arbitrary one. */
+.email {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  min-height: var(--tap-min);
+  font-size: var(--text-value-mobile);
+  line-height: var(--leading-body);
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.email:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 /* ── From 900px up ─────────────────────────────────────────────────────── */
@@ -185,17 +218,15 @@
   }
 
   .value,
-  .number {
+  .number,
+  .email {
     font-size: var(--text-value);
   }
 
   /* A mouse does not need 44px, so the rows go back to the tight rhythm of the
-     mockup. */
-  .phones {
-    gap: 6px;
-  }
-
-  .number {
+     mockup — the line-height alone separates the number from the email. */
+  .number,
+  .email {
     display: inline;
     min-height: 0;
   }

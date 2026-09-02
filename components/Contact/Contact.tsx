@@ -26,20 +26,47 @@ const LABELS = {
   sr: {
     label: "KONTAKT",
     address: "ADRESA",
-    phones: "TELEFONI",
+    phones: "TELEFONI I MEJLOVI",
     hours: "RADNO VREME",
     phone: "telefon",
+    email: "mejl",
   },
   en: {
     label: "CONTACT",
     address: "ADDRESS",
-    phones: "PHONE NUMBERS",
+    phones: "PHONE AND EMAIL",
     hours: "WORKING HOURS",
     phone: "phone",
+    email: "email",
   },
 } as const;
 
 const SECTION_NUMBER = "03";
+
+/**
+ * The address in two parts, so a `<wbr>` can go between them.
+ *
+ * An email has no space in it and nothing may break it, and the left column is
+ * a fixed 358px: zara.tijanic@tijanicsaviclegal.rs does not fit on one line on
+ * a 320px phone. Left to itself the line breaks wherever it runs out and leaves
+ * a single letter hanging below; with the break offered in front of the @ the
+ * name stays on the first line and the domain moves down whole.
+ *
+ * Returns null when there is no address — the caller then renders no link.
+ */
+function splitEmail(value: string | undefined) {
+  const address = value?.trim();
+  if (!address) return null;
+
+  const at = address.indexOf("@");
+  if (at < 1) return { address, local: address, domain: null };
+
+  return {
+    address,
+    local: address.slice(0, at),
+    domain: address.slice(at),
+  };
+}
 
 type Props = {
   locale: Locale;
@@ -66,12 +93,14 @@ export function Contact({ locale, contact, settings }: Props) {
   const addressOneLine = [street, place].filter(Boolean).join(", ") || null;
 
   // The number is the only thing an entry is recognised by; one without it is
-  // skipped.
+  // skipped. The email is optional — an entry that has none renders as a bare
+  // number, exactly as before it existed.
   const phones = (contact?.telefoni ?? [])
     .map((entry) => ({
       key: entry._key,
       number: entry.broj?.trim(),
       label: inLocale(entry.oznaka, locale),
+      email: splitEmail(entry.mejl),
     }))
     .filter((entry): entry is typeof entry & { number: string } =>
       Boolean(entry.number),
@@ -119,29 +148,55 @@ export function Contact({ locale, contact, settings }: Props) {
                 <h3 className={styles.caption}>{t.phones}</h3>
 
                 {/* A list, not a stack of rows: a screen reader announces how
-                    many numbers there are before it reads them out. */}
+                    many entries there are before it reads them out. One item is
+                    one lawyer — her number, her name, and below them her
+                    email — so the two never come apart. */}
                 <ul className={styles.phones}>
                   {phones.map((entry) => (
-                    <li className={styles.phoneRow} key={entry.key}>
-                      {/* The link wraps only the number, so out of context it
-                          reads as a bare figure — aria-label gives it back
-                          whose it is. */}
-                      <a
-                        className={styles.number}
-                        href={telHref(entry.number)}
-                        aria-label={
-                          entry.label
-                            ? `${t.phone} ${entry.label}: ${entry.number}`
-                            : `${t.phone}: ${entry.number}`
-                        }
-                      >
-                        {entry.number}
-                      </a>
+                    <li className={styles.entry} key={entry.key}>
+                      <p className={styles.phoneRow}>
+                        {/* The link wraps only the number, so out of context it
+                            reads as a bare figure — aria-label gives it back
+                            whose it is. */}
+                        <a
+                          className={styles.number}
+                          href={telHref(entry.number)}
+                          aria-label={
+                            entry.label
+                              ? `${t.phone} ${entry.label}: ${entry.number}`
+                              : `${t.phone}: ${entry.number}`
+                          }
+                        >
+                          {entry.number}
+                        </a>
 
-                      {entry.label ? (
-                        <span className={styles.phoneLabel} aria-hidden="true">
-                          {entry.label}
-                        </span>
+                        {entry.label ? (
+                          <span className={styles.phoneLabel} aria-hidden="true">
+                            {entry.label}
+                          </span>
+                        ) : null}
+                      </p>
+
+                      {/* The name is written next to the number only, so the
+                          email needs the aria-label to say whose it is too. */}
+                      {entry.email ? (
+                        <a
+                          className={styles.email}
+                          href={`mailto:${entry.email.address}`}
+                          aria-label={
+                            entry.label
+                              ? `${t.email} ${entry.label}: ${entry.email.address}`
+                              : `${t.email}: ${entry.email.address}`
+                          }
+                        >
+                          {entry.email.local}
+                          {entry.email.domain ? (
+                            <>
+                              <wbr />
+                              {entry.email.domain}
+                            </>
+                          ) : null}
+                        </a>
                       ) : null}
                     </li>
                   ))}

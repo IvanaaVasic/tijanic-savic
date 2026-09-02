@@ -3,13 +3,11 @@
    From 900px: the map fills the height of the cream panel's right column.
    Mobile-first, desktop arrives in the min-width query. */
 
-/* No gap on mobile: the space down to the link is carried by its own
-   padding-top, which is there to bring the tap target up to 44px. With a gap as
-   well the spacing would be counted twice. */
+/* Nothing sits below the map any more — the button is inside the frame — so the
+   wrapper only passes the height on from the panel to the frame. */
 .wrapper {
   display: flex;
   flex-direction: column;
-  gap: 0;
 }
 
 /* ── Frame ─────────────────────────────────────────────────────────────── */
@@ -56,28 +54,54 @@
   filter: grayscale(0.75) sepia(0.35) brightness(0.94) contrast(1.05);
 }
 
-/* ── The link below the map ────────────────────────────────────────────── */
+/* ── The button over the map ───────────────────────────────────────────── */
 
-/* Mono caps like every other caption on the cream background. The gold here is
-   the rule, not the letters — the text is --grey-green, because gold on cream
-   fails on contrast. */
-/* The gold rule has to stay tight under the letters, so the tap target cannot be
-   made with symmetric padding: the whole surplus goes above the text and takes
-   the place of the space down to the map. 29 + 10 (letters) + 5 = 44px. */
-.link {
-  align-self: flex-start;
-  padding-top: 29px;
-  padding-bottom: 5px;
+/* A dark green box with a gold hairline, laid over the lower part of the map.
+   Solid and not glass: the map underneath is a busy picture, and only a solid
+   ground keeps the letters at the 10.98 that cream on --green-deep gives — the
+   same pairing as a team card, so the button reads as part of the site rather
+   than part of Google's rectangle.
+   The gold is the frame, not the letters — gold text is never used on this
+   site's light ground, and here it would sit on green anyway.
+
+   On mobile it stretches between the edges of the map, like the hero button
+   across the screen; the mockup has no wide button on a phone, so the hero is
+   the closest thing to follow. 9.5px because "OTVORITE U GOOGLE MAPI" is 22
+   characters of mono with 0.2em between them: on a 320px screen the map is
+   232px wide and the line has to fit inside it on one line.
+
+   66px up from the bottom edge and not right against it: Google's own logo and
+   the "Podaci sa mape" line sit in the last 60px of the frame, and the terms of
+   the embed say they may not be covered. */
+.button {
+  position: absolute;
+  right: 14px;
+  bottom: 66px;
+  left: 14px;
+  z-index: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--tap-min);
+  padding: 15px 12px;
+  background: var(--green-deep);
+  border: var(--border-gold);
   font-family: var(--font-mono);
   font-size: var(--text-micro-mobile);
-  letter-spacing: var(--tracking-label);
+  letter-spacing: var(--tracking-button);
   line-height: 1;
   text-transform: uppercase;
-  color: var(--grey-green);
-  border-bottom: var(--border-gold);
+  white-space: nowrap;
+  color: var(--cream);
 }
 
-.link:hover {
+/* The gold hairline stays put; only the ground turns over, to the cream of the
+   panel around the map, with --ink on it — 13.14. Gold fill is not used here on
+   purpose: the hero button is the only filled one on the site. */
+.button:hover,
+.button:focus-visible {
+  background: var(--cream);
   color: var(--ink);
 }
 
@@ -93,10 +117,16 @@
     min-height: 280px;
   }
 
-  /* A mouse does not need 44px, so the space down to the map drops to the 14px
-     from design.md. */
-  .link {
-    padding-top: 14px;
-    font-size: var(--text-micro);
+  /* There is room on a wide screen, so the button stops stretching and sits in
+     the middle of the map, as wide as the words inside it — and a little higher,
+     because the letters are larger and the attribution below has to stay
+     readable. */
+  .button {
+    right: auto;
+    bottom: 84px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 17px 30px;
+    font-size: var(--text-label);
   }
 }

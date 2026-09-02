@@ -23,6 +23,7 @@ export type Kontakt = {
   telefoni?: Array<{
     broj?: string;
     oznaka?: LokalniNaslov;
+    mejl?: string;
     _type: "telefon";
     _key: string;
   }>;
@@ -385,6 +386,7 @@ export type CONTENT_QUERYResult = {
     telefoni?: Array<{
       broj?: string;
       oznaka?: LokalniNaslov;
+      mejl?: string;
       _type: "telefon";
       _key: string;
     }>;
