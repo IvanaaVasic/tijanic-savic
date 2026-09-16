@@ -104,6 +104,8 @@ export type Podesavanja = {
     lat?: number;
     lng?: number;
   };
+  linkMape?: string;
+  nazivNaMapi?: string;
   opstiTelefon?: string;
   opstiMejl?: string;
   adresaSajta?: string;
@@ -314,6 +316,8 @@ export type CONTENT_QUERYResult = {
       lat?: number;
       lng?: number;
     };
+    linkMape?: string;
+    nazivNaMapi?: string;
     opstiTelefon?: string;
     opstiMejl?: string;
     adresaSajta?: string;
@@ -411,6 +415,8 @@ export type SETTINGS_QUERYResult = {
     lat?: number;
     lng?: number;
   };
+  linkMape?: string;
+  nazivNaMapi?: string;
   opstiTelefon?: string;
   opstiMejl?: string;
   adresaSajta?: string;

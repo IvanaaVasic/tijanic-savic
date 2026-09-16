@@ -33,12 +33,23 @@ type Props = {
   } | null;
   /** The address on one line — the fallback point and an addition to the title. */
   address: string | null;
+  /** The office's name as Google lists it — the map finds the listing by it. */
+  placeName?: string | null;
+  /** The Google Maps share link for the button; without it the button opens the point. */
+  link?: string | null;
   /** The caller's class; the map height depends on the section it sits in. */
   className?: string;
 };
 
-export function LocationMap({ locale, coordinates, address, className }: Props) {
-  const query = mapQuery(coordinates, address);
+export function LocationMap({
+  locale,
+  coordinates,
+  address,
+  placeName,
+  link,
+  className,
+}: Props) {
+  const query = mapQuery(coordinates, address, placeName);
 
   // With neither coordinates nor an address the map has nothing to show. An
   // empty grey box is worse than nothing — the whole map drops out and the data
@@ -68,7 +79,7 @@ export function LocationMap({ locale, coordinates, address, className }: Props) 
             and reached next by the keyboard. */}
         <a
           className={styles.button}
-          href={googleMapsUrl(query)}
+          href={googleMapsUrl(query, link)}
           target="_blank"
           rel="noopener noreferrer"
         >

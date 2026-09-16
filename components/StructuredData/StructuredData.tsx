@@ -123,6 +123,7 @@ export function StructuredData({ locale, content }: Props) {
   const query = mapQuery(
     coordinates,
     [street, city, country].filter(Boolean).join(", ") || null,
+    podesavanja?.nazivNaMapi,
   );
 
   // The office number from Settings first, then whatever the Contact section
@@ -195,7 +196,7 @@ export function StructuredData({ locale, content }: Props) {
     logo,
     address,
     geo,
-    hasMap: query ? googleMapsUrl(query) : undefined,
+    hasMap: query ? googleMapsUrl(query, podesavanja?.linkMape) : undefined,
     telephone: phones[0],
     email: text(podesavanja?.opstiMejl),
     // The country in the address is where the office sits, and for a law office

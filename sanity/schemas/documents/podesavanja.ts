@@ -67,6 +67,23 @@ export const podesavanja = defineType({
     }),
 
     defineField({
+      name: "linkMape",
+      title: "Link ka kancelariji na Google mapama",
+      type: "url",
+      description:
+        "Kuda vodi dugme „Otvorite u Google mapi“ ispod mape u sekciji Kontakt. Na Google mapama pronađite kancelariju po imenu, kliknite „Podeli“ (Share) i kopirajte link — izgleda kao https://maps.app.goo.gl/… Tada se otvara kartica kancelarije sa imenom, ocenama i radnim vremenom. Ako ostane prazno, dugme otvara samo tačku sa koordinatama.",
+      validation: (Rule) => Rule.uri({ scheme: ["https"] }),
+    }),
+
+    defineField({
+      name: "nazivNaMapi",
+      title: "Naziv kancelarije na Google mapama",
+      type: "string",
+      description:
+        "Po ovom imenu mapa u sekciji Kontakt pronalazi kancelariju i ispisuje ga pored pina, uz karticu sa adresom i ocenama. Prepišite ga tačno kako stoji na Google mapama, na primer: Advokatska kancelarija Tijanić Savić. Ako ostane prazno, mapa pokazuje samo pin na koordinatama. Ne prevodi se.",
+    }),
+
+    defineField({
       name: "opstiTelefon",
       title: "Telefon kancelarije",
       type: "string",

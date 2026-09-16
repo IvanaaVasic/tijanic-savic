@@ -550,6 +550,20 @@
         },
         "optional": true
       },
+      "linkMape": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
+      "nazivNaMapi": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
       "opstiTelefon": {
         "type": "objectAttribute",
         "value": {

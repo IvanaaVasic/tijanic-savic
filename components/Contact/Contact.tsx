@@ -217,6 +217,8 @@ export function Contact({ locale, contact, settings }: Props) {
           locale={locale}
           coordinates={settings?.koordinate ?? null}
           address={addressOneLine}
+          placeName={settings?.nazivNaMapi ?? null}
+          link={settings?.linkMape ?? null}
           className={styles.map}
         />
       </Reveal>
