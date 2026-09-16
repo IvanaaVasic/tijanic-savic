@@ -43,3 +43,6 @@ next-env.d.ts
 
 # dizajn i makete — interni materijal, ostaje lokalno
 /docs/design/
+
+# rezervne kopije sadržaja iz Sanityja — ostaju lokalno
+/docs/sanity/
