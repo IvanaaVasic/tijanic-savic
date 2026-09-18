@@ -9,7 +9,7 @@ import { About } from "@/components/About/About";
 import { Contact } from "@/components/Contact/Contact";
 import { Hero } from "@/components/Hero/Hero";
 import { blocksToText } from "@/components/Paragraphs/Paragraphs";
-import { PracticeAreas } from "@/components/PracticeAreas/PracticeAreas";
+import { PendingSection } from "@/components/PendingSection/PendingSection";
 import { StructuredData } from "@/components/StructuredData/StructuredData";
 import { Team } from "@/components/Team/Team";
 import {
@@ -143,8 +143,10 @@ export async function HomePage({ locale }: { locale: Locale }) {
         lawyers={advokati}
       />
 
-      <PracticeAreas
+      {/* The design of this section is not settled yet. */}
+      <PendingSection
         locale={locale}
+        section="practiceAreas"
         name={sectionName(names, "practiceAreas", locale)}
       />
 

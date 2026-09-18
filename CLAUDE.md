@@ -95,7 +95,7 @@ Strukture sajta
 
 Četiri sekcije na jednoj stranici, redom (nazivi se menjaju u Podešavanjima → Nazivi sekcija):
 
-O nama — kratak opis kancelarije, oblasti prava
+O nama — kratak opis kancelarije, oblasti prava (dok dokument nije objavljen, stoji „U pripremi“)
 Advokati — dve advokatice: ime, titula, biografija, foto, mejl, telefon (dok nema objavljenih, stoji „U pripremi“)
 Oblasti prava — dizajn se čeka; do tada „U pripremi“
 Kontakt — adresa, mapa, telefoni, mejlovi

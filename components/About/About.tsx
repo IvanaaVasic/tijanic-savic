@@ -5,6 +5,7 @@
 // A server component: everything comes from Sanity at build time, no state.
 
 import { Divider } from "@/components/Divider/Divider";
+import { PendingSection } from "@/components/PendingSection/PendingSection";
 import { Paragraphs } from "@/components/Paragraphs/Paragraphs";
 import { Reveal } from "@/components/Reveal/Reveal";
 import type { Locale } from "@/lib/locale";
@@ -25,9 +26,11 @@ export function About({ locale, name, about }: Props) {
   const title = inLocale(about?.naslovSekcije, locale);
 
   // The title is the only required part of the section. Without it the panel has
-  // nothing to show and the whole section drops out — we never render an empty
-  // one.
-  if (!title) return null;
+  // nothing to show, so the section stands as "U pripremi" instead — the
+  // navigation offers it, and the link must land somewhere.
+  if (!title) {
+    return <PendingSection locale={locale} section="about" name={name} />;
+  }
 
   const text = inLocale(about?.tekst, locale);
 
