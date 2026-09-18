@@ -9,44 +9,14 @@ import { About } from "@/components/About/About";
 import { Contact } from "@/components/Contact/Contact";
 import { Hero } from "@/components/Hero/Hero";
 import { blocksToText } from "@/components/Paragraphs/Paragraphs";
-import { PendingSection } from "@/components/PendingSection/PendingSection";
+import { PracticeAreas } from "@/components/PracticeAreas/PracticeAreas";
 import { StructuredData } from "@/components/StructuredData/StructuredData";
 import { Team } from "@/components/Team/Team";
-import {
-  languageAlternates,
-  localePath,
-  OG_LOCALE,
-  otherLocale,
-  type Locale,
-} from "@/lib/locale";
+import type { Locale } from "@/lib/locale";
 import { inLocale } from "@/lib/localized";
+import { pageMetadata, shorten } from "@/lib/metadata";
 import { sectionName } from "@/lib/sections";
-import { absoluteUrl } from "@/lib/site";
 import { fetchContent } from "@/sanity/lib/fetch";
-import {
-  DEFAULT_SHARE_IMAGE,
-  SHARE_IMAGE_HEIGHT,
-  SHARE_IMAGE_WIDTH,
-  shareImageUrl,
-} from "@/sanity/lib/image";
-
-// Google cuts the description off at roughly 160 characters. The SEO field in
-// the Studio says so and the lawyers keep to it — but the text that stands in
-// when they leave it empty was written for the page, not for a search result,
-// and it runs longer. Cutting on a word boundary and closing with an ellipsis
-// is better than letting Google cut mid-word.
-const DESCRIPTION_LIMIT = 155;
-
-function shorten(text: string | null | undefined): string | undefined {
-  const trimmed = text?.trim();
-  if (!trimmed) return undefined;
-  if (trimmed.length <= DESCRIPTION_LIMIT) return trimmed;
-
-  const cut = trimmed.slice(0, DESCRIPTION_LIMIT - 1);
-  const lastSpace = cut.lastIndexOf(" ");
-
-  return `${(lastSpace > 0 ? cut.slice(0, lastSpace) : cut).replace(/[.,;:—-]$/, "")}…`;
-}
 
 /** The <head> for this page in the given locale. Both routes call it. */
 export async function homeMetadata(locale: Locale): Promise<Metadata> {
@@ -70,58 +40,26 @@ export async function homeMetadata(locale: Locale): Promise<Metadata> {
     shorten(blocksToText(inLocale(oNama?.tekst, locale))) ||
     undefined;
 
-  const url = absoluteUrl(localePath(locale));
-
-  // The image the link carries when it is shared in a message or on a social
-  // network. public/og-default.png steps in until the lawyers upload a real
-  // one: the horizontal lockup on the page background, drawn at the card's own
-  // 1200 x 630. A smaller file would be scaled up by whoever renders the card,
-  // and a different ratio would be cropped where we would not have cropped it.
-  const share = pocetna?.seo?.ogSlika?.asset
-    ? {
-        url: shareImageUrl(pocetna.seo.ogSlika),
-        width: SHARE_IMAGE_WIDTH,
-        height: SHARE_IMAGE_HEIGHT,
-        alt: officeName ?? "",
-      }
-    : {
-        url: absoluteUrl(DEFAULT_SHARE_IMAGE),
-        width: SHARE_IMAGE_WIDTH,
-        height: SHARE_IMAGE_HEIGHT,
-        alt: officeName ?? "",
-      };
-
-  return {
+  return pageMetadata({
+    locale,
     title,
     description,
-    // The canonical link points at this locale's own version, not at Serbian,
-    // and the hreflang map ties the two versions together in both directions.
-    alternates: {
-      canonical: url,
-      languages: languageAlternates(),
-    },
-    openGraph: {
-      type: "website",
-      url,
-      title,
-      description,
-      siteName: officeName,
-      locale: OG_LOCALE[locale],
-      alternateLocale: OG_LOCALE[otherLocale(locale)],
-      images: [share],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: [share],
-    },
-  };
+    siteName: officeName,
+    images: [pocetna?.seo?.ogSlika],
+  });
 }
 
 export async function HomePage({ locale }: { locale: Locale }) {
   const content = await fetchContent();
-  const { podesavanja, pocetna, oNama, advokati, kontakt } = content;
+  const {
+    podesavanja,
+    pocetna,
+    oNama,
+    advokati,
+    oblastiPrava,
+    oblasti,
+    kontakt,
+  } = content;
 
   // The same names the navigation in the header shows, so a visitor who clicks
   // ADVOKATI lands on ADVOKATI.
@@ -143,11 +81,11 @@ export async function HomePage({ locale }: { locale: Locale }) {
         lawyers={advokati}
       />
 
-      {/* The design of this section is not settled yet. */}
-      <PendingSection
+      <PracticeAreas
         locale={locale}
-        section="practiceAreas"
         name={sectionName(names, "practiceAreas", locale)}
+        section={oblastiPrava}
+        areas={oblasti}
       />
 
       <Contact

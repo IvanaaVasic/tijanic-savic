@@ -202,6 +202,12 @@ sufiks `-mobile`.
 | mono labela | `--text-label` | 11px | 10px |
 | mikro labela | `--text-micro` | 10px | 9.5px |
 | natpis u zaglavlju | `--text-tagline` | 8.5px | — (izostavlja se) |
+| naslov stranice oblasti | `--text-page-title` | 46px / 1.14 | 32px |
+| naziv na kartici oblasti | `--text-area-title` | 24px / 1.2 | 22px |
+| opis na kartici, oblasti u meniju | `--text-small` | 15px / 1.65 | — |
+
+Poslednja tri reda nisu iz design.md nego izmerena sa maketa u
+`docs/design/oblasti/`.
 
 `line-height` ide kroz `--leading-display` (1.14), `--leading-heading` (1.28),
 `--leading-lead` (1.75), `--leading-body` (1.85), `--leading-card` (1.8) i
@@ -343,7 +349,7 @@ monogram u zaglavlju, `--logo-vertical-footer` (132px) i
 
 ---
 
-## Jedina animacija na sajtu
+## Animacije na sajtu — dve, obe dogovorene
 
 Blok se podigne 16px i pojavi se kad uđe u kadar, jednom. To je sve — i to je
 dogovoreno, nije proizvoljno dodato. **Paralaks je odbijen**: traži transformaciju
@@ -370,6 +376,13 @@ dve linije istrče od njega ka spolja. To radi preko `[data-reveal="hidden"]` u
 `Divider.module.css` — atribut, ne klasa, jer CSS Modules ne heširaju atributske
 selektore pa stanje iz Reveala stiže do Dividera. Razdelnik kreće tek pošto je
 blok stigao (`--draw-delay`), inače bi se crtao ispod fejda i niko ga ne bi video.
+
+Druga je otvaranje mobilnog menija, tražena 18.9.2026: panel se pojavi
+(fade), redovi se podignu `--menu-rise` (10px) jedan za drugim na
+`--menu-stagger` (40ms), sve za `--menu-duration` (360ms) sa `--reveal-ease`;
+dve zlatne crte hamburgera klize u X, a lista oblasti se rasklopi istim
+pokretom. Zatvaranje je trenutno. `prefers-reduced-motion` isključuje sve.
+Stoji u `Header.module.css`, bez JavaScripta.
 
 Sve preko ovoga i dalje pada pod „animacija koju niko nije tražio".
 
@@ -513,7 +526,8 @@ Ako tekst nedostaje — pitaj. Ne piši „Lorem ipsum" ni izmišljene biografij
 - Razdelnik napravljen od teksta umesto od elemenata
 - Mono font malim slovima ili bez `letter-spacing`
 - Font bez latin-ext podrške
-- Animacija koju niko nije tražio — reveal i iscrtavanje razdelnika su jedini
+- Animacija koju niko nije tražio — reveal, iscrtavanje razdelnika i otvaranje
+  mobilnog menija su jedini
   dogovoreni, sve preko toga stani i pitaj
 - Naslov bez tačke na kraju
 - `outline: none` bez zamene

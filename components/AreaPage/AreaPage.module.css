@@ -1,0 +1,323 @@
+/* Practice area page — docs/design/oblasti/3-desktop and 6-mobilni, measured
+   off the mockups (design.md does not have this page yet).
+   Desktop: page 56/64/56; breadcrumb, 24px, then the panel — a text column and
+   a 400px side column split by a --line-light rule. Text column 64/64/56: title
+   46px, 28px to the divider (300px), 28px to the description, 36px to the rule
+   above the services, 28px below it. Side column 64/40/56.
+   Below 900px: page 28/16/32, breadcrumb 14px above the panel, one column with
+   28px of side padding; the contacts go below the services.
+   Mobile-first, desktop arrives in the min-width query.
+
+   Left out of the mockup on purpose: the photograph, the lawyer for the area
+   and the related areas. */
+
+.page {
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding: 28px var(--pad-panel-x-mobile) 32px;
+}
+
+/* ── Breadcrumb ────────────────────────────────────────────────────────── */
+
+.breadcrumb {
+  padding: 0 8px;
+  margin-bottom: 14px;
+}
+
+/* The slash between the crumbs is drawn by CSS, not written in the markup, so
+   a screen reader reads a list of two links rather than "slash". */
+.trail {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-mono);
+  font-size: var(--text-label-mobile);
+  letter-spacing: var(--tracking-label);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.trail li + li::before {
+  content: "/";
+  margin-right: 18px;
+  color: var(--cream-62);
+}
+
+/* On a phone the crumb is a full 44px tap target; the line stays low. */
+.crumb {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-min);
+  color: var(--cream-62);
+}
+
+.crumb:hover,
+.crumb:focus-visible {
+  color: var(--gold-bright);
+}
+
+/* Gold text on the dark ground goes through --gold-bright, never --gold. */
+.current {
+  color: var(--gold-bright);
+}
+
+/* ── Panel ─────────────────────────────────────────────────────────────── */
+
+.panel,
+.panelSingle {
+  display: flex;
+  flex-direction: column;
+  background: var(--cream);
+  color: var(--green-deep);
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  min-width: 0;
+  padding: 40px 28px 36px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-heading);
+  font-size: var(--text-page-title-mobile);
+  line-height: var(--leading-display-mobile);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: var(--measure-text);
+}
+
+.paragraph {
+  font-size: var(--text-body-mobile);
+  line-height: var(--leading-body);
+  color: var(--ink);
+}
+
+/* ── Services ──────────────────────────────────────────────────────────── */
+
+/* The rule above the list divides content, it is not decoration — hence
+   --line-light, not gold. */
+.services {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-self: stretch;
+  margin-top: 4px;
+  padding-top: 24px;
+  border-top: var(--border-light);
+}
+
+/* An h2 with the mono caption style: explicit weight and size, because the
+   default heading style would embolden and enlarge it. */
+.caption {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-label);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--grey-green);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* The gold diamond in front of every item — the same square as in the divider,
+   a size smaller. It sits on the first line, so a wrapped item keeps its text
+   aligned. */
+.service {
+  position: relative;
+  padding-left: 22px;
+  font-size: var(--text-value-mobile);
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.service::before {
+  content: "";
+  position: absolute;
+  top: calc(0.8em - 3px);
+  left: 1px;
+  width: 6px;
+  height: 6px;
+  background: var(--gold);
+  transform: rotate(45deg);
+}
+
+/* ── Contacts ──────────────────────────────────────────────────────────── */
+
+/* On a phone the side column follows the text, inset by the panel padding and
+   split from it by the same light rule as the services. */
+.aside {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin: 0 28px;
+  padding: 28px 0 36px;
+  border-top: var(--border-light);
+}
+
+.contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.name {
+  margin-bottom: 8px;
+  font-family: var(--font-display);
+  font-weight: var(--weight-heading);
+  font-size: var(--text-area-title);
+  line-height: var(--leading-title);
+}
+
+/* Mono goes lowercase here and without letter-spacing, as in the lawyer card:
+   an email in caps is not an address. On a phone every line is a 44px target.
+   overflow-wrap: anywhere so a long address never pushes the panel past a
+   320px screen. */
+.mono {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-min);
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-contact);
+  line-height: 1.9;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+/* Two 44px rows would put the phone a whole 44px under the email; pulled 12px
+   together, as in the Contact section. */
+.mono + .mono {
+  margin-top: -12px;
+}
+
+.mono:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* The one filled button on the site, as in the hero: gold fill, text in the
+   page background colour — 5.57, gold here is a surface, not a text colour. */
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--tap-min);
+  padding: 16px 20px;
+  background: var(--gold);
+  color: var(--green-alt);
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-button);
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.button:hover,
+.button:focus-visible {
+  background: var(--gold-bright);
+}
+
+/* ── From 900px up ─────────────────────────────────────────────────────── */
+
+@media (min-width: 900px) {
+  .page {
+    padding: 56px var(--pad-panel-x) 56px;
+  }
+
+  .breadcrumb {
+    padding: 0;
+    margin-bottom: 24px;
+  }
+
+  .trail {
+    font-size: var(--text-label);
+  }
+
+  .crumb {
+    min-height: 0;
+  }
+
+  .panel {
+    flex-direction: row;
+  }
+
+  .main {
+    flex: 1;
+    gap: 28px;
+    padding: 64px 64px 56px;
+  }
+
+  .title {
+    font-size: var(--text-page-title);
+    line-height: var(--leading-display);
+  }
+
+  .paragraph {
+    font-size: var(--text-body);
+  }
+
+  .services {
+    margin-top: 8px;
+    padding-top: 28px;
+  }
+
+  .service {
+    font-size: var(--text-value);
+  }
+
+  .aside {
+    flex: none;
+    width: 400px;
+    margin: 0;
+    padding: 64px 40px 56px;
+    border-top: 0;
+    border-left: var(--border-light);
+    gap: 24px;
+  }
+
+  .contacts {
+    gap: 28px;
+  }
+
+  .mono {
+    display: inline;
+    min-height: 0;
+  }
+
+  .mono + .mono {
+    margin-top: 0;
+  }
+
+  .button {
+    margin-top: 4px;
+  }
+}

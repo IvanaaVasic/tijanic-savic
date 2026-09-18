@@ -94,6 +94,13 @@
   --text-micro-mobile: 9.5px;
   --text-tagline: 8.5px; /* ADVOKATSKA KANCELARIJA in the header */
 
+  /* Practice areas — measured off docs/design/oblasti/, not in design.md */
+  --text-page-title: 46px; /* the title of a practice area page */
+  --text-page-title-mobile: 32px;
+  --text-area-title: 24px; /* the name on a practice area card */
+  --text-area-title-mobile: 22px;
+  --text-small: 15px; /* card description, practice areas in the menu */
+
   --leading-display: 1.14; /* hero title */
   --leading-display-mobile: 1.18;
   --leading-heading: 1.28; /* section titles */
@@ -103,6 +110,8 @@
   --leading-body: 1.85;
   --leading-card: 1.8;
   --leading-legal: 2; /* the two lines of legal text in the footer */
+  --leading-small: 1.65; /* --text-small */
+  --leading-title: 1.2; /* a card title that may wrap to two lines */
 
   --tracking-eyebrow: 0.26em; /* the eyebrow above the hero title */
   --tracking-name: 0.24em; /* the office name in the header */
@@ -152,6 +161,13 @@
   --draw-duration: 700ms;
   --draw-delay: calc(var(--reveal-duration) * 0.55);
 
+  /* The mobile menu opening — asked for separately: the panel fades in and
+     its rows rise into place one after the other, a little quicker than the
+     reveal, since the visitor is waiting on it. */
+  --menu-duration: 360ms;
+  --menu-stagger: 40ms; /* between two rows of the menu */
+  --menu-rise: 10px;
+
   /* ── Rules and details ────────────────────────────────── */
   /* "border" is an element's frame, "divider" is the gold rule with the diamond. */
   --hairline: 1px;
@@ -164,11 +180,15 @@
   --divider-hero-mobile: 180px;
   --divider-footer: 420px;
   --divider-footer-mobile: 200px;
+  --divider-page: 300px; /* under the title of a practice area page */
+  --divider-page-mobile: 160px;
 
   --hairline-vertical: 42px; /* the upright rule between monogram and name */
   --hairline-vertical-mobile: 27px;
   --hairline-tagline: 14px; /* the dashes left and right of the tagline */
   --hairline-role: 16px; /* the dash in front of the ADVOKAT label */
+
+  --dropdown-width: 362px; /* the practice areas menu under the header */
 
   --radius: 0; /* no rounding, everything is sharp */
   --focus-offset: 4px;

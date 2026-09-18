@@ -1,0 +1,118 @@
+/* Practice areas — docs/design/oblasti/1-desktop and 4-mobilni. Measured off
+   the mockups, design.md does not have this section yet.
+   Desktop: wrapper 0/64/56, panel 64/72/60; a 170px label column and the title
+   column 80px apart, the label sitting at the bottom of the row; 40px down to
+   the grid, which spans the full width of the panel.
+   Below 900px: wrapper 0/16/32, panel 40/28/36, everything in one column —
+   label, title and intro 20px apart, 24px down to the first card.
+   Mobile-first, desktop arrives in the min-width query. */
+
+.wrapper {
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding: 0 var(--pad-panel-x-mobile) 32px;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 40px 28px 36px;
+  background: var(--cream);
+  color: var(--green-deep);
+}
+
+/* ── Label, title, intro ───────────────────────────────────────────────── */
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* One line on mobile: 02 / OBLASTI PRAVA. On desktop the slash goes and two
+   lines are left in the narrow column — the same label as in About. An h2 when
+   there is no title, hence the explicit weight. */
+.label {
+  display: flex;
+  gap: 18px;
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-label);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--grey-green);
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: var(--measure-text);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-heading);
+  font-size: var(--text-h2-mobile);
+  line-height: var(--leading-heading-mobile);
+}
+
+.text {
+  font-size: var(--text-body-mobile);
+  line-height: var(--leading-body);
+  color: var(--ink);
+}
+
+/* ── From 900px up ─────────────────────────────────────────────────────── */
+
+@media (min-width: 900px) {
+  .wrapper {
+    padding: 0 var(--pad-panel-x) 56px;
+  }
+
+  .panel {
+    gap: 40px;
+    padding: 64px 72px 60px;
+  }
+
+  /* In the mockup the label does not stand level with the title, as in About,
+     but at the foot of the row, level with the last line of the intro. */
+  .head {
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 80px;
+  }
+
+  .label {
+    flex: none;
+    flex-direction: column;
+    gap: 15px;
+    width: 170px;
+    font-size: var(--text-label);
+  }
+
+  .slash {
+    display: none;
+  }
+
+  .name {
+    color: var(--green-deep);
+  }
+
+  .intro {
+    flex: 1;
+    min-width: 0;
+    gap: 18px;
+  }
+
+  .title {
+    font-size: var(--text-h2);
+    line-height: var(--leading-heading);
+  }
+
+  .text {
+    font-size: var(--text-body);
+  }
+}

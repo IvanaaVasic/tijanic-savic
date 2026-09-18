@@ -99,6 +99,12 @@
   width: var(--divider-footer-mobile);
 }
 
+/* Under the title of a practice area page. */
+.page {
+  composes: rule;
+  width: var(--divider-page-mobile);
+}
+
 /* Inside the cream panel the width is not fixed — the rules stretch to the
    edges of the content. */
 .panel {
@@ -113,5 +119,9 @@
 
   .footer {
     width: var(--divider-footer);
+  }
+
+  .page {
+    width: var(--divider-page);
   }
 }

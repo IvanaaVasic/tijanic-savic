@@ -84,7 +84,7 @@ type Props = {
 };
 
 export function StructuredData({ locale, content }: Props) {
-  const { podesavanja, pocetna, oNama, advokati, kontakt } = content;
+  const { podesavanja, pocetna, oNama, advokati, oblasti, kontakt } = content;
 
   const pageUrl = absoluteUrl(localePath(locale));
   const officeId = `${pageUrl}#kancelarija`;
@@ -186,6 +186,10 @@ export function StructuredData({ locale, content }: Props) {
       });
     });
 
+  const areas = (oblasti ?? [])
+    .map((area) => text(inLocale(area.naziv, locale)))
+    .filter((name): name is string => Boolean(name));
+
   const office = filled({
     "@type": "LegalService",
     "@id": officeId,
@@ -206,6 +210,9 @@ export function StructuredData({ locale, content }: Props) {
     openingHoursSpecification: hours,
     // The PIB from the footer — the tax number the office is registered under.
     taxID: text(podesavanja?.pib),
+    // The practice areas by name — what the office does, in the words a
+    // search engine matches against a query.
+    knowsAbout: areas.length > 0 ? areas : undefined,
     employee: lawyers.map((lawyer) => ({ "@id": lawyer["@id"] as string })),
   });
 

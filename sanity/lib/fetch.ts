@@ -1,5 +1,11 @@
 import { client } from "./client";
-import { CONTENT_QUERY, SETTINGS_QUERY } from "./queries";
+import {
+  AREA_PAGE_QUERY,
+  AREA_SLUGS_QUERY,
+  CONTENT_QUERY,
+  NAV_AREAS_QUERY,
+  SETTINGS_QUERY,
+} from "./queries";
 
 // The return types are not written out here. `sanity typegen` widens
 // client.fetch through sanity/types.ts, so the return value follows the schemas.
@@ -22,4 +28,19 @@ export function fetchContent() {
 /** Settings only — for metadata and JSON-LD, where the rest is not needed. */
 export function fetchSettings() {
   return client.fetch(SETTINGS_QUERY, {}, FETCH_OPTIONS);
+}
+
+/** Name and address of every practice area, for the header menu. */
+export function fetchNavAreas() {
+  return client.fetch(NAV_AREAS_QUERY, {}, FETCH_OPTIONS);
+}
+
+/** Every practice area address — the pages the build has to write. */
+export function fetchAreaSlugs() {
+  return client.fetch(AREA_SLUGS_QUERY, {}, FETCH_OPTIONS);
+}
+
+/** Everything one practice area page shows. */
+export function fetchAreaPage(slug: string) {
+  return client.fetch(AREA_PAGE_QUERY, { slug }, FETCH_OPTIONS);
 }

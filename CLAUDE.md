@@ -97,7 +97,7 @@ Strukture sajta
 
 O nama — kratak opis kancelarije, oblasti prava (dok dokument nije objavljen, stoji „U pripremi“)
 Advokati — dve advokatice: ime, titula, biografija, foto, mejl, telefon (dok nema objavljenih, stoji „U pripremi“)
-Oblasti prava — dizajn se čeka; do tada „U pripremi“
+Oblasti prava — kartice na početnoj (6 na desktopu, 3 na mobilnom, pa „Vidi više“) i stranica za svaku oblast; makete u docs/design/oblasti. Sa stranice oblasti su namerno izbačeni fotografija, „advokat za ovu oblast“ i srodne oblasti — umesto njih stoje oba kontakta iz dokumenta Kontakt. Dok nijedna oblast nije objavljena, sekcija stoji „U pripremi“
 Kontakt — adresa, mapa, telefoni, mejlovi
 
 Faza 1 (sada): imena, telefoni, mejlovi, lokacija sa mapom. Faza 2 (sredina septembra): biografije i fotografije. Piši šeme i komponente tako da faza 2 ne traži prepravku — polja postoje, samo su prazna.
@@ -110,6 +110,7 @@ Rutiranje
 
 Srpski je podrazumevan i stoji na korenu, bez prefiksa. / je srpska verzija, /en/ engleska. Prefiks ima samo engleski.
 Dve obične rute, bez dinamičkog segmenta: app/(sr)/page.tsx i app/(en)/en/page.tsx. Svaka grupa ima svoj root layout, a zajedničko — html, fontovi, zaglavlje i podnožje — stoji u components/SiteShell.
+Jedini dinamički segment su stranice oblasti: app/(sr)/oblasti-prava/[slug] i app/(en)/en/oblasti-prava/[slug], uz dynamicParams = false. Deo adrese oblasti-prava ostaje srpski i na engleskom, kao i sidra. Kad u Sanityju nema nijedne oblasti, generateStaticParams vraća jednu zamenu (u-pripremi) koja renderuje 404 — sa praznom listom statički export odbija rutu.
 Ne vraćaj [locale] ni catch-all rutu. Uz output: 'export' Next u dev režimu baca grešku na svaku adresu koja nije u generateStaticParams, pa se 404 stranica ne vidi dok se radi.
 /sr i /sr/\* preusmeravaju na / sa 301 — zbog ranije verzije rutiranja, da stari linkovi ne puknu.
 Ugrađeni i18n iz next.config NE radi sa App Routerom ni sa statičkim exportom — ne pokušavaj
@@ -184,7 +185,7 @@ Pošto je sadržaj zapečen u build-time, izmena u Sanityju se ne vidi sama od s
 \_redirects fajl na hostingu vodi /sr na / sa 301 i servira /studio/\* iz jednog index.html. Isto stoji i u vercel.json, za preview.
 
 Šta ne raditi
-Ne dodavati animacije koje nisu tražene — postoji tačno jedna, `components/Reveal` (blok se podigne i pojavi kad uđe u kadar, plus zlatni razdelnik koji se iscrtava). Paralaks je razmatran i odbijen. Detalji u skillu „brend"
+Ne dodavati animacije koje nisu tražene — postoje tačno dve: `components/Reveal` (blok se podigne i pojavi kad uđe u kadar, plus zlatni razdelnik koji se iscrtava) i otvaranje mobilnog menija (panel se pojavi, redovi se podignu jedan za drugim, hamburger pređe u X). Paralaks je razmatran i odbijen. Detalji u skillu „brend"
 Ne uvoditi biblioteku za nešto što je 20 linija CSS-a
 Ne pisati placeholder copy tipa "Lorem ipsum" — ako fali tekst, pitaj
 Ne menjati boje brenda

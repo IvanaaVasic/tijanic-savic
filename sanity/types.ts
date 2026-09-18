@@ -35,6 +35,33 @@ export type Kontakt = {
   seo?: Seo;
 };
 
+export type OblastPrava = {
+  _id: string;
+  _type: "oblastPrava";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  naziv?: LokalniNaslov;
+  slug?: Slug;
+  kratakOpis?: LokalniTekst;
+  opis?: LokalniBlok;
+  usluge?: Array<{
+    _key: string;
+  } & LokalniNaslov>;
+  redosled?: number;
+  seo?: Seo;
+};
+
+export type OblastiPrava = {
+  _id: string;
+  _type: "oblastiPrava";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  naslovSekcije?: LokalniNaslov;
+  uvod?: LokalniTekst;
+};
+
 export type Advokat = {
   _id: string;
   _type: "advokat";
@@ -307,11 +334,11 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = Kontakt | Advokat | ONama | Pocetna | Podesavanja | Seo | LokalniBlok | LokalniTekst | LokalniNaslov | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = Kontakt | OblastPrava | OblastiPrava | Advokat | ONama | Pocetna | Podesavanja | Seo | LokalniBlok | LokalniTekst | LokalniNaslov | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/lib/queries.ts
 // Variable: CONTENT_QUERY
-// Query: {  "podesavanja": *[_type == "podesavanja"][0]{...},  "pocetna": *[_type == "pocetna"][0]{...},  "oNama": *[_type == "oNama"][0]{...},  "advokati": *[_type == "advokat"] | order(redosled asc){...},  "kontakt": *[_type == "kontakt"][0]{...}}
+// Query: {  "podesavanja": *[_type == "podesavanja"][0]{...},  "pocetna": *[_type == "pocetna"][0]{...},  "oNama": *[_type == "oNama"][0]{...},  "advokati": *[_type == "advokat"] | order(redosled asc){...},  "oblastiPrava": *[_type == "oblastiPrava"][0]{...},  "oblasti": *[_type == "oblastPrava" && defined(slug.current)] | order(redosled asc){    _id,    naziv,    "slug": slug.current,    kratakOpis  },  "kontakt": *[_type == "kontakt"][0]{...}}
 export type CONTENT_QUERYResult = {
   podesavanja: {
     _id: string;
@@ -401,6 +428,21 @@ export type CONTENT_QUERYResult = {
     telefon?: string;
     redosled?: number;
   }>;
+  oblastiPrava: {
+    _id: string;
+    _type: "oblastiPrava";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    naslovSekcije?: LokalniNaslov;
+    uvod?: LokalniTekst;
+  } | null;
+  oblasti: Array<{
+    _id: string;
+    naziv: LokalniNaslov | null;
+    slug: string | null;
+    kratakOpis: LokalniTekst | null;
+  }>;
   kontakt: {
     _id: string;
     _type: "kontakt";
@@ -457,12 +499,90 @@ export type SETTINGS_QUERYResult = {
   pib?: string;
   advokatskaKomora?: LokalniNaslov;
 } | null;
+// Variable: NAV_AREAS_QUERY
+// Query: *[_type == "oblastPrava" && defined(slug.current)] | order(redosled asc){    naziv,    "slug": slug.current  }
+export type NAV_AREAS_QUERYResult = Array<{
+  naziv: LokalniNaslov | null;
+  slug: string | null;
+}>;
+// Variable: AREA_SLUGS_QUERY
+// Query: *[_type == "oblastPrava" && defined(slug.current)].slug.current
+export type AREA_SLUGS_QUERYResult = Array<string | null>;
+// Variable: AREA_PAGE_QUERY
+// Query: {  "oblast": *[_type == "oblastPrava" && slug.current == $slug][0]{    ...,    "slug": slug.current  },  "podesavanja": *[_type == "podesavanja"][0]{...},  "pocetna": *[_type == "pocetna"][0]{tekstDugmeta, linkDugmeta, seo},  "kontakt": *[_type == "kontakt"][0]{telefoni}}
+export type AREA_PAGE_QUERYResult = {
+  oblast: {
+    _id: string;
+    _type: "oblastPrava";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    naziv?: LokalniNaslov;
+    slug: string | null;
+    kratakOpis?: LokalniTekst;
+    opis?: LokalniBlok;
+    usluge?: Array<{
+      _key: string;
+    } & LokalniNaslov>;
+    redosled?: number;
+    seo?: Seo;
+  } | null;
+  podesavanja: {
+    _id: string;
+    _type: "podesavanja";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    nazivKancelarije?: string;
+    adresa?: {
+      ulica?: string;
+      grad?: LokalniNaslov;
+      drzava?: LokalniNaslov;
+    };
+    koordinate?: {
+      lat?: number;
+      lng?: number;
+    };
+    linkMape?: string;
+    nazivNaMapi?: string;
+    opstiTelefon?: string;
+    opstiMejl?: string;
+    drugiMejl?: string;
+    adresaSajta?: string;
+    radnoVreme?: LokalniTekst;
+    naziviSekcija?: {
+      oNama?: LokalniNaslov;
+      advokati?: LokalniNaslov;
+      oblastiPrava?: LokalniNaslov;
+      kontakt?: LokalniNaslov;
+    };
+    pib?: string;
+    advokatskaKomora?: LokalniNaslov;
+  } | null;
+  pocetna: {
+    tekstDugmeta: LokalniNaslov | null;
+    linkDugmeta: string | null;
+    seo: Seo | null;
+  } | null;
+  kontakt: {
+    telefoni: Array<{
+      broj?: string;
+      oznaka?: LokalniNaslov;
+      mejl?: string;
+      _type: "telefon";
+      _key: string;
+    }> | null;
+  } | null;
+};
 
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "{\n  \"podesavanja\": *[_type == \"podesavanja\"][0]{...},\n  \"pocetna\": *[_type == \"pocetna\"][0]{...},\n  \"oNama\": *[_type == \"oNama\"][0]{...},\n  \"advokati\": *[_type == \"advokat\"] | order(redosled asc){...},\n  \"kontakt\": *[_type == \"kontakt\"][0]{...}\n}": CONTENT_QUERYResult;
+    "{\n  \"podesavanja\": *[_type == \"podesavanja\"][0]{...},\n  \"pocetna\": *[_type == \"pocetna\"][0]{...},\n  \"oNama\": *[_type == \"oNama\"][0]{...},\n  \"advokati\": *[_type == \"advokat\"] | order(redosled asc){...},\n  \"oblastiPrava\": *[_type == \"oblastiPrava\"][0]{...},\n  \"oblasti\": *[_type == \"oblastPrava\" && defined(slug.current)] | order(redosled asc){\n    _id,\n    naziv,\n    \"slug\": slug.current,\n    kratakOpis\n  },\n  \"kontakt\": *[_type == \"kontakt\"][0]{...}\n}": CONTENT_QUERYResult;
     "\n  *[_type == \"podesavanja\"][0]{...}\n": SETTINGS_QUERYResult;
+    "\n  *[_type == \"oblastPrava\" && defined(slug.current)] | order(redosled asc){\n    naziv,\n    \"slug\": slug.current\n  }\n": NAV_AREAS_QUERYResult;
+    "\n  *[_type == \"oblastPrava\" && defined(slug.current)].slug.current\n": AREA_SLUGS_QUERYResult;
+    "{\n  \"oblast\": *[_type == \"oblastPrava\" && slug.current == $slug][0]{\n    ...,\n    \"slug\": slug.current\n  },\n  \"podesavanja\": *[_type == \"podesavanja\"][0]{...},\n  \"pocetna\": *[_type == \"pocetna\"][0]{tekstDugmeta, linkDugmeta, seo},\n  \"kontakt\": *[_type == \"kontakt\"][0]{telefoni}\n}": AREA_PAGE_QUERYResult;
   }
 }

@@ -47,6 +47,21 @@ export function localePath(locale: Locale, segment = ""): string {
   return path ? `/${path}/` : "/";
 }
 
+/**
+ * The part of an address that follows the locale prefix — "/en/oblasti-prava/x/"
+ * becomes "oblasti-prava/x". The header reads the current address and hands this
+ * to localePath() for the other locale, so the SR / EN switch leads to the same
+ * page, not to the home page.
+ */
+export function pageSegment(pathname: string, locale: Locale): string {
+  const path = pathname.replace(/^\/+|\/+$/g, "");
+  const prefix = SEGMENT[locale];
+
+  if (!prefix) return path;
+  if (path === prefix) return "";
+  return path.startsWith(`${prefix}/`) ? path.slice(prefix.length + 1) : path;
+}
+
 /** The same content in the other locale — for the SR / EN switch. */
 export function otherLocale(locale: Locale): Locale {
   return locale === "sr" ? "en" : "sr";

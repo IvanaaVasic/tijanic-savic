@@ -1,5 +1,7 @@
 import { advokat } from "./documents/advokat";
 import { kontakt } from "./documents/kontakt";
+import { oblastiPrava } from "./documents/oblastiPrava";
+import { oblastPrava } from "./documents/oblastPrava";
 import { oNama } from "./documents/oNama";
 import { pocetna } from "./documents/pocetna";
 import { podesavanja } from "./documents/podesavanja";
@@ -22,5 +24,7 @@ export const schemaTypes = [
   pocetna,
   oNama,
   advokat,
+  oblastiPrava,
+  oblastPrava,
   kontakt,
 ];

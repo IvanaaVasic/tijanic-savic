@@ -1,9 +1,11 @@
 "use client";
 
-// The header has to be a client component: the mobile menu holds state, and the
-// gold item in the navigation follows the section the visitor is in. The data
-// arrives as plain strings from layout.tsx, so the bundle is negligible.
+// The header has to be a client component: the mobile menu and the practice
+// areas dropdown hold state, the gold item in the navigation follows the section
+// the visitor is in, and the SR / EN switch reads the current address. The data
+// arrives as plain strings from SiteShell, so the bundle is negligible.
 
+import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 
 import {
@@ -11,13 +13,17 @@ import {
   LOCALE_LABEL,
   localePath,
   otherLocale,
+  pageSegment,
   type Locale,
 } from "@/lib/locale";
 import { telHref } from "@/lib/phone";
+import { areaPath, isAreaPath } from "@/lib/practiceAreas";
+import { SECTIONS } from "@/lib/sections";
 
 import styles from "./Header.module.css";
 
-// Labels the visitor does not see, but a screen reader reads out.
+// Labels the visitor does not see, but a screen reader reads out — plus "Sve
+// oblasti", the first row of the dropdown, which is part of the design.
 const LABELS = {
   sr: {
     navigation: "Glavna navigacija",
@@ -26,6 +32,8 @@ const LABELS = {
     language: "Jezik",
     home: "početna strana",
     call: "Pozovite kancelariju",
+    areas: "Prikaži oblasti prava",
+    allAreas: "Sve oblasti",
   },
   en: {
     navigation: "Main navigation",
@@ -34,11 +42,15 @@ const LABELS = {
     language: "Language",
     home: "home page",
     call: "Call the office",
+    areas: "Show practice areas",
+    allAreas: "All areas",
   },
 } as const;
 
 // Must match the min-width query in Header.module.css.
-const MENU_BREAKPOINT = "(max-width: 1099px)";
+const MENU_BREAKPOINT = "(max-width: 1139px)";
+
+const AREAS_ANCHOR = SECTIONS.practiceAreas.anchor;
 
 type Props = {
   locale: Locale;
@@ -48,18 +60,31 @@ type Props = {
   phone?: string | null;
   /** The sections of the page, from lib/sections.ts — names come from Settings. */
   nav: { anchor: string; label: string }[];
+  /** The practice areas, in order, already in this locale. */
+  areas: { slug: string; label: string }[];
 };
 
-export function Header({ locale, name, phone, nav }: Props) {
+export function Header({ locale, name, phone, nav, areas }: Props) {
   const t = LABELS[locale];
   const other = otherLocale(locale);
   const menuId = useId();
+  const dropdownId = useId();
+  const menuAreasId = useId();
+
+  const pathname = usePathname() ?? localePath(locale);
+  const onAreaPage = isAreaPath(pathname);
 
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string | null>(null);
+  const [areasOpen, setAreasOpen] = useState(false);
+  // In the mobile menu the list of areas starts open on an area page, so the
+  // visitor sees where they are.
+  const [menuAreasOpen, setMenuAreasOpen] = useState(onAreaPage);
 
   const headerRef = useRef<HTMLElement>(null);
   const barRef = useRef<HTMLDivElement>(null);
+  const areasRef = useRef<HTMLLIElement>(null);
+  const areasToggleRef = useRef<HTMLButtonElement>(null);
 
   const close = useCallback(() => setOpen(false), []);
 
@@ -68,8 +93,8 @@ export function Header({ locale, name, phone, nav }: Props) {
   const anchors = nav.map(({ anchor }) => anchor).join(" ");
 
   // ── The gold item follows the scroll ────────────────────────────────────
-  // If the sections are missing from the page there is nothing for the observer
-  // to watch and no item is active — that is a tidy state, not an error.
+  // Only the home page has the sections. Anywhere else there is nothing for
+  // the observer to watch and no item is active — a tidy state, not an error.
   useEffect(() => {
     const sections = anchors
       .split(" ")
@@ -158,11 +183,55 @@ export function Header({ locale, name, phone, nav }: Props) {
     return () => query.removeEventListener("change", check);
   }, [open]);
 
+  // ── Dropdown: closes on Escape, on a click outside, when focus leaves ───
+  // A mouse opens it by hovering (CSS alone); the button next to OBLASTI PRAVA
+  // is for the keyboard and for touch screens, which have no hover.
+  useEffect(() => {
+    if (!areasOpen) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setAreasOpen(false);
+      areasToggleRef.current?.focus();
+    };
+    const onPointerDown = (event: PointerEvent) => {
+      if (!areasRef.current?.contains(event.target as Node)) {
+        setAreasOpen(false);
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("pointerdown", onPointerDown);
+    };
+  }, [areasOpen]);
+
+  // The sections live on the home page, so from any other page the link has to
+  // lead there first. On the home page itself "/#kontakt" is the same document
+  // and the browser only scrolls.
+  const sectionHref = (anchor: string) => `${localePath(locale)}#${anchor}`;
+
   const links = nav.map(({ anchor, label }) => ({
     anchor,
     label,
-    active: active === anchor,
+    href: sectionHref(anchor),
+    active: onAreaPage ? anchor === AREAS_ANCHOR : active === anchor,
+    // The dropdown hangs on the practice areas item, and only once there is at
+    // least one area to list.
+    withAreas: anchor === AREAS_ANCHOR && areas.length > 0,
   }));
+
+  const areaLinks = areas.map(({ slug, label }) => {
+    const href = areaPath(locale, slug);
+    return {
+      slug,
+      label,
+      href,
+      current: pageSegment(pathname, locale) === pageSegment(href, locale),
+    };
+  });
 
   const localeSwitch = (
     <p className={styles.locale}>
@@ -177,7 +246,7 @@ export function Header({ locale, name, phone, nav }: Props) {
           follow it to the other locale of the same page. */}
       <a
         className={styles.localeLink}
-        href={localePath(other)}
+        href={localePath(other, pageSegment(pathname, locale))}
         hrefLang={LANG_TAG[other]}
         lang={LANG_TAG[other]}
       >
@@ -224,17 +293,82 @@ export function Header({ locale, name, phone, nav }: Props) {
         <div className={styles.right}>
           <nav aria-label={t.navigation}>
             <ul className={styles.links}>
-              {links.map(({ anchor, label, active: isActive }) => (
-                <li key={anchor}>
-                  <a
-                    className={isActive ? styles.linkActive : styles.link}
-                    href={`#${anchor}`}
-                    aria-current={isActive ? "true" : undefined}
+              {links.map((link) =>
+                link.withAreas ? (
+                  <li
+                    className={styles.withAreas}
+                    key={link.anchor}
+                    ref={areasRef}
+                    onBlur={(event) => {
+                      // Focus has left the item and its dropdown altogether.
+                      if (!event.currentTarget.contains(event.relatedTarget)) {
+                        setAreasOpen(false);
+                      }
+                    }}
                   >
-                    {label}
-                  </a>
-                </li>
-              ))}
+                    <a
+                      className={link.active ? styles.linkActive : styles.link}
+                      href={link.href}
+                      aria-current={link.active ? "true" : undefined}
+                    >
+                      {link.label}
+                    </a>
+
+                    <button
+                      className={styles.areasToggle}
+                      type="button"
+                      ref={areasToggleRef}
+                      aria-expanded={areasOpen}
+                      aria-controls={dropdownId}
+                      onClick={() => setAreasOpen((was) => !was)}
+                    >
+                      <span className={styles.chevron} aria-hidden="true" />
+                      <span className={styles.srOnly}>{t.areas}</span>
+                    </button>
+
+                    <div
+                      className={styles.dropdown}
+                      id={dropdownId}
+                      data-open={areasOpen}
+                    >
+                      <a className={styles.dropdownAll} href={link.href}>
+                        {t.allAreas}
+                        <span aria-hidden="true">→</span>
+                      </a>
+
+                      <ul className={styles.dropdownList}>
+                        {areaLinks.map((area) => (
+                          <li key={area.slug}>
+                            <a
+                              className={styles.dropdownLink}
+                              href={area.href}
+                              aria-current={area.current ? "page" : undefined}
+                            >
+                              {area.label}
+                              <span
+                                className={styles.dropdownArrow}
+                                aria-hidden="true"
+                              >
+                                →
+                              </span>
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </li>
+                ) : (
+                  <li key={link.anchor}>
+                    <a
+                      className={link.active ? styles.linkActive : styles.link}
+                      href={link.href}
+                      aria-current={link.active ? "true" : undefined}
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ),
+              )}
             </ul>
           </nav>
 
@@ -269,21 +403,70 @@ export function Header({ locale, name, phone, nav }: Props) {
       </div>
 
       {/* The menu stays in the DOM even when closed, so aria-controls always has
-          something to point at. Above 768px the CSS hides it regardless of
-          state. */}
+          something to point at. Above the breakpoint the CSS hides it
+          regardless of state. */}
       <div className={styles.menu} id={menuId} hidden={!open}>
         <nav aria-label={t.navigation}>
           <ul className={styles.menuLinks}>
-            {links.map(({ anchor, label, active: isActive }) => (
-              <li key={anchor}>
-                <a
-                  className={isActive ? styles.menuLinkActive : styles.menuLink}
-                  href={`#${anchor}`}
-                  aria-current={isActive ? "true" : undefined}
-                  onClick={close}
-                >
-                  {label}
-                </a>
+            {links.map((link) => (
+              <li key={link.anchor}>
+                {link.withAreas ? (
+                  <>
+                    <div className={styles.menuRow}>
+                      <a
+                        className={
+                          link.active ? styles.menuLinkActive : styles.menuLink
+                        }
+                        href={link.href}
+                        aria-current={link.active ? "true" : undefined}
+                        onClick={close}
+                      >
+                        {link.label}
+                      </a>
+
+                      <button
+                        className={styles.menuToggle}
+                        type="button"
+                        aria-expanded={menuAreasOpen}
+                        aria-controls={menuAreasId}
+                        onClick={() => setMenuAreasOpen((was) => !was)}
+                      >
+                        <span className={styles.chevron} aria-hidden="true" />
+                        <span className={styles.srOnly}>{t.areas}</span>
+                      </button>
+                    </div>
+
+                    <ul
+                      className={styles.menuAreas}
+                      id={menuAreasId}
+                      hidden={!menuAreasOpen}
+                    >
+                      {areaLinks.map((area) => (
+                        <li key={area.slug}>
+                          <a
+                            className={styles.menuArea}
+                            href={area.href}
+                            aria-current={area.current ? "page" : undefined}
+                            onClick={close}
+                          >
+                            {area.label}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                ) : (
+                  <a
+                    className={
+                      link.active ? styles.menuLinkActive : styles.menuLink
+                    }
+                    href={link.href}
+                    aria-current={link.active ? "true" : undefined}
+                    onClick={close}
+                  >
+                    {link.label}
+                  </a>
+                )}
               </li>
             ))}
           </ul>

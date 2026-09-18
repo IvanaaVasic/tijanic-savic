@@ -1,0 +1,179 @@
+/* Practice area cards — docs/design/oblasti/1-desktop and 4-mobilni.
+   Desktop: three columns across the full width of the panel, 1px --line-light
+   rules between the cells and around them, 28px of padding in a cell; name 24px,
+   12px down to the description (15px / 1.65), the link at the foot of the cell,
+   at least 18px below the text.
+   Below 900px: one column, a rule above every card, 18/0/20 padding; name 22px,
+   10px to the description, the link right under it.
+   Mobile-first, desktop arrives in the min-width query. */
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.cards {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Until "Vidi više" a phone shows three cards. The number is VISIBLE_AREAS in
+   lib/practiceAreas.ts — keep the two in step. */
+.cards:not([data-expanded="true"]) > .card:nth-child(n + 4) {
+  display: none;
+}
+
+/* ── Card ──────────────────────────────────────────────────────────────── */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 18px 0 8px;
+  border-top: var(--border-light);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: var(--weight-heading);
+  font-size: var(--text-area-title-mobile);
+  line-height: var(--leading-title);
+  color: var(--green-deep);
+}
+
+.description {
+  margin-top: 10px;
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
+  color: var(--ink);
+}
+
+/* margin-top: auto puts the link at the foot of the cell, so the links of one
+   row line up even when the descriptions differ in length. On a phone the link
+   is a full 44px tall — the 8px under it in .card and its own height make up
+   the 20px the mockup leaves below the text. */
+.link {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 14px;
+  min-height: var(--tap-min);
+  margin-top: auto;
+  font-family: var(--font-mono);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-label);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--green-deep);
+}
+
+.link:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* The arrow is decoration next to text that already says where the link goes —
+   gold is allowed here the way it is on the rules; it carries no meaning. */
+.arrow {
+  font-size: var(--text-label);
+  letter-spacing: 0;
+  color: var(--gold);
+}
+
+/* ── "Vidi više" ───────────────────────────────────────────────────────── */
+
+/* Not in the mockup. A secondary action, so the gold hairline frame the brand
+   gives every action except the one filled button. */
+.more,
+.moreMobileOnly {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--tap-min);
+  padding: 14px 28px;
+  background: none;
+  border: var(--border-gold);
+  font-family: var(--font-mono);
+  font-size: var(--text-label-mobile);
+  letter-spacing: var(--tracking-button);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--green-deep);
+  cursor: pointer;
+}
+
+.more:hover,
+.moreMobileOnly:hover {
+  background: var(--green-deep);
+  color: var(--cream);
+}
+
+/* ── From 900px up ─────────────────────────────────────────────────────── */
+
+@media (min-width: 900px) {
+  .grid {
+    gap: 32px;
+  }
+
+  /* The outer frame is the list's top and left edge plus every cell's right
+     and bottom edge, so no rule is ever drawn twice. */
+  .cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: var(--border-light);
+    border-left: var(--border-light);
+  }
+
+  .cards:not([data-expanded="true"]) > .card:nth-child(n + 4) {
+    display: flex;
+  }
+
+  .cards:not([data-expanded="true"]) > .card:nth-child(n + 7) {
+    display: none;
+  }
+
+  .card {
+    padding: 28px;
+    border-top: 0;
+    border-right: var(--border-light);
+    border-bottom: var(--border-light);
+  }
+
+  .title {
+    font-size: var(--text-area-title);
+  }
+
+  .description {
+    margin-top: 12px;
+  }
+
+  /* A mouse does not need 44px; the link goes back to the tight spacing of the
+     mockup. */
+  .link {
+    min-height: 0;
+    padding-top: 18px;
+  }
+
+  .more,
+  .moreMobileOnly {
+    align-self: center;
+    font-size: var(--text-label);
+  }
+
+  .moreMobileOnly {
+    display: none;
+  }
+}

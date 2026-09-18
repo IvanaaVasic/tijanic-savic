@@ -11,10 +11,11 @@ import styles from "./Divider.module.css";
 type Props = {
   /**
    * The width differs per placement and is not the same on mobile:
-   * `hero` 340/180px, `footer` 420/200px, `panel` fills the available width
-   * because it sits inside the cream panel.
+   * `hero` 340/180px, `footer` 420/200px, `page` 300/160px under the title of
+   * a practice area page, `panel` fills the available width because it sits
+   * inside the cream panel.
    */
-  variant?: "hero" | "footer" | "panel";
+  variant?: "hero" | "footer" | "page" | "panel";
   /**
    * The caller's class. The divider's width lives here, but the spacing around
    * it depends on the section it ended up in, so that section supplies it.

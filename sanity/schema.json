@@ -138,6 +138,165 @@
     }
   },
   {
+    "name": "oblastPrava",
+    "type": "document",
+    "attributes": {
+      "_id": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_type": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string",
+          "value": "oblastPrava"
+        }
+      },
+      "_createdAt": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_updatedAt": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_rev": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "naziv": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "lokalniNaslov"
+        },
+        "optional": true
+      },
+      "slug": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "slug"
+        },
+        "optional": true
+      },
+      "kratakOpis": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "lokalniTekst"
+        },
+        "optional": true
+      },
+      "opis": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "lokalniBlok"
+        },
+        "optional": true
+      },
+      "usluge": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "array",
+          "of": {
+            "type": "object",
+            "attributes": {
+              "_key": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                }
+              }
+            },
+            "rest": {
+              "type": "inline",
+              "name": "lokalniNaslov"
+            }
+          }
+        },
+        "optional": true
+      },
+      "redosled": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "number"
+        },
+        "optional": true
+      },
+      "seo": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "seo"
+        },
+        "optional": true
+      }
+    }
+  },
+  {
+    "name": "oblastiPrava",
+    "type": "document",
+    "attributes": {
+      "_id": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_type": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string",
+          "value": "oblastiPrava"
+        }
+      },
+      "_createdAt": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_updatedAt": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_rev": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "naslovSekcije": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "lokalniNaslov"
+        },
+        "optional": true
+      },
+      "uvod": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "lokalniTekst"
+        },
+        "optional": true
+      }
+    }
+  },
+  {
     "name": "advokat",
     "type": "document",
     "attributes": {

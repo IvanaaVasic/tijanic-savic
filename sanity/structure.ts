@@ -9,6 +9,7 @@ export const SINGLETONS = [
   "podesavanja",
   "pocetna",
   "oNama",
+  "oblastiPrava",
   "kontakt",
 ] as const;
 
@@ -41,5 +42,16 @@ export const structure: StructureResolver = (S) =>
             .title("Advokati")
             .defaultOrdering([{ field: "redosled", direction: "asc" }])
         ),
+      S.divider(),
+      singleton(S, "oblastiPrava", "Oblasti prava — sekcija"),
+      S.listItem()
+        .title("Oblasti prava")
+        .id("oblastPrava")
+        .child(
+          S.documentTypeList("oblastPrava")
+            .title("Oblasti prava")
+            .defaultOrdering([{ field: "redosled", direction: "asc" }])
+        ),
+      S.divider(),
       singleton(S, "kontakt", "Kontakt"),
     ]);
