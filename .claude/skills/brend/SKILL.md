@@ -192,9 +192,8 @@ sufiks `-mobile`.
 | naslov kontakta | `--text-contact` | 36px | 28px / 1.26 |
 | ime advokatice | `--text-name` | 32px | 29px |
 | broj u statistici | `--text-stat` | 34px | — (statistika se izostavlja) |
-| uvodni pasus | `--text-lead` | 19px / 1.75 | 16px / 1.78 |
+| uvodni pasus i podnaslov heroja | `--text-lead` | 21px / 1.75 | 17px / 1.78 |
 | ime kancelarije u zaglavlju | `--text-wordmark` | 21px | 13px |
-| uvodni pasus | `--text-lead` | 19px / 1.75 | 16px / 1.78 |
 | telo teksta | `--text-body` | 17px / 1.85 | 15.5px |
 | podatak u Kontaktu | `--text-value` | 17px | 16px |
 | biografija u kartici | `--text-card` | 16px / 1.8 | 15.5px |
@@ -320,7 +319,7 @@ Ovo nije vrednost iz maketa nego dogovorena dopuna — u `design.md` je nema.
 sekciji O nama. Tri različite mere, ne jedna.
 
 **Visina zaglavlja** — `--header-height` (112px) i `--header-height-mobile`
-(74px). Na tome stoji `scroll-margin-top` za sidra `#o-nama`, `#tim` i
+(74px). Na tome stoji `scroll-margin-top` za sidra `#o-nama`, `#advokati`, `#oblasti-prava` i
 `#kontakt`, da naslov ne završi ispod zaglavlja.
 
 **Dodirne mete** — `--tap-min` (44px) je minimum na mobilnom.

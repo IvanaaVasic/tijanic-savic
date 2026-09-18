@@ -56,12 +56,13 @@
   gap: 14px;
 }
 
-/* A conscious departure from the mockup: at 390px the mockup leaves out the site
-   address and the tax number, but here they stay — the site address is
-   information, and the tax number is a detail that has to appear next to a
-   company by law. Since they do not fit on the same line at that width they get
-   their own, and the dot in front of them is switched off. Without this the line
-   would break by itself and leave the dot hanging. */
+/* A conscious departure from the mockup: at 390px the mockup leaves out part of
+   the legal line, but here everything stays — the second email is information,
+   and the tax number is a detail that has to appear next to a company by law.
+   What does not fit on the same line at that width (the second email, the bar
+   association, the tax number) gets its own, and the dot in front of it is
+   switched off. Without this the line would break by itself and leave the dot
+   hanging. */
 .ownLine {
   flex-basis: 100%;
   justify-content: center;

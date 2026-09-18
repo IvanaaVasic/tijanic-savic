@@ -17,19 +17,6 @@ import { telHref } from "@/lib/phone";
 
 import styles from "./Header.module.css";
 
-// The only text on the site that does not come from Sanity. The navigation is
-// three fixed sections of a single page, so there is nothing for the lawyers to
-// edit here.
-//
-// The anchors stay in Serbian: they are part of the address the visitor sees,
-// and the "Gde dugme vodi" field in the Studio points at #kontakt. Renaming them
-// would break whatever the lawyers have already typed in there.
-const NAV_ITEMS = [
-  { anchor: "o-nama", label: { sr: "O NAMA", en: "ABOUT" } },
-  { anchor: "tim", label: { sr: "TIM", en: "TEAM" } },
-  { anchor: "kontakt", label: { sr: "KONTAKT", en: "CONTACT" } },
-] as const;
-
 // Labels the visitor does not see, but a screen reader reads out.
 const LABELS = {
   sr: {
@@ -50,7 +37,8 @@ const LABELS = {
   },
 } as const;
 
-const MENU_BREAKPOINT = "(max-width: 767px)";
+// Must match the min-width query in Header.module.css.
+const MENU_BREAKPOINT = "(max-width: 1099px)";
 
 type Props = {
   locale: Locale;
@@ -58,9 +46,11 @@ type Props = {
   name: string;
   /** podesavanja.opstiTelefon — without it the phone button is left out. */
   phone?: string | null;
+  /** The sections of the page, from lib/sections.ts — names come from Settings. */
+  nav: { anchor: string; label: string }[];
 };
 
-export function Header({ locale, name, phone }: Props) {
+export function Header({ locale, name, phone, nav }: Props) {
   const t = LABELS[locale];
   const other = otherLocale(locale);
   const menuId = useId();
@@ -73,13 +63,18 @@ export function Header({ locale, name, phone }: Props) {
 
   const close = useCallback(() => setOpen(false), []);
 
+  // A string, not the array: the array is a new object on every render, and the
+  // observer below only has to start over when the anchors themselves change.
+  const anchors = nav.map(({ anchor }) => anchor).join(" ");
+
   // ── The gold item follows the scroll ────────────────────────────────────
   // If the sections are missing from the page there is nothing for the observer
   // to watch and no item is active — that is a tidy state, not an error.
   useEffect(() => {
-    const sections = NAV_ITEMS.map(({ anchor }) =>
-      document.getElementById(anchor),
-    ).filter((el): el is HTMLElement => el !== null);
+    const sections = anchors
+      .split(" ")
+      .map((anchor) => document.getElementById(anchor))
+      .filter((el): el is HTMLElement => el !== null);
 
     if (sections.length === 0) return;
 
@@ -103,7 +98,7 @@ export function Header({ locale, name, phone }: Props) {
 
     sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
-  }, []);
+  }, [anchors]);
 
   // ── Mobile menu: Escape, locked scroll, focus returned ──────────────────
   useEffect(() => {
@@ -163,9 +158,9 @@ export function Header({ locale, name, phone }: Props) {
     return () => query.removeEventListener("change", check);
   }, [open]);
 
-  const links = NAV_ITEMS.map(({ anchor, label }) => ({
+  const links = nav.map(({ anchor, label }) => ({
     anchor,
-    label: label[locale],
+    label,
     active: active === anchor,
   }));
 

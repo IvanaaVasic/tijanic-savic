@@ -1,0 +1,48 @@
+/* Section label on the green background — the head of section 3 from
+   docs/design/design.md ("02 Tim"), shared with the sections built the same way.
+   Mobile-first, desktop arrives in the min-width query. */
+
+/* The rule aligns with the text baseline, not with the middle: a flex container
+   aligns an empty element with no baseline of its own along its bottom edge, so
+   the rule lands exactly on the label's baseline. */
+.head {
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
+  padding: 0 8px;
+}
+
+/* An h2 that carries the mono label style — hence the explicit weight and size;
+   the default heading style would embolden and enlarge it. */
+.label {
+  display: flex;
+  gap: 18px;
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: var(--text-label-mobile);
+  letter-spacing: var(--tracking-label);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+}
+
+/* Gold by explicit agreement. In the mockup this rule is #1B4A3B
+   (--green-line), and design.md says the same — do not put it back to green
+   without asking. */
+.rule {
+  flex: 1;
+  height: var(--hairline);
+  background: var(--gold-50);
+}
+
+/* ── From 900px up ─────────────────────────────────────────────────────── */
+
+@media (min-width: 900px) {
+  .head {
+    padding: 0;
+  }
+
+  .label {
+    font-size: var(--text-label);
+  }
+}

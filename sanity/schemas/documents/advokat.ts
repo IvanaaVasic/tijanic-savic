@@ -9,7 +9,7 @@ export const advokat = defineType({
       name: "ime",
       title: "Ime i prezime",
       type: "string",
-      description: "Naslov kartice u sekciji Tim. Ne prevodi se.",
+      description: "Naslov kartice u sekciji Advokati. Ne prevodi se.",
       validation: (Rule) => Rule.required(),
     }),
 
@@ -75,7 +75,7 @@ export const advokat = defineType({
       title: "Redosled prikaza",
       type: "number",
       description:
-        "Određuje ko stoji levo, a ko desno u sekciji Tim. Manji broj ide prvi: 1, pa 2.",
+        "Određuje ko stoji levo, a ko desno u sekciji Advokati. Manji broj ide prvi: 1, pa 2.",
       validation: (Rule) => Rule.required().integer().positive(),
     }),
   ],

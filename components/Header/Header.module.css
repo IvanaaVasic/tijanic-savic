@@ -1,6 +1,6 @@
 /* Header — section 0 from docs/design/design.md.
    Desktop: padding 32/64, logo 48px, mono navigation at 11px with 38px gaps,
-   phone in a gold frame. Below 900px: logo 34px and a hamburger, menu across
+   phone in a gold frame. Below 1100px: logo 34px and a hamburger, menu across
    the whole screen. Mobile-first, so desktop lives in the min-width query. */
 
 /* The shared mono setting: uppercase with wide tracking. Never lowercase. */
@@ -59,7 +59,7 @@
 
 /* ── Right-hand side, desktop ──────────────────────────────────────────── */
 
-/* Below 900px all of this lives in the menu, not in the bar. */
+/* Below 1100px all of this lives in the menu, not in the bar. */
 .right {
   display: none;
 }
@@ -274,21 +274,18 @@
   color: var(--green-alt);
 }
 
-/* ── From 900px up ─────────────────────────────────────────────────────── */
+/* ── From 1100px up ────────────────────────────────────────────────────── */
 
-/* 900 and not the 768 this used to be, and it is the header that sets the
-   number for the whole site. The desktop bar needs about 885px of layout width:
-   monogram + wordmark + four nav items at 38px gaps + the phone in its frame.
-   Switched on at 768 it turned on 15px early — a classic scrollbar leaves 753px
-   of layout at a 768px viewport — and stayed broken well past that: `O NAMA`
-   split over two lines and the phone number wrapped inside its gold box, which
-   pushed the bar from 112px to 127px. Measured across 740–960, 900 is the first
-   width where the row settles.
-   Everything else keeps the same breakpoint, About most of all: at 753px its
-   panel left the stat column 231px, and the three captions ran together into
-   `OSNIVANJEADVOKATAPODRUČJE RADA`. One number, all ten components. */
+/* 1100, not the 900 the rest of the site turns desktop at. With four sections
+   in the navigation (ADVOKATI and OBLASTI PRAVA in place of TIM) the bar needs
+   about 1085px of layout width; measured across 900–1200, below 1100 O NAMA and
+   OBLASTI PRAVA split over two lines and the bar grew from 112px to 127px.
+   Between 900 and 1100 the header therefore keeps the hamburger while the page
+   below is already in its desktop layout. The rest of the site stays at 900:
+   below that the About panel left its stat column 231px and the three
+   captions ran together. */
 
-@media (min-width: 900px) {
+@media (min-width: 1100px) {
   .bar {
     gap: 38px;
     padding: var(--pad-nav-y) var(--pad-page-x);

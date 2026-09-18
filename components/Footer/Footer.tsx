@@ -1,6 +1,7 @@
 // Footer — section 5 from docs/design/design.md. A centred column on the page
 // background with a green rule along its top: the vertical lockup, then the gold
-// divider with the diamond, then two lines of mono text.
+// divider with the diamond, then two lines of mono text: the two emails from
+// Settings on the first, the year and the site address on the second.
 //
 // A server component: everything comes from Settings at build time, no state.
 //
@@ -49,6 +50,31 @@ function compose(...input: (Item | null)[]): Item[] {
   return input.filter((item): item is Item => item !== null);
 }
 
+/** An email link, or null when the field was left empty in Settings. */
+function emailItem(
+  key: string,
+  value: string | null | undefined,
+  label: string,
+  ownLineOnMobile = false,
+): Item | null {
+  const email = value?.trim();
+  if (!email) return null;
+
+  return {
+    key,
+    ownLineOnMobile,
+    content: (
+      <a
+        className={styles.link}
+        href={`mailto:${email}`}
+        aria-label={`${label}: ${email}`}
+      >
+        {email}
+      </a>
+    ),
+  };
+}
+
 /** One line of legal text: items separated by a middle dot. */
 function Row({ items }: { items: Item[] }) {
   return (
@@ -81,7 +107,6 @@ export function Footer({ locale, settings }: Props) {
   const t = LABELS[locale];
 
   const name = settings?.nazivKancelarije?.trim() || null;
-  const email = settings?.opstiMejl?.trim() || null;
   const pib = settings?.pib?.trim() || null;
   const bar = inLocale(settings?.advokatskaKomora, locale);
 
@@ -93,25 +118,21 @@ export function Footer({ locale, settings }: Props) {
   // somebody rebuilds it.
   const year = new Date().getFullYear();
 
-  const links = compose(
-    email
-      ? {
-          key: "email",
-          content: (
-            <a
-              className={styles.link}
-              href={`mailto:${email}`}
-              aria-label={`${t.email}: ${email}`}
-            >
-              {email}
-            </a>
-          ),
-        }
-      : null,
+  // Two full addresses do not fit side by side on a phone, so the second one
+  // takes its own line there and drops the dot in front of it.
+  const emails = compose(
+    emailItem("email", settings?.opstiMejl, t.email),
+    emailItem("email2", settings?.drugiMejl, t.email, true),
+  );
+
+  // The year leads the second line and the site address follows it; the bar
+  // association and the tax number come after, when they are entered. Each of
+  // those two takes its own line on a phone.
+  const legalItems = compose(
+    { key: "year", content: `© ${year}` },
     domain
       ? {
           key: "domain",
-          ownLineOnMobile: true,
           content: (
             <a
               className={styles.link}
@@ -123,11 +144,7 @@ export function Footer({ locale, settings }: Props) {
           ),
         }
       : null,
-  );
-
-  const legalItems = compose(
-    { key: "year", content: `© ${year}` },
-    bar ? { key: "bar", content: bar } : null,
+    bar ? { key: "bar", ownLineOnMobile: true, content: bar } : null,
     pib
       ? { key: "pib", ownLineOnMobile: true, content: `${t.pib} ${pib}` }
       : null,
@@ -155,7 +172,7 @@ export function Footer({ locale, settings }: Props) {
       <Divider variant="footer" />
 
       <div className={styles.text}>
-        {links.length > 0 ? <Row items={links} /> : null}
+        {emails.length > 0 ? <Row items={emails} /> : null}
         <Row items={legalItems} />
       </div>
     </footer>

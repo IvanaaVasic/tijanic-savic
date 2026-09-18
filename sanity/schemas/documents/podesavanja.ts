@@ -93,10 +93,19 @@ export const podesavanja = defineType({
 
     defineField({
       name: "opstiMejl",
-      title: "Mejl kancelarije",
+      title: "Mejl u podnožju — prvi",
       type: "string",
       description:
-        "Opšta adresa, na primer info@tijanicsaviclegal.rs. Prikazuje se u podnožju sajta.",
+        "Prvi mejl u podnožju sajta, na primer zara.tijanic@tijanicsaviclegal.rs. Ovu adresu Google vidi kao mejl kancelarije.",
+      validation: (Rule) => Rule.email(),
+    }),
+
+    defineField({
+      name: "drugiMejl",
+      title: "Mejl u podnožju — drugi",
+      type: "string",
+      description:
+        "Stoji u podnožju odmah iza prvog mejla, odvojen tačkom. Na primer: senja.savic@tijanicsaviclegal.rs. Ako ostane prazno, u podnožju je samo prvi mejl.",
       validation: (Rule) => Rule.email(),
     }),
 
@@ -105,7 +114,7 @@ export const podesavanja = defineType({
       title: "Adresa sajta",
       type: "string",
       description:
-        "Stoji u podnožju, pored mejla, i vodi na početnu stranu. Pišite je onako kako želite da se vidi, bez https:// i bez www, na primer: tijanicsaviclegal.rs.",
+        "Stoji u drugom redu podnožja, iza godine, i vodi na početnu stranu. Pišite je onako kako želite da se vidi, bez https:// i bez www, na primer: tijanicsaviclegal.rs.",
     }),
 
     defineField({
@@ -113,7 +122,42 @@ export const podesavanja = defineType({
       title: "Radno vreme",
       type: "lokalniTekst",
       description:
-        "Poslednji podatak u sekciji Kontakt. Pišite svaki termin u zaseban red, u obliku „dani od—do“ — na primer: Radnim danima 09—17. U novom redu: Subota 09—13. Tako Google može da pročita radno vreme i prikaže ga uz sajt u pretrazi. Redove koji nisu u tom obliku (na primer „Nedelja — ne radimo“ ili „Sastanci van radnog vremena po dogovoru“) posetilac vidi normalno, ali ih Google preskače.",
+        "Poslednji podatak u sekciji Kontakt. Svaki novi red koji ovde započnete (taster Enter) i na sajtu počinje u novom redu. Pišite svaki termin u zaseban red, u obliku „dani od—do“ — na primer: Radnim danima 09—17. U novom redu: Subota 09—13. Tako Google može da pročita radno vreme i prikaže ga uz sajt u pretrazi. Redove koji nisu u tom obliku (na primer „Nedelja — ne radimo“ ili „Sastanci van radnog vremena po dogovoru“) posetilac vidi normalno, ali ih Google preskače.",
+    }),
+
+    defineField({
+      name: "naziviSekcija",
+      title: "Nazivi sekcija",
+      type: "object",
+      description:
+        "Kako se sekcije zovu u meniju u zaglavlju i u sitnom natpisu iznad svake sekcije — isti naziv važi na oba mesta. Ako polje ostane prazno, piše naziv iz primera.",
+      options: { collapsible: true, collapsed: true },
+      fields: [
+        defineField({
+          name: "oNama",
+          title: "O nama",
+          type: "lokalniNaslov",
+          description: "Na primer: O nama. Na engleskom: About.",
+        }),
+        defineField({
+          name: "advokati",
+          title: "Advokati",
+          type: "lokalniNaslov",
+          description: "Na primer: Advokati. Na engleskom: Lawyers.",
+        }),
+        defineField({
+          name: "oblastiPrava",
+          title: "Oblasti prava",
+          type: "lokalniNaslov",
+          description: "Na primer: Oblasti prava. Na engleskom: Practice areas.",
+        }),
+        defineField({
+          name: "kontakt",
+          title: "Kontakt",
+          type: "lokalniNaslov",
+          description: "Na primer: Kontakt. Na engleskom: Contact.",
+        }),
+      ],
     }),
 
     defineField({

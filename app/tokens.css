@@ -75,8 +75,10 @@
   --text-name-mobile: 29px;
   --text-wordmark: 21px; /* TIJANIĆ SAVIĆ in the header */
   --text-wordmark-mobile: 13px;
-  --text-lead: 19px; /* lead paragraph */
-  --text-lead-mobile: 16px;
+  /* lead paragraph and the hero subtitle — 2px above the 19/16 of design.md,
+     by the lawyers' request */
+  --text-lead: 21px;
+  --text-lead-mobile: 17px;
   --text-body: 17px; /* body text */
   --text-body-mobile: 15.5px;
   --text-value: 17px; /* the data in the Contact section */

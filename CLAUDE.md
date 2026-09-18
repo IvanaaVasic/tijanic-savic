@@ -93,10 +93,11 @@ Skala je u pikselima, od hero naslova 76px do natpisa u zaglavlju 8.5px, i stoji
 
 Strukture sajta
 
-Tri sekcije, jedna stranica ili tri rute — odluči i obrazloži:
+Četiri sekcije na jednoj stranici, redom (nazivi se menjaju u Podešavanjima → Nazivi sekcija):
 
 O nama — kratak opis kancelarije, oblasti prava
-Tim — dve advokatice: ime, titula, biografija, foto, mejl, telefon
+Advokati — dve advokatice: ime, titula, biografija, foto, mejl, telefon (dok nema objavljenih, stoji „U pripremi“)
+Oblasti prava — dizajn se čeka; do tada „U pripremi“
 Kontakt — adresa, mapa, telefoni, mejlovi
 
 Faza 1 (sada): imena, telefoni, mejlovi, lokacija sa mapom. Faza 2 (sredina septembra): biografije i fotografije. Piši šeme i komponente tako da faza 2 ne traži prepravku — polja postoje, samo su prazna.
@@ -140,7 +141,7 @@ Ne uvodi @sanity/document-internationalization. Za sajt sa tri stranice udvostru
 Rezervni jezik — ako en nije popunjen, prikaži sr umesto praznog mesta. Nikad ne renderuj praznu sekciju. U Studiju polje en neka ima description koji upozorava da će, ako ostane prazno, posetilac videti srpski tekst.
 
 Sanity — pravila
-Sve što je tekst na sajtu mora biti editabilno. Ništa hardkodovano osim labela u navigaciji.
+Sve što je tekst na sajtu mora biti editabilno. Nazivi sekcija (meni + natpis iznad sekcije) i natpisi u Kontaktu takođe — u kodu stoje samo kao rezerva kad polje ostane prazno.
 Šeme drži jednostavnim. One nisu tehničke — polja imaju jasna srpska imena i description koji objašnjava gde se to vidi na sajtu.
 Svaka stranica ima SEO objekat: title, description, ogImage.
 Slike kroz Sanity image pipeline, sa alt poljem koje je obavezno.

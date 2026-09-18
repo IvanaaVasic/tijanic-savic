@@ -1,0 +1,21 @@
+/* 03 Practice areas — laid out like the Lawyers section (Team.module.css):
+   section 16/16/40 and a 26px gap below 900px, 24/64/96 and 46px from 900px up.
+   Mobile-first, desktop arrives in the min-width query. */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding: 16px var(--pad-panel-x-mobile) 40px;
+}
+
+/* ── From 900px up ─────────────────────────────────────────────────────── */
+
+@media (min-width: 900px) {
+  .section {
+    gap: 46px;
+    padding: 24px var(--pad-page-x) 96px;
+  }
+}

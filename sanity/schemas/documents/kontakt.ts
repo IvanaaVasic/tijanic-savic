@@ -58,6 +58,35 @@ export const kontakt = defineType({
     }),
 
     defineField({
+      name: "natpisi",
+      title: "Natpisi iznad podataka",
+      type: "object",
+      description:
+        "Sitni natpisi velikim slovima iznad adrese, kontakata i radnog vremena. Ako polje ostane prazno, piše natpis iz primera.",
+      options: { collapsible: true, collapsed: true },
+      fields: [
+        defineField({
+          name: "adresa",
+          title: "Iznad adrese",
+          type: "lokalniNaslov",
+          description: "Na primer: Adresa. Na engleskom: Address.",
+        }),
+        defineField({
+          name: "kontakti",
+          title: "Iznad telefona i mejlova",
+          type: "lokalniNaslov",
+          description: "Na primer: Kontakt. Na engleskom: Contact.",
+        }),
+        defineField({
+          name: "radnoVreme",
+          title: "Iznad radnog vremena",
+          type: "lokalniNaslov",
+          description: "Na primer: Radno vreme. Na engleskom: Working hours.",
+        }),
+      ],
+    }),
+
+    defineField({
       name: "seo",
       title: "SEO",
       type: "seo",

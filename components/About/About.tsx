@@ -9,26 +9,19 @@ import { Paragraphs } from "@/components/Paragraphs/Paragraphs";
 import { Reveal } from "@/components/Reveal/Reveal";
 import type { Locale } from "@/lib/locale";
 import { inLocale } from "@/lib/localized";
+import { SECTIONS } from "@/lib/sections";
 import type { CONTENT_QUERYResult } from "@/sanity/types";
 
 import styles from "./About.module.css";
 
-// The section label is not content but part of the design — the number and the
-// name are the same on every section. The English label follows the navigation
-// in the header, so a visitor who clicks ABOUT lands on ABOUT.
-const LABELS = {
-  sr: { label: "O NAMA" },
-  en: { label: "ABOUT" },
-} as const;
-
-const SECTION_NUMBER = "01";
-
 type Props = {
   locale: Locale;
+  /** The section name from Settings, the same one the navigation shows. */
+  name: string;
   about: CONTENT_QUERYResult["oNama"];
 };
 
-export function About({ locale, about }: Props) {
+export function About({ locale, name, about }: Props) {
   const title = inLocale(about?.naslovSekcije, locale);
 
   // The title is the only required part of the section. Without it the panel has
@@ -52,7 +45,7 @@ export function About({ locale, about }: Props) {
     );
 
   return (
-    <section className={styles.wrapper} id="o-nama">
+    <section className={styles.wrapper} id={SECTIONS.about.anchor}>
       {/* Reveal renders the panel itself rather than wrapping it — the fade and
           the rise belong to the cream block, and the gold divider inside it
           draws itself once the panel has arrived. */}
@@ -61,12 +54,12 @@ export function About({ locale, about }: Props) {
             "O nama". */}
         <p className={styles.label}>
           <span className={styles.number} aria-hidden="true">
-            {SECTION_NUMBER}
+            {SECTIONS.about.number}
           </span>
           <span className={styles.slash} aria-hidden="true">
             /
           </span>
-          <span className={styles.name}>{LABELS[locale].label}</span>
+          <span className={styles.name}>{name}</span>
         </p>
 
         <div className={styles.content}>

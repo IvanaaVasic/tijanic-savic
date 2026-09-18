@@ -1,5 +1,6 @@
 // Hero — section 1 from docs/design/design.md. The first thing a visitor sees
-// below the header: eyebrow, large title, gold divider, lead text, button.
+// below the header: eyebrow, large title with its subtitle, gold divider, lead
+// text, button.
 //
 // A server component: everything comes from Sanity at build time, no state.
 
@@ -33,6 +34,7 @@ export function Hero({ locale, home, phone }: Props) {
   if (!title) return null;
 
   const eyebrow = inLocale(home?.nadnaslov, locale);
+  const subtitle = inLocale(home?.podnaslov, locale);
   const lead = inLocale(home?.uvodniTekst, locale);
   const buttonText = inLocale(home?.tekstDugmeta, locale);
 
@@ -56,7 +58,18 @@ export function Hero({ locale, home, phone }: Props) {
     <section className={styles.hero}>
       {eyebrow ? <p className={styles.eyebrow}>{eyebrow}</p> : null}
 
-      <h1 className={styles.title}>{title}</h1>
+      {/* <hgroup> is the element for a heading with a subtitle: the translation
+          of the Latin maxim belongs to the title, but it is not a heading of
+          its own. It sits right under the title, closer than the 40px gap the
+          rest of the column keeps. */}
+      {subtitle ? (
+        <hgroup className={styles.heading}>
+          <h1 className={styles.title}>{title}</h1>
+          <p className={styles.subtitle}>{subtitle}</p>
+        </hgroup>
+      ) : (
+        <h1 className={styles.title}>{title}</h1>
+      )}
 
       <Divider variant="hero" />
 

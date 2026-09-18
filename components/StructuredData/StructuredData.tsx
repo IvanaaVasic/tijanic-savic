@@ -21,6 +21,7 @@ import { inLocale } from "@/lib/localized";
 import { googleMapsUrl, mapQuery } from "@/lib/map";
 import { readOpeningHours } from "@/lib/openingHours";
 import { telNumber } from "@/lib/phone";
+import { SECTIONS } from "@/lib/sections";
 import { absoluteUrl } from "@/lib/site";
 import { DEFAULT_SHARE_IMAGE, shareImageUrl } from "@/sanity/lib/image";
 import type { CONTENT_QUERYResult } from "@/sanity/types";
@@ -178,9 +179,9 @@ export function StructuredData({ locale, content }: Props) {
           : undefined,
         email: text(lawyer.mejl),
         telephone: phone ? telNumber(phone) : undefined,
-        // A card is not a page of its own, so the anchor of the Team section is
+        // A card is not a page of its own, so the anchor of the Lawyers section is
         // the closest thing to an address this person has.
-        url: `${pageUrl}#tim`,
+        url: `${pageUrl}#${SECTIONS.lawyers.anchor}`,
         worksFor: { "@id": officeId },
       });
     });

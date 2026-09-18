@@ -45,6 +45,27 @@
   text-wrap: balance;
 }
 
+/* ── Subtitle ──────────────────────────────────────────────────────────── */
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+/* The translation under the Latin title, the same size as the lead text below —
+   by the lawyers' request. The same face as well: EB Garamond has a much smaller
+   x-height than Plex Sans, so at the same pixel size it read a step smaller than
+   the lead. The font comes from body, like the lead's. */
+.subtitle {
+  max-width: var(--measure);
+  font-size: var(--text-lead-mobile);
+  line-height: var(--leading-lead-mobile);
+  color: var(--cream);
+  text-wrap: balance;
+}
+
 /* ── Lead text ─────────────────────────────────────────────────────────── */
 
 .lead {
@@ -101,6 +122,11 @@
     line-height: var(--leading-display);
   }
 
+  .heading {
+    gap: 18px;
+  }
+
+  .subtitle,
   .lead {
     font-size: var(--text-lead);
     line-height: var(--leading-lead);

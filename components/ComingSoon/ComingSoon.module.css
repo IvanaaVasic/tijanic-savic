@@ -1,0 +1,33 @@
+/* A dividing frame, not decoration — hence --border-dark, not gold. The text
+   is secondary on the green, so --cream-62 (5.62 on the page background).
+   Mobile-first, desktop arrives in the min-width query. */
+
+.frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 56px 24px;
+  border: var(--border-dark);
+}
+
+.text {
+  font-family: var(--font-mono);
+  font-size: var(--text-label-mobile);
+  letter-spacing: var(--tracking-label);
+  line-height: 1;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--cream-62);
+}
+
+/* ── From 900px up ─────────────────────────────────────────────────────── */
+
+@media (min-width: 900px) {
+  .frame {
+    padding: 80px 40px;
+  }
+
+  .text {
+    font-size: var(--text-label);
+  }
+}

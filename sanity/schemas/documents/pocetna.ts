@@ -23,6 +23,14 @@ export const pocetna = defineType({
     }),
 
     defineField({
+      name: "podnaslov",
+      title: "Podnaslov",
+      type: "lokalniNaslov",
+      description:
+        "Red odmah ispod velikog naslova, slovima iste veličine kao uvodni tekst. Na primer prevod latinske izreke iz naslova: Pravo je umetnost dobrog i pravičnog.",
+    }),
+
+    defineField({
       name: "uvodniTekst",
       title: "Uvodni tekst",
       type: "lokalniTekst",

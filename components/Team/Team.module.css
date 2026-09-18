@@ -1,4 +1,4 @@
-/* 02 Team — section 3 from docs/design/design.md.
+/* 02 Lawyers — section 3 from docs/design/design.md.
    Desktop: section 24/64/96, 46px gap, cards in a row 40px apart.
    Below 900px: section 16/16/40, 26px gap.
    Mobile-first, desktop arrives in the min-width query.
@@ -17,41 +17,6 @@
   max-width: var(--content-max);
   margin-inline: auto;
   padding: 16px var(--pad-panel-x-mobile) 40px;
-}
-
-/* ── Section label ─────────────────────────────────────────────────────── */
-
-/* The rule aligns with the text baseline, not with the middle: a flex container
-   aligns an empty element with no baseline of its own along its bottom edge, so
-   the rule lands exactly on the label's baseline. */
-.head {
-  display: flex;
-  align-items: baseline;
-  gap: 24px;
-  padding: 0 8px;
-}
-
-/* An h2 that carries the mono label style — hence the explicit weight and size;
-   the default heading style would embolden and enlarge it. */
-.label {
-  display: flex;
-  gap: 18px;
-  font-family: var(--font-mono);
-  font-weight: 400;
-  font-size: var(--text-label-mobile);
-  letter-spacing: var(--tracking-label);
-  line-height: 1;
-  text-transform: uppercase;
-  color: var(--gold-bright);
-}
-
-/* Gold by explicit agreement. In the mockup this rule is #1B4A3B
-   (--green-line), and design.md says the same — do not put it back to green
-   without asking. */
-.rule {
-  flex: 1;
-  height: var(--hairline);
-  background: var(--gold-50);
 }
 
 /* ── Cards ─────────────────────────────────────────────────────────────── */
@@ -104,14 +69,6 @@
   .section {
     gap: 46px;
     padding: 24px var(--pad-page-x) 96px;
-  }
-
-  .head {
-    padding: 0;
-  }
-
-  .label {
-    font-size: var(--text-label);
   }
 
   /* Only the gap grows here; the columns themselves are set outside the query

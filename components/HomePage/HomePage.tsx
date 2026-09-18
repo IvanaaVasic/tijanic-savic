@@ -9,6 +9,7 @@ import { About } from "@/components/About/About";
 import { Contact } from "@/components/Contact/Contact";
 import { Hero } from "@/components/Hero/Hero";
 import { blocksToText } from "@/components/Paragraphs/Paragraphs";
+import { PracticeAreas } from "@/components/PracticeAreas/PracticeAreas";
 import { StructuredData } from "@/components/StructuredData/StructuredData";
 import { Team } from "@/components/Team/Team";
 import {
@@ -19,6 +20,7 @@ import {
   type Locale,
 } from "@/lib/locale";
 import { inLocale } from "@/lib/localized";
+import { sectionName } from "@/lib/sections";
 import { absoluteUrl } from "@/lib/site";
 import { fetchContent } from "@/sanity/lib/fetch";
 import {
@@ -121,15 +123,37 @@ export async function HomePage({ locale }: { locale: Locale }) {
   const content = await fetchContent();
   const { podesavanja, pocetna, oNama, advokati, kontakt } = content;
 
+  // The same names the navigation in the header shows, so a visitor who clicks
+  // ADVOKATI lands on ADVOKATI.
+  const names = podesavanja?.naziviSekcija;
+
   return (
     <main>
       <Hero locale={locale} home={pocetna} phone={podesavanja?.opstiTelefon} />
 
-      <About locale={locale} about={oNama} />
+      <About
+        locale={locale}
+        name={sectionName(names, "about", locale)}
+        about={oNama}
+      />
 
-      <Team locale={locale} lawyers={advokati} />
+      <Team
+        locale={locale}
+        name={sectionName(names, "lawyers", locale)}
+        lawyers={advokati}
+      />
 
-      <Contact locale={locale} contact={kontakt} settings={podesavanja} />
+      <PracticeAreas
+        locale={locale}
+        name={sectionName(names, "practiceAreas", locale)}
+      />
+
+      <Contact
+        locale={locale}
+        name={sectionName(names, "contact", locale)}
+        contact={kontakt}
+        settings={podesavanja}
+      />
 
       {/* Invisible: the same data the sections above show, in the form a search
           engine reads. It sits at the end of the page so it never comes between

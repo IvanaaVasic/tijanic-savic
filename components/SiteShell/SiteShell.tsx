@@ -9,6 +9,7 @@ import { Footer } from "@/components/Footer/Footer";
 import { Header } from "@/components/Header/Header";
 import { fontVariables } from "@/lib/fonts";
 import { LANG_TAG, type Locale } from "@/lib/locale";
+import { navItems } from "@/lib/sections";
 import { fetchSettings } from "@/sanity/lib/fetch";
 
 type Props = {
@@ -28,6 +29,7 @@ export async function SiteShell({ locale, children }: Props) {
           locale={locale}
           name={settings?.nazivKancelarije ?? ""}
           phone={settings?.opstiTelefon}
+          nav={navItems(settings?.naziviSekcija, locale)}
         />
         {children}
         <Footer locale={locale} settings={settings} />

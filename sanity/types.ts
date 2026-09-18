@@ -27,6 +27,11 @@ export type Kontakt = {
     _type: "telefon";
     _key: string;
   }>;
+  natpisi?: {
+    adresa?: LokalniNaslov;
+    kontakti?: LokalniNaslov;
+    radnoVreme?: LokalniNaslov;
+  };
   seo?: Seo;
 };
 
@@ -82,6 +87,7 @@ export type Pocetna = {
   _rev: string;
   nadnaslov?: LokalniNaslov;
   naslov?: LokalniNaslov;
+  podnaslov?: LokalniNaslov;
   uvodniTekst?: LokalniTekst;
   tekstDugmeta?: LokalniNaslov;
   linkDugmeta?: string;
@@ -108,8 +114,15 @@ export type Podesavanja = {
   nazivNaMapi?: string;
   opstiTelefon?: string;
   opstiMejl?: string;
+  drugiMejl?: string;
   adresaSajta?: string;
   radnoVreme?: LokalniTekst;
+  naziviSekcija?: {
+    oNama?: LokalniNaslov;
+    advokati?: LokalniNaslov;
+    oblastiPrava?: LokalniNaslov;
+    kontakt?: LokalniNaslov;
+  };
   pib?: string;
   advokatskaKomora?: LokalniNaslov;
 };
@@ -320,8 +333,15 @@ export type CONTENT_QUERYResult = {
     nazivNaMapi?: string;
     opstiTelefon?: string;
     opstiMejl?: string;
+    drugiMejl?: string;
     adresaSajta?: string;
     radnoVreme?: LokalniTekst;
+    naziviSekcija?: {
+      oNama?: LokalniNaslov;
+      advokati?: LokalniNaslov;
+      oblastiPrava?: LokalniNaslov;
+      kontakt?: LokalniNaslov;
+    };
     pib?: string;
     advokatskaKomora?: LokalniNaslov;
   } | null;
@@ -333,6 +353,7 @@ export type CONTENT_QUERYResult = {
     _rev: string;
     nadnaslov?: LokalniNaslov;
     naslov?: LokalniNaslov;
+    podnaslov?: LokalniNaslov;
     uvodniTekst?: LokalniTekst;
     tekstDugmeta?: LokalniNaslov;
     linkDugmeta?: string;
@@ -394,6 +415,11 @@ export type CONTENT_QUERYResult = {
       _type: "telefon";
       _key: string;
     }>;
+    natpisi?: {
+      adresa?: LokalniNaslov;
+      kontakti?: LokalniNaslov;
+      radnoVreme?: LokalniNaslov;
+    };
     seo?: Seo;
   } | null;
 };
@@ -419,8 +445,15 @@ export type SETTINGS_QUERYResult = {
   nazivNaMapi?: string;
   opstiTelefon?: string;
   opstiMejl?: string;
+  drugiMejl?: string;
   adresaSajta?: string;
   radnoVreme?: LokalniTekst;
+  naziviSekcija?: {
+    oNama?: LokalniNaslov;
+    advokati?: LokalniNaslov;
+    oblastiPrava?: LokalniNaslov;
+    kontakt?: LokalniNaslov;
+  };
   pib?: string;
   advokatskaKomora?: LokalniNaslov;
 } | null;

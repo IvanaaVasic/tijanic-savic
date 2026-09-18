@@ -94,6 +94,39 @@
         },
         "optional": true
       },
+      "natpisi": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "object",
+          "attributes": {
+            "adresa": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "inline",
+                "name": "lokalniNaslov"
+              },
+              "optional": true
+            },
+            "kontakti": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "inline",
+                "name": "lokalniNaslov"
+              },
+              "optional": true
+            },
+            "radnoVreme": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "inline",
+                "name": "lokalniNaslov"
+              },
+              "optional": true
+            }
+          }
+        },
+        "optional": true
+      },
       "seo": {
         "type": "objectAttribute",
         "value": {
@@ -420,6 +453,14 @@
         },
         "optional": true
       },
+      "podnaslov": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "lokalniNaslov"
+        },
+        "optional": true
+      },
       "uvodniTekst": {
         "type": "objectAttribute",
         "value": {
@@ -578,6 +619,13 @@
         },
         "optional": true
       },
+      "drugiMejl": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
       "adresaSajta": {
         "type": "objectAttribute",
         "value": {
@@ -590,6 +638,47 @@
         "value": {
           "type": "inline",
           "name": "lokalniTekst"
+        },
+        "optional": true
+      },
+      "naziviSekcija": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "object",
+          "attributes": {
+            "oNama": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "inline",
+                "name": "lokalniNaslov"
+              },
+              "optional": true
+            },
+            "advokati": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "inline",
+                "name": "lokalniNaslov"
+              },
+              "optional": true
+            },
+            "oblastiPrava": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "inline",
+                "name": "lokalniNaslov"
+              },
+              "optional": true
+            },
+            "kontakt": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "inline",
+                "name": "lokalniNaslov"
+              },
+              "optional": true
+            }
+          }
         },
         "optional": true
       },
