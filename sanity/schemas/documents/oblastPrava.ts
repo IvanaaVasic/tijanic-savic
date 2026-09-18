@@ -1,3 +1,4 @@
+import { CaseIcon } from "@sanity/icons";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
 // Serbian letters that have no plain-Latin twin. The address of a page is
@@ -25,6 +26,7 @@ export const oblastPrava = defineType({
   name: "oblastPrava",
   title: "Oblast prava",
   type: "document",
+  icon: CaseIcon,
   fields: [
     defineField({
       name: "naziv",

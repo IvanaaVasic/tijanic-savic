@@ -7,12 +7,16 @@ import { structureTool } from "sanity/structure";
 
 import { dataset, projectId } from "./sanity/env";
 import { schemaTypes } from "./sanity/schemas";
+import { Monogram } from "./sanity/studio/Monogram";
+import { studioTheme } from "./sanity/studio/theme";
 import { isSingleton, structure } from "./sanity/structure";
 
 export default defineConfig({
   name: "default",
   title: "Tijanić Savić",
   basePath: "/studio",
+  icon: Monogram,
+  theme: studioTheme,
 
   projectId,
   dataset,

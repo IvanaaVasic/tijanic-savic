@@ -1,3 +1,13 @@
+import {
+  CaseIcon,
+  CogIcon,
+  DocumentsIcon,
+  EnvelopeIcon,
+  HomeIcon,
+  InfoOutlineIcon,
+  UsersIcon,
+} from "@sanity/icons";
+import type { ComponentType } from "react";
 import type { StructureBuilder, StructureResolver } from "sanity/structure";
 
 // Document types that may exist exactly once. They cannot be created, deleted
@@ -19,10 +29,16 @@ export function isSingleton(type: string | undefined): boolean {
   return (SINGLETONS as readonly string[]).includes(type ?? "");
 }
 
-function singleton(S: StructureBuilder, type: Singleton, title: string) {
+function singleton(
+  S: StructureBuilder,
+  type: Singleton,
+  title: string,
+  icon: ComponentType,
+) {
   return S.listItem()
     .title(title)
     .id(type)
+    .icon(icon)
     .child(S.document().schemaType(type).documentId(type).title(title));
 }
 
@@ -31,27 +47,29 @@ export const structure: StructureResolver = (S) =>
   S.list()
     .title("Sadržaj")
     .items([
-      singleton(S, "podesavanja", "Podešavanja"),
-      singleton(S, "pocetna", "Početna"),
-      singleton(S, "oNama", "O nama"),
+      singleton(S, "podesavanja", "Podešavanja", CogIcon),
+      singleton(S, "pocetna", "Početna", HomeIcon),
+      singleton(S, "oNama", "O nama", InfoOutlineIcon),
       S.listItem()
         .title("Advokati")
         .id("advokat")
+        .icon(UsersIcon)
         .child(
           S.documentTypeList("advokat")
             .title("Advokati")
             .defaultOrdering([{ field: "redosled", direction: "asc" }])
         ),
       S.divider(),
-      singleton(S, "oblastiPrava", "Oblasti prava — sekcija"),
+      singleton(S, "oblastiPrava", "Oblasti prava — sekcija", DocumentsIcon),
       S.listItem()
         .title("Oblasti prava")
         .id("oblastPrava")
+        .icon(CaseIcon)
         .child(
           S.documentTypeList("oblastPrava")
             .title("Oblasti prava")
             .defaultOrdering([{ field: "redosled", direction: "asc" }])
         ),
       S.divider(),
-      singleton(S, "kontakt", "Kontakt"),
+      singleton(S, "kontakt", "Kontakt", EnvelopeIcon),
     ]);

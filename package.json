@@ -10,6 +10,7 @@
     "typegen": "sanity schema extract --path sanity/schema.json && sanity typegen generate"
   },
   "dependencies": {
+    "@sanity/icons": "3.8.0",
     "@sanity/image-url": "^1.2.0",
     "next": "15.5.23",
     "next-sanity": "^12.4.5",
