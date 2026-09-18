@@ -119,7 +119,8 @@
 
 /* No gap inside an entry: on mobile both rows are --tap-min tall, on desktop
    the line-height carries the spacing. Anything more and the email would drift
-   away from the number it belongs to. */
+   away from the number it belongs to — see .email for how the two 44px rows
+   are pulled together on a phone. */
 .entry {
   display: flex;
   flex-direction: column;
@@ -163,11 +164,17 @@
    has no space in it, and the left column is a fixed 358px. It is the last line
    of defence only — the break in front of the @ comes from the <wbr> in the
    markup, and a real break point always wins over an arbitrary one. */
+/* On a phone both rows keep a full 44px tap target, but two 44px boxes put the
+   email a whole 44px under the number — it read as a separate item. The email
+   is pulled 12px up, so the two lines sit 32px apart, about the desktop
+   rhythm; the targets overlap by those 12px, which is the empty space between
+   the two lines of text. */
 .email {
   display: inline-flex;
   align-items: center;
   align-self: flex-start;
   min-height: var(--tap-min);
+  margin-top: -12px;
   font-size: var(--text-value-mobile);
   line-height: var(--leading-body);
   color: var(--ink);
@@ -229,6 +236,10 @@
   .email {
     display: inline;
     min-height: 0;
+  }
+
+  .email {
+    margin-top: 0;
   }
 
   .phoneLabel {
