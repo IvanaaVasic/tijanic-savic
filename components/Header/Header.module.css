@@ -441,6 +441,18 @@
   z-index: 1;
   display: none;
   width: var(--dropdown-width);
+
+  /* Twelve areas and more do not fit on a laptop screen, so the list scrolls
+     inside the dropdown instead of running off the bottom of the window. 24px
+     of the page stays visible below it, so it is clear the page goes on.
+     overscroll-behavior keeps the page itself still when the list reaches its
+     end. */
+  max-height: calc(100dvh - var(--header-height) - 24px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gold-50) transparent;
+
   background: var(--green-deep);
   border: var(--border-dark);
   border-top: var(--hairline) solid var(--gold-50);
