@@ -35,7 +35,7 @@ export const pocetna = defineType({
       title: "Uvodni tekst",
       type: "lokalniTekst",
       description:
-        "Jedna do dve rečenice ispod naslova, iznad dugmeta. Ukratko čime se kancelarija bavi i za koga radi.",
+        "Jedna do dve rečenice ispod naslova, iznad dugmeta. Ukratko čime se kancelarija bavi i za koga radi. Ako umesto rečenice upišete reči razdvojene crticom, sajt crticu zameni zlatnim rombom i podigne prvo slovo svake reči — na primer „Tijanić - Savić“ u prvom redu, „Tradicionalno - Savremeno - Tačno - Stručno“ u drugom. Svaki novi red je zaseban red na sajtu.",
     }),
 
     defineField({

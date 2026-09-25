@@ -4,6 +4,8 @@
 //
 // A server component: everything comes from Sanity at build time, no state.
 
+import { Fragment } from "react";
+
 import { Divider } from "@/components/Divider/Divider";
 import { CALL_LABEL, consultationLink } from "@/lib/cta";
 import type { Locale } from "@/lib/locale";
@@ -11,6 +13,36 @@ import { inLocale } from "@/lib/localized";
 import type { CONTENT_QUERYResult } from "@/sanity/types";
 
 import styles from "./Hero.module.css";
+
+/**
+ * A dash or a middle dot with space around it — how the lawyers separate the
+ * words of the motto in Sanity. A real sentence uses an em dash without
+ * spaces or no dash at all, so prose is not caught by this.
+ */
+const SEPARATOR = /\s+[-–—·]\s+/;
+
+/**
+ * The lead, read as the motto it has become: every line of the field is a row,
+ * and the words within a row are split by a dash. Rendered, the dashes turn
+ * into the gold diamond and every word opens with a larger initial.
+ *
+ * Returns null when the text carries no separator at all — then it is an
+ * ordinary lead paragraph and gets none of this.
+ */
+function parseMotto(lead: string) {
+  const rows = lead
+    .split(/\r?\n/)
+    .map((row) =>
+      row
+        .split(SEPARATOR)
+        .map((word) => word.trim())
+        .filter(Boolean),
+    )
+    .filter((row) => row.length > 0);
+
+  const hasSeparator = rows.some((row) => row.length > 1);
+  return hasSeparator ? rows : null;
+}
 
 type Props = {
   locale: Locale;
@@ -29,6 +61,7 @@ export function Hero({ locale, home, phone }: Props) {
   const eyebrow = inLocale(home?.nadnaslov, locale);
   const subtitle = inLocale(home?.podnaslov, locale);
   const lead = inLocale(home?.uvodniTekst, locale);
+  const motto = lead ? parseMotto(lead) : null;
   const buttonText = inLocale(home?.tekstDugmeta, locale);
 
   const link = consultationLink({
@@ -56,7 +89,37 @@ export function Hero({ locale, home, phone }: Props) {
 
       <Divider variant="hero" />
 
-      {lead ? <p className={styles.lead}>{lead}</p> : null}
+      {motto ? (
+        // One paragraph still — the motto is a single thought, the rows are
+        // only how it is set. The diamonds are decoration and carry
+        // aria-hidden, so a screen reader reads the words and nothing else.
+        <p className={styles.motto}>
+          {motto.map((row, rowIndex) => (
+            <span className={styles.row} key={rowIndex}>
+              {row.map((word, wordIndex) => {
+                const [initial, ...rest] = Array.from(word);
+                return (
+                  // The space before the word is the row's only break point,
+                  // and the diamond travels inside the word that follows it —
+                  // so a separator is never stranded at the edge of a line.
+                  <Fragment key={wordIndex}>
+                    {wordIndex > 0 ? " " : null}
+                    <span className={styles.word}>
+                      {wordIndex > 0 ? (
+                        <span className={styles.diamond} aria-hidden="true" />
+                      ) : null}
+                      <span className={styles.initial}>{initial}</span>
+                      {rest.join("")}
+                    </span>
+                  </Fragment>
+                );
+              })}
+            </span>
+          ))}
+        </p>
+      ) : lead ? (
+        <p className={styles.lead}>{lead}</p>
+      ) : null}
 
       {buttonText && link ? (
         <a

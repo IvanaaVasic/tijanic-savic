@@ -75,6 +75,77 @@
   color: var(--cream);
 }
 
+/* ── Motto ─────────────────────────────────────────────────────────────── */
+
+/* The lead set as the office motto: a row per line, the words split by the
+   gold diamond instead of a dash. Still one paragraph — the rows are how it
+   is set, not two separate thoughts.
+
+   A centred column of rows. A row that is too wide for the screen wraps —
+   the second one is four words long and will not hold on a phone. */
+.motto {
+  composes: lead;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+/* A row is ordinary inline text, not a flex line, so that `balance` can split
+   a row too long for the screen into even halves — on a phone the four-word
+   row goes two and two rather than three and a lone word.
+
+   That leaves the space between the words to the space character, widened by
+   word-spacing to the 14px the divider keeps around its own diamond. The space
+   is the only place the row may break. */
+.row {
+  display: block;
+  word-spacing: 9px;
+  text-wrap: balance;
+}
+
+/* A word and the diamond in front of it are one unit and break together, so a
+   separator never ends up stranded at the edge of a line. */
+.word {
+  white-space: nowrap;
+}
+
+/* The same square as in Divider, at the same size — drawn here rather than
+   composed in, because the divider's copy carries the reveal transition that
+   has nothing to do with a separator inside a line of text.
+
+   word-spacing applies to the space before the diamond; the 14px on its right
+   is a margin, and it is reset so the widened space does not land there too. */
+.diamond {
+  display: inline-block;
+  width: var(--diamond-size);
+  height: var(--diamond-size);
+  margin-right: 14px;
+  background: var(--gold);
+  transform: rotate(45deg);
+  vertical-align: middle;
+  word-spacing: 0;
+}
+
+/* The initial of every word, a step larger and heavier than the rest — the
+   only place --weight-body-strong appears outside text the lawyers mark bold
+   in Sanity. Sized in em so it tracks the lead across both breakpoints, and
+   held at line-height 1 so the taller letter does not open up the row.
+
+   Gold here is --gold-bright and nothing else: on the page background that is
+   6.90, while --gold would be 5.57 and is not a text colour anywhere on the
+   site. The motto only ever sits on the dark ground, so this holds.
+
+   The face stays Plex Sans, the same as the rest of the row. Setting the
+   initial in EB Garamond, as in the title above, was tried on 24.9.2026 and
+   turned down — only the colour carries the emphasis. */
+.initial {
+  font-size: 1.24em;
+  font-weight: var(--weight-body-strong);
+  line-height: 1;
+  color: var(--gold-bright);
+}
+
 /* ── Button ────────────────────────────────────────────────────────────── */
 
 /* The only filled button on the site: gold fill, text in the page background
