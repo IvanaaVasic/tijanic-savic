@@ -188,8 +188,6 @@
   --hairline-tagline: 14px; /* the dashes left and right of the tagline */
   --hairline-role: 16px; /* the dash in front of the ADVOKAT label */
 
-  --dropdown-width: 362px; /* the practice areas menu under the header */
-
   --radius: 0; /* no rounding, everything is sharp */
   --focus-offset: 4px;
 

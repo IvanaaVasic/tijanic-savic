@@ -499,12 +499,6 @@ export type SETTINGS_QUERYResult = {
   pib?: string;
   advokatskaKomora?: LokalniNaslov;
 } | null;
-// Variable: NAV_AREAS_QUERY
-// Query: *[_type == "oblastPrava" && defined(slug.current)] | order(redosled asc){    naziv,    "slug": slug.current  }
-export type NAV_AREAS_QUERYResult = Array<{
-  naziv: LokalniNaslov | null;
-  slug: string | null;
-}>;
 // Variable: AREA_SLUGS_QUERY
 // Query: *[_type == "oblastPrava" && defined(slug.current)].slug.current
 export type AREA_SLUGS_QUERYResult = Array<string | null>;
@@ -581,7 +575,6 @@ declare module "@sanity/client" {
   interface SanityQueries {
     "{\n  \"podesavanja\": *[_type == \"podesavanja\"][0]{...},\n  \"pocetna\": *[_type == \"pocetna\"][0]{...},\n  \"oNama\": *[_type == \"oNama\"][0]{...},\n  \"advokati\": *[_type == \"advokat\"] | order(redosled asc){...},\n  \"oblastiPrava\": *[_type == \"oblastiPrava\"][0]{...},\n  \"oblasti\": *[_type == \"oblastPrava\" && defined(slug.current)] | order(redosled asc){\n    _id,\n    naziv,\n    \"slug\": slug.current,\n    kratakOpis\n  },\n  \"kontakt\": *[_type == \"kontakt\"][0]{...}\n}": CONTENT_QUERYResult;
     "\n  *[_type == \"podesavanja\"][0]{...}\n": SETTINGS_QUERYResult;
-    "\n  *[_type == \"oblastPrava\" && defined(slug.current)] | order(redosled asc){\n    naziv,\n    \"slug\": slug.current\n  }\n": NAV_AREAS_QUERYResult;
     "\n  *[_type == \"oblastPrava\" && defined(slug.current)].slug.current\n": AREA_SLUGS_QUERYResult;
     "{\n  \"oblast\": *[_type == \"oblastPrava\" && slug.current == $slug][0]{\n    ...,\n    \"slug\": slug.current\n  },\n  \"podesavanja\": *[_type == \"podesavanja\"][0]{...},\n  \"pocetna\": *[_type == \"pocetna\"][0]{tekstDugmeta, linkDugmeta, seo},\n  \"kontakt\": *[_type == \"kontakt\"][0]{telefoni}\n}": AREA_PAGE_QUERYResult;
   }

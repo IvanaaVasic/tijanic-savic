@@ -3,7 +3,6 @@ import {
   AREA_PAGE_QUERY,
   AREA_SLUGS_QUERY,
   CONTENT_QUERY,
-  NAV_AREAS_QUERY,
   SETTINGS_QUERY,
 } from "./queries";
 
@@ -28,11 +27,6 @@ export function fetchContent() {
 /** Settings only — for metadata and JSON-LD, where the rest is not needed. */
 export function fetchSettings() {
   return client.fetch(SETTINGS_QUERY, {}, FETCH_OPTIONS);
-}
-
-/** Name and address of every practice area, for the header menu. */
-export function fetchNavAreas() {
-  return client.fetch(NAV_AREAS_QUERY, {}, FETCH_OPTIONS);
 }
 
 /** Every practice area address — the pages the build has to write. */

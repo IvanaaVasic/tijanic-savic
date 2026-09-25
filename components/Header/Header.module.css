@@ -306,233 +306,6 @@
   color: var(--gold-bright);
 }
 
-/* ── Practice areas in the mobile menu ─────────────────────────────────── */
-
-/* The item carries two targets: the name leads to the section on the home
-   page, the chevron opens the list of areas under it. The row takes the rule
-   the link would otherwise draw. */
-.menuRow {
-  display: flex;
-  align-items: center;
-  border-bottom: var(--border-dark);
-}
-
-.menuRow .menuLink,
-.menuRow .menuLinkActive {
-  flex: 1;
-  border-bottom: 0;
-}
-
-.menuToggle {
-  display: grid;
-  place-items: center;
-  width: var(--tap-min);
-  height: var(--tap-min);
-  margin-right: calc((22px - var(--tap-min)) / 2);
-  padding: 0;
-  background: none;
-  border: 0;
-  cursor: pointer;
-}
-
-/* A small gold chevron drawn from two borders of a square — pointing down when
-   closed, up when open. Decoration next to a button that has its own label. */
-.chevron {
-  display: block;
-  width: 6px;
-  height: 6px;
-  margin-top: -3px;
-  border-right: var(--border-gold);
-  border-bottom: var(--border-gold);
-  transform: rotate(45deg);
-}
-
-.chevron {
-  transition:
-    transform var(--menu-duration) var(--reveal-ease),
-    margin-top var(--menu-duration) var(--reveal-ease);
-}
-
-[aria-expanded="true"] > .chevron {
-  margin-top: 3px;
-  transform: rotate(-135deg);
-}
-
-/* The areas hang off a thin vertical rule, indented under the item — as in
-   docs/design/oblasti/5-mobilni-meni. */
-.menuAreas {
-  margin: 8px 0 12px 9px;
-  padding: 0 0 0 28px;
-  list-style: none;
-  border-left: var(--border-dark);
-}
-
-.menuAreas[hidden] {
-  display: none;
-}
-
-/* The list of areas unfolds the same way the menu opens. */
-.menuAreas {
-  animation: menuRise var(--menu-duration) var(--reveal-ease);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .menuAreas {
-    animation: none;
-  }
-}
-
-.menuArea {
-  display: flex;
-  align-items: center;
-  min-height: 46px;
-  font-size: var(--text-value-mobile);
-  line-height: 1.3;
-  color: var(--cream-62);
-  border-bottom: var(--border-dark);
-}
-
-.menuAreas li:last-child .menuArea {
-  border-bottom: 0;
-}
-
-.menuArea:hover,
-.menuArea:focus-visible,
-.menuArea[aria-current="page"] {
-  color: var(--cream);
-}
-
-/* ── Practice areas dropdown, desktop ──────────────────────────────────── */
-
-/* The item lives in .right, so it only ever shows in the desktop bar. It
-   reaches up and down through the bar's padding to the bar's edges, so the
-   dropdown hangs right from its bottom edge: the pointer never leaves the item
-   on the way down, and the hover holds. */
-.withAreas {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  align-self: stretch;
-  margin-block: calc(-1 * var(--pad-nav-y));
-  padding-block: var(--pad-nav-y);
-}
-
-.areasToggle {
-  display: grid;
-  place-items: center;
-  width: 20px;
-  height: 20px;
-  padding: 0;
-  background: none;
-  border: 0;
-  cursor: pointer;
-}
-
-/* docs/design/oblasti/2-desktop-meni: 362px wide, hanging from the header
-   rule. The mockup ends it where the phone button ends; here it starts under
-   its own item, which with four items in the bar sits further left. A card on
-   the page background — the --green-deep the lawyer cards use — with
-   --green-line rules between rows. */
-.dropdown {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  z-index: 1;
-  display: none;
-  width: var(--dropdown-width);
-
-  /* Twelve areas and more do not fit on a laptop screen, so the list scrolls
-     inside the dropdown instead of running off the bottom of the window. 24px
-     of the page stays visible below it, so it is clear the page goes on.
-     overscroll-behavior keeps the page itself still when the list reaches its
-     end. */
-  max-height: calc(100dvh - var(--header-height) - 24px);
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  scrollbar-width: thin;
-  scrollbar-color: var(--gold-50) transparent;
-
-  background: var(--green-deep);
-  border: var(--border-dark);
-  border-top: var(--hairline) solid var(--gold-50);
-}
-
-.dropdown[data-open="true"] {
-  display: block;
-}
-
-/* A mouse opens it by hovering; a touch screen has no hover and uses the
-   chevron button. */
-@media (hover: hover) {
-  .withAreas:hover .dropdown {
-    display: block;
-  }
-}
-
-.dropdownAll {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 18px 26px 16px;
-  font-family: var(--font-mono);
-  font-size: var(--text-micro);
-  letter-spacing: var(--tracking-label);
-  line-height: 1;
-  text-transform: uppercase;
-  color: var(--gold-bright);
-  border-bottom: var(--border-dark);
-}
-
-.dropdownAll:hover,
-.dropdownAll:focus-visible {
-  color: var(--cream);
-}
-
-.dropdownList {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.dropdownList li + li {
-  border-top: var(--border-dark);
-}
-
-.dropdownLink {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  min-height: 47px;
-  padding: 0 26px;
-  font-size: var(--text-small);
-  line-height: 1.3;
-  color: var(--cream-62);
-}
-
-.dropdownArrow {
-  color: var(--gold);
-  opacity: 0;
-}
-
-.dropdownLink:hover,
-.dropdownLink:focus-visible,
-.dropdownLink[aria-current="page"] {
-  color: var(--cream);
-}
-
-.dropdownLink:hover .dropdownArrow,
-.dropdownLink:focus-visible .dropdownArrow {
-  opacity: 1;
-}
-
-/* The focus ring would be clipped by the neighbouring rows; inset it. */
-.dropdownLink:focus-visible,
-.dropdownAll:focus-visible {
-  outline-offset: -4px;
-}
-
 /* ── Menu footer ───────────────────────────────────────────────────────── */
 
 .menuFooter {
@@ -574,10 +347,12 @@
 /* ── From 1140px up ────────────────────────────────────────────────────── */
 
 /* 1140, not the 900 the rest of the site turns desktop at. With four sections
-   in the navigation (ADVOKATI and OBLASTI PRAVA in place of TIM) plus the
-   chevron that opens the practice areas, the bar needs about 1110px of layout
-   width; measured across 900–1200, below that O NAMA and OBLASTI PRAVA split
-   over two lines and the bar grew from 112px to 127px.
+   in the navigation (ADVOKATI and OBLASTI PRAVA in place of TIM) the bar needs
+   about 1110px of layout width; measured across 900–1200, below that O NAMA and
+   OBLASTI PRAVA split over two lines and the bar grew from 112px to 127px. That
+   measurement still counted the chevron beside OBLASTI PRAVA, which has since
+   gone — the bar now needs some 24px less, and the breakpoint was left where it
+   was rather than re-tuned on an estimate.
    Between 900 and 1140 the header therefore keeps the hamburger while the page
    below is already in its desktop layout. The rest of the site stays at 900:
    below that the About panel left its stat column 231px and the three
@@ -597,13 +372,6 @@
     display: flex;
     align-items: center;
     gap: 38px;
-    align-self: stretch;
-  }
-
-  /* The navigation takes the full height of the bar's content, so the
-     practice areas item can stretch from it to the bar's edges. */
-  .right > nav {
-    display: flex;
     align-self: stretch;
   }
 

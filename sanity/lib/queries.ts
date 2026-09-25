@@ -28,16 +28,6 @@ export const SETTINGS_QUERY = defineQuery(`
   *[_type == "podesavanja"][0]{...}
 `);
 
-// The practice areas for the header menu — the header sits on every page, so it
-// is fetched next to Settings, not with the page content. An area without an
-// address has no page to lead to and is left out.
-export const NAV_AREAS_QUERY = defineQuery(`
-  *[_type == "oblastPrava" && defined(slug.current)] | order(redosled asc){
-    naziv,
-    "slug": slug.current
-  }
-`);
-
 // Every area address, for generateStaticParams and the sitemap.
 export const AREA_SLUGS_QUERY = defineQuery(`
   *[_type == "oblastPrava" && defined(slug.current)].slug.current
