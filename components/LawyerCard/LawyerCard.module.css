@@ -29,18 +29,9 @@
   object-fit: cover;
 }
 
-/* Placeholder until the photograph arrives: 45-degree diagonal stripes, 6px on
-   and 6px off, in two shades of green. Nothing is written across them. */
-.hatching {
-  background-color: var(--stripe-dark-base);
-  background-image: repeating-linear-gradient(
-    45deg,
-    var(--stripe-dark-line) 0,
-    var(--stripe-dark-line) var(--stripe-width),
-    var(--stripe-dark-base) var(--stripe-width),
-    var(--stripe-dark-base) calc(var(--stripe-width) * 2)
-  );
-}
+/* A lawyer without a photograph gets no portrait at all — no hatching, no
+   frame, nothing standing in for it. The card is then the text block alone,
+   and .bodyAlone below closes it off. */
 
 /* ── Body ──────────────────────────────────────────────────────────────── */
 
@@ -56,6 +47,14 @@
   background: var(--green-deep);
   border: var(--border-dark);
   border-top: 0;
+}
+
+/* The same block with no portrait above it: it takes back the top line, and on
+   desktop the full column width too — the 27px inset only makes sense measured
+   against a portrait that is no longer there. */
+.bodyAlone {
+  composes: body;
+  border-top: var(--border-dark);
 }
 
 .name {
@@ -156,6 +155,10 @@
     width: calc(100% - 27px);
     gap: 16px;
     padding: 34px 36px 36px;
+  }
+
+  .bodyAlone {
+    width: 100%;
   }
 
   .name {

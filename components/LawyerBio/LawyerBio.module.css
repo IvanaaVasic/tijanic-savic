@@ -1,0 +1,146 @@
+/* The folded biography, the fade over the cut and the button that opens it.
+   The paragraphs inside are styled by LawyerCard — this file only folds them. */
+
+/* The fold. 210px on a phone and 260px from 900px up, roughly seven or nine
+   lines: the card is wider and the text a size larger on a desktop, so the
+   same height would leave far less of the text there.
+
+   overflow stays hidden in both states. Open, max-height is none and there is
+   nothing left to clip; while the height animates, the clip is what makes the
+   text appear rather than jump. */
+.bio {
+  position: relative;
+  max-height: 210px;
+  overflow: hidden;
+}
+
+.bio[data-expanded="true"] {
+  max-height: none;
+}
+
+/* ── The fade over the cut ─────────────────────────────────────────────── */
+
+/* The one gradient on the site, and a deliberate exception to the brand —
+   docs/design/design.md and the "brend" skill say no gradients outside the
+   diagonal hatching. Asked for on 25.9.2026: at a fixed fold the text is cut
+   wherever the line happens to fall, and nothing else says "this goes on"
+   without either a shadow (also ruled out) or an ellipsis. It is recorded as
+   an exception in the skill — do not take it out as a stray gradient.
+
+   It runs to --green-deep, the card's own background, so it reads as the text
+   running out rather than as a band of its own. pointer-events: none so it
+   cannot swallow a click on the text under it.
+
+   The fade belongs over a cut. A biography short enough to fit whole never
+   carries it — hence data-folded rather than data-expanded. */
+.bio::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 64px;
+  background: linear-gradient(to bottom, transparent, var(--green-deep));
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--menu-duration) var(--reveal-ease);
+}
+
+.bio[data-folded="true"]::after {
+  opacity: 1;
+}
+
+/* Three dots centred on the cut were tried on 25.9.2026 and taken out again:
+   over a faded block they land on top of a half-visible line of text and read
+   as a fault. An ellipsis belongs to a single line cut by text-overflow, not
+   to a faded paragraph. The fade and the chevron on the button carry it. */
+
+@media (prefers-reduced-motion: reduce) {
+  .bio::after {
+    transition: none;
+  }
+}
+
+/* ── The button ────────────────────────────────────────────────────────── */
+
+/* A mono caption, not a framed button: one of those in every card would sit
+   heavier on the dark card than the single gold button in the hero. Gold text
+   on the card goes through --gold-bright — 6.16 on --green-deep.
+
+   It is a <button> and not a link because it opens text in place; there is
+   nowhere for it to lead. */
+.toggle {
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 12px;
+  min-height: var(--tap-min);
+  padding: 0;
+  background: none;
+  border: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-micro-mobile);
+  letter-spacing: var(--tracking-label);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+  cursor: pointer;
+}
+
+.toggle:hover,
+.toggle:focus-visible {
+  color: var(--cream);
+}
+
+/* A small gold chevron drawn from two borders of a square — pointing down when
+   the text is folded, up when it is open. The same one that stood beside
+   OBLASTI PRAVA in the header until it was taken out on 24.9.2026, kept here
+   because it is the site's own shape and not a new one.
+
+   Gold as a line, which is what gold is for; it never carries the text. */
+.chevron {
+  display: block;
+  flex: none;
+  width: 6px;
+  height: 6px;
+  margin-top: -3px;
+  border-right: var(--border-gold);
+  border-bottom: var(--border-gold);
+  transform: rotate(45deg);
+  transition:
+    transform var(--menu-duration) var(--reveal-ease),
+    margin-top var(--menu-duration) var(--reveal-ease);
+}
+
+[aria-expanded="true"] > .chevron {
+  margin-top: 3px;
+  transform: rotate(-135deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chevron {
+    transition: none;
+  }
+}
+
+/* Read out, never seen — it tells two identical buttons apart. */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (min-width: 900px) {
+  .bio {
+    max-height: 260px;
+  }
+
+  .toggle {
+    font-size: var(--text-micro);
+  }
+}

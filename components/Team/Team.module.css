@@ -45,14 +45,17 @@
   list-style: none;
 }
 
-/* The card fills the height of its cell: the row is as tall as the longest bio,
-   and every card in it follows that height.
+/* The card is as tall as its own content, not as tall as the row. Folded, the
+   bios are the same height anyway, so the cards still line up; but once one is
+   opened, align-items: stretch would drag the other one up with it and leave a
+   hole above its email. align-self: start lets the opened card grow alone.
 
    min-width: 0 because the card is a flex item and would otherwise refuse to go
    below its own min-content width — the same reason About and Contact carry it
    on their columns. */
 .item {
   display: flex;
+  align-self: start;
   min-width: 0;
 }
 

@@ -4,6 +4,7 @@
 //
 // A server component: everything comes from Sanity at build time, no state.
 
+import { LawyerBio } from "@/components/LawyerBio/LawyerBio";
 import { Paragraphs } from "@/components/Paragraphs/Paragraphs";
 import type { Locale } from "@/lib/locale";
 import { inLocale, textInLocale } from "@/lib/localized";
@@ -67,18 +68,13 @@ export function LawyerCard({ locale, lawyer }: Props) {
           loading="lazy"
           decoding="async"
         />
-      ) : (
-        // The photographs arrive in mid-September. Until then a calm hatched
-        // surface from the mockup sits at the top — no icon and no note saying
-        // the image is missing. The card looks finished before the portrait
-        // arrives.
-        <div
-          className={`${styles.portrait} ${styles.hatching}`}
-          aria-hidden="true"
-        />
-      )}
+      ) : null}
 
-      <div className={styles.body}>
+      {/* Without a photograph the card is the text block alone — no
+          placeholder stands in for the missing image. The body then has to
+          carry its own top line and the full column width, both of which the
+          portrait otherwise provides. */}
+      <div className={portrait ? styles.body : styles.bodyAlone}>
         <h3 className={styles.name}>{lawyer.ime}</h3>
 
         {role ? (
@@ -88,11 +84,18 @@ export function LawyerCard({ locale, lawyer }: Props) {
           </p>
         ) : null}
 
-        <Paragraphs
-          blocks={bio}
-          wrapperClassName={styles.bio}
-          paragraphClassName={styles.paragraph}
-        />
+        {/* The bio is folded by LawyerBio, a client component. The text is
+            rendered here, on the server, and handed over as children — so the
+            Portable Text renderer never reaches the browser. */}
+        {bio && bio.length > 0 ? (
+          <LawyerBio locale={locale} name={lawyer.ime ?? ""}>
+            <Paragraphs
+              blocks={bio}
+              wrapperClassName={styles.bio}
+              paragraphClassName={styles.paragraph}
+            />
+          </LawyerBio>
+        ) : null}
 
         {/* margin-top: auto in the CSS keeps this block at the bottom of the
             card, so the email and phone line up even when one bio is longer
