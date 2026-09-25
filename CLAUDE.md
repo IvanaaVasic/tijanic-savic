@@ -185,7 +185,8 @@ Pošto je sadržaj zapečen u build-time, izmena u Sanityju se ne vidi sama od s
 \_redirects fajl na hostingu vodi /sr na / sa 301 i servira /studio/\* iz jednog index.html. Isto stoji i u vercel.json, za preview.
 
 Šta ne raditi
-Ne dodavati animacije koje nisu tražene — postoje tačno dve: `components/Reveal` (blok se podigne i pojavi kad uđe u kadar, plus zlatni razdelnik koji se iscrtava) i otvaranje mobilnog menija (panel se pojavi, redovi se podignu jedan za drugim, hamburger pređe u X). Paralaks je razmatran i odbijen. Detalji u skillu „brend"
+Ne dodavati animacije koje nisu tražene — postoje tačno tri: `components/Reveal` (blok se podigne i pojavi kad uđe u kadar, plus zlatni razdelnik koji se iscrtava), otvaranje mobilnog menija (panel se pojavi, redovi se podignu jedan za drugim, hamburger pređe u X) i otvaranje biografije u kartici advokata (`components/LawyerBio`). Paralaks je razmatran i odbijen. Detalji u skillu „brend"
+Bez gradijenata i senki, uz dva dogovorena izuzetka: dijagonalne pruge kao placeholder za mapu i fade preko preseka biografije u kartici advokata. Oba su upisana u skill „brend" — ne brisati ih kao zalutale gradijente
 Ne uvoditi biblioteku za nešto što je 20 linija CSS-a
 Ne pisati placeholder copy tipa "Lorem ipsum" — ako fali tekst, pitaj
 Ne menjati boje brenda

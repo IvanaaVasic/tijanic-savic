@@ -14,8 +14,19 @@ ekranu, ne izgleda kao Tijanić Savić.
 
 Ton je miran i ozbiljan. Ništa nije zaobljeno, ništa ne baca senku, ništa se
 ne preliva. `border-radius: 0` svuda, bez `box-shadow`, bez gradijenata.
-Jedini izuzetak od „bez gradijenata" su ravne dijagonalne pruge koje stoje
-kao placeholder za fotografije i mapu.
+
+Od „bez gradijenata" postoje **tačno dva izuzetka**, oba dogovorena:
+
+1. Ravne dijagonalne pruge koje stoje kao placeholder za mapu. (Na karticama
+   advokata ih više nema — kartica bez fotografije jednostavno nema gornji deo.)
+2. **Fade preko preseka biografije** u kartici advokata — `LawyerBio.module.css`,
+   `.bio::after`. Biografija je sklopljena na fiksnu visinu pa se tekst seče
+   gde god red padne, a senka je takođe zabranjena. Ivana ga je tražila
+   25.9.2026, svesna da probija pravilo. **Ne brisati kao zalutali gradijent.**
+   Uz fade ide i zlatna strelica pored „Vidi više", koja se okrene kad se tekst
+   otvori — ista ona koja je do 24.9.2026. stajala u zaglavlju. Tri tačke na
+   rezu su probane istog dana i izbačene: padnu preko poluizbledelog reda i
+   izgledaju kao greška.
 
 **Merodavan izvor je `docs/design/design.md`**, uz makete `desktop.png` (1280)
 i `mobile.png` (390). Tamo stoji kompletan raspored po sekcijama, sa svim
@@ -380,11 +391,20 @@ blok stigao (`--draw-delay`), inače bi se crtao ispod fejda i niko ga ne bi vid
 Druga je otvaranje mobilnog menija, tražena 18.9.2026: panel se pojavi
 (fade), redovi se podignu `--menu-rise` (10px) jedan za drugim na
 `--menu-stagger` (40ms), sve za `--menu-duration` (360ms) sa `--reveal-ease`;
-dve zlatne crte hamburgera klize u X, a lista oblasti se rasklopi istim
-pokretom. Zatvaranje je trenutno. `prefers-reduced-motion` isključuje sve.
-Stoji u `Header.module.css`, bez JavaScripta.
+dve zlatne crte hamburgera klize u X. Zatvaranje je trenutno.
+`prefers-reduced-motion` isključuje sve. Stoji u `Header.module.css`, bez
+JavaScripta. (Padajuće liste oblasti više nema — izbačena je 24.9.2026.)
 
-Sve preko ovoga i dalje pada pod „animacija koju niko nije tražio".
+Treća je **otvaranje biografije** u kartici advokata, tražena 25.9.2026:
+`max-height` se animira između izmerene sklopljene i raširene visine, za
+`--menu-duration` sa `--reveal-ease`, a fade preko preseka se u istom trajanju
+ugasi. Mora kroz JavaScript — `max-height` se ne može animirati do `none`, pa
+se oba kraja mere. Pri sklapanju stranica glatko skroluje na vrh kartice, jer
+zatvaranje izvuče više od ekrana teksta ispod čitaoca.
+`prefers-reduced-motion` isključuje i animaciju i glatko skrolovanje. Stoji u
+`components/LawyerBio`.
+
+Sve preko ove tri i dalje pada pod „animacija koju niko nije tražio".
 
 ---
 
