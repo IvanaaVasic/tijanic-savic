@@ -44,6 +44,21 @@ function parseMotto(lead: string) {
   return hasSeparator ? rows : null;
 }
 
+/**
+ * A word of the motto: its initial a step larger and in gold, the rest plain.
+ * A fragment rather than an element — the box around a word is the caller's,
+ * and it differs between the two ways a motto can be set.
+ */
+function Word({ text }: { text: string }) {
+  const [initial, ...rest] = Array.from(text);
+  return (
+    <>
+      <span className={styles.initial}>{initial}</span>
+      {rest.join("")}
+    </>
+  );
+}
+
 type Props = {
   locale: Locale;
   home: CONTENT_QUERYResult["pocetna"];
@@ -62,6 +77,11 @@ export function Hero({ locale, home, phone }: Props) {
   const subtitle = inLocale(home?.podnaslov, locale);
   const lead = inLocale(home?.uvodniTekst, locale);
   const motto = lead ? parseMotto(lead) : null;
+
+  // Two words to every row is the shape the motto was written in, and the only
+  // shape the two columns can be built from. Anything else — three words, a row
+  // on its own — falls back to the flowing rows below.
+  const aligned = motto !== null && motto.every((row) => row.length === 2);
   const buttonText = inLocale(home?.tekstDugmeta, locale);
 
   const link = consultationLink({
@@ -89,31 +109,56 @@ export function Hero({ locale, home, phone }: Props) {
 
       <Divider variant="hero" />
 
-      {motto ? (
-        // One paragraph still — the motto is a single thought, the rows are
-        // only how it is set. The diamonds are decoration and carry
-        // aria-hidden, so a screen reader reads the words and nothing else.
+      {/* One paragraph either way — the motto is a single thought, and the rows
+          are only how it is set. The diamonds are decoration throughout: in the
+          columns they are drawn by CSS and never enter the document at all. */}
+      {motto && aligned ? (
+        <p className={styles.columns}>
+          <span className={styles.spoken}>
+            {motto.map((row, rowIndex) => (
+              <span className={styles.spokenRow} key={rowIndex}>
+                {row.join(" ")}
+              </span>
+            ))}
+          </span>
+
+          <span className={styles.left} aria-hidden="true">
+            {motto.map((row, rowIndex) => (
+              <span className={styles.cell} key={rowIndex}>
+                <Word text={row[0]} />
+              </span>
+            ))}
+          </span>
+
+          <span className={styles.right} aria-hidden="true">
+            {motto.map((row, rowIndex) => (
+              <span className={styles.cell} key={rowIndex}>
+                <Word text={row[1]} />
+              </span>
+            ))}
+          </span>
+        </p>
+      ) : motto ? (
         <p className={styles.motto}>
           {motto.map((row, rowIndex) => (
             <span className={styles.row} key={rowIndex}>
-              {row.map((word, wordIndex) => {
-                const [initial, ...rest] = Array.from(word);
-                return (
-                  // The space before the word is the row's only break point,
-                  // and the diamond travels inside the word that follows it —
-                  // so a separator is never stranded at the edge of a line.
-                  <Fragment key={wordIndex}>
-                    {wordIndex > 0 ? " " : null}
-                    <span className={styles.word}>
-                      {wordIndex > 0 ? (
-                        <span className={styles.diamond} aria-hidden="true" />
-                      ) : null}
-                      <span className={styles.initial}>{initial}</span>
-                      {rest.join("")}
-                    </span>
-                  </Fragment>
-                );
-              })}
+              {row.map((word, wordIndex) => (
+                // The space before the word is the row's only break point, and
+                // the diamond travels inside the word that follows it — so a
+                // separator is never stranded at the edge of a line.
+                <Fragment key={wordIndex}>
+                  {wordIndex > 0 ? " " : null}
+                  <span className={styles.word}>
+                    {wordIndex > 0 ? (
+                      <span
+                        className={styles.inlineDiamond}
+                        aria-hidden="true"
+                      />
+                    ) : null}
+                    <Word text={word} />
+                  </span>
+                </Fragment>
+              ))}
             </span>
           ))}
         </p>
