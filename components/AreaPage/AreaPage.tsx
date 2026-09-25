@@ -31,13 +31,11 @@ import styles from "./AreaPage.module.css";
 const LABELS = {
   sr: {
     breadcrumb: "Putanja",
-    services: "Usluge u ovoj oblasti",
     phone: "telefon",
     email: "mejl",
   },
   en: {
     breadcrumb: "Breadcrumb",
-    services: "Services in this area",
     phone: "phone",
     email: "email",
   },
@@ -179,18 +177,13 @@ export async function AreaPage({ locale, slug }: Props) {
           ) : null}
 
           {services.length > 0 ? (
-            <section className={styles.services} aria-labelledby="usluge">
-              <h2 className={styles.caption} id="usluge">
-                {t.services}
-              </h2>
-              <ul className={styles.list}>
-                {services.map((service) => (
-                  <li className={styles.service} key={service.key}>
-                    {service.text}
-                  </li>
-                ))}
-              </ul>
-            </section>
+            <ul className={styles.list}>
+              {services.map((service) => (
+                <li className={styles.service} key={service.key}>
+                  {service.text}
+                </li>
+              ))}
+            </ul>
           ) : null}
         </div>
 

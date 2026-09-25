@@ -2,8 +2,8 @@
    off the mockups (design.md does not have this page yet).
    Desktop: page 56/64/56; breadcrumb, 24px, then the panel — a text column and
    a 400px side column split by a --line-light rule. Text column 64/64/56: title
-   46px, 28px to the divider (300px), 28px to the description, 36px to the rule
-   above the services, 28px below it. Side column 64/40/56.
+   46px, 28px to the divider (300px), 28px to the description, 28px to the list
+   of services. Side column 64/40/56.
    Below 900px: page 28/16/32, breadcrumb 14px above the panel, one column with
    28px of side padding; the contacts go below the services.
    Mobile-first, desktop arrives in the min-width query.
@@ -106,34 +106,16 @@
 
 /* ── Services ──────────────────────────────────────────────────────────── */
 
-/* The rule above the list divides content, it is not decoration — hence
-   --line-light, not gold. */
-.services {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  align-self: stretch;
-  margin-top: 4px;
-  padding-top: 24px;
-  border-top: var(--border-light);
-}
+/* The list carries no heading of its own — it follows the description
+   directly, with the gold diamonds doing the work a caption used to. */
 
-/* An h2 with the mono caption style: explicit weight and size, because the
-   default heading style would embolden and enlarge it. */
-.caption {
-  font-family: var(--font-mono);
-  font-weight: 400;
-  font-size: var(--text-micro);
-  letter-spacing: var(--tracking-label);
-  line-height: 1;
-  text-transform: uppercase;
-  color: var(--grey-green);
-}
-
+/* Stretched, not shrink-to-fit: as a flex child of .main it would otherwise
+   collapse to the widest item and wrap the long ones early. */
 .list {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  align-self: stretch;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -164,7 +146,7 @@
 /* ── Contacts ──────────────────────────────────────────────────────────── */
 
 /* On a phone the side column follows the text, inset by the panel padding and
-   split from it by the same light rule as the services. */
+   split from it by a light rule. */
 .aside {
   display: flex;
   flex-direction: column;
@@ -172,6 +154,18 @@
   margin: 0 28px;
   padding: 28px 0 36px;
   border-top: var(--border-light);
+}
+
+/* An h2 with the mono caption style: explicit weight and size, because the
+   default heading style would embolden and enlarge it. */
+.caption {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-label);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--grey-green);
 }
 
 .contacts {
@@ -283,11 +277,6 @@
 
   .paragraph {
     font-size: var(--text-body);
-  }
-
-  .services {
-    margin-top: 8px;
-    padding-top: 28px;
   }
 
   .service {
