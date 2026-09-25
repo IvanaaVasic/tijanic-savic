@@ -131,7 +131,7 @@ export const podesavanja = defineType({
       type: "object",
       description:
         "Kako se sekcije zovu u meniju u zaglavlju i u sitnom natpisu iznad svake sekcije — isti naziv važi na oba mesta. Ako polje ostane prazno, piše naziv iz primera.",
-      options: { collapsible: true, collapsed: true },
+      options: { collapsible: true, collapsed: false },
       fields: [
         defineField({
           name: "oNama",

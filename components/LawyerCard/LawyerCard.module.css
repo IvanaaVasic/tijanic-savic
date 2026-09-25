@@ -99,6 +99,12 @@
 .paragraph {
   font-size: var(--text-card-mobile);
   line-height: var(--leading-card);
+
+  /* Flush on both sides, like the About panel. The card column is narrow, so
+     hyphens: auto matters more here — without it one long Serbian word pushes
+     the word spacing wide open. */
+  text-align: justify;
+  hyphens: auto;
 }
 
 /* ── Email and phone ───────────────────────────────────────────────────── */

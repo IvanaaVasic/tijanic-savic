@@ -70,6 +70,13 @@
   font-size: var(--text-body-mobile);
   line-height: var(--leading-body);
   color: var(--ink);
+
+  /* Justified: the column is capped at --measure-text, so a ragged right edge
+     reads as an accident rather than as a measure. Flush on both sides it sits
+     square with the panel. hyphens: auto keeps the word spacing from opening up
+     where the browser has Serbian patterns; where it has none it does nothing. */
+  text-align: justify;
+  hyphens: auto;
 }
 
 /* ── Stats ─────────────────────────────────────────────────────────────── */
