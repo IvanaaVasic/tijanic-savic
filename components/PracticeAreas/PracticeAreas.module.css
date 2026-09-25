@@ -1,7 +1,7 @@
 /* Practice areas — docs/design/oblasti/1-desktop and 4-mobilni. Measured off
    the mockups, design.md does not have this section yet.
    Desktop: wrapper 0/64/56, panel 64/72/60; a 170px label column and the title
-   column 80px apart, the label sitting at the bottom of the row; 40px down to
+   column 80px apart, the label at the top of the row as in About; 40px down to
    the grid, which spans the full width of the panel.
    Below 900px: wrapper 0/16/32, panel 40/28/36, everything in one column —
    label, title and intro 20px apart, 24px down to the first card.
@@ -77,11 +77,13 @@
     padding: 64px 72px 60px;
   }
 
-  /* In the mockup the label does not stand level with the title, as in About,
-     but at the foot of the row, level with the last line of the intro. */
+  /* The mockup sets the label at the foot of the row, level with the last line
+     of the intro. The lawyers asked for it at the top instead, level with the
+     title — the same place it sits in About, so the two cream panels read the
+     same way down the page. Mockup overruled, 24.9.2026. */
   .head {
     flex-direction: row;
-    align-items: flex-end;
+    align-items: flex-start;
     gap: 80px;
   }
 
