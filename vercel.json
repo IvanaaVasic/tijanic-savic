@@ -8,7 +8,17 @@
       "permanent": true
     },
     { "source": "/sr", "destination": "/", "permanent": true },
-    { "source": "/sr/(.*)", "destination": "/", "permanent": true }
+    { "source": "/sr/(.*)", "destination": "/", "permanent": true },
+    {
+      "source": "/oblasti-prava/zastita-podata-o-licnosti-gdpr/?",
+      "destination": "/oblasti-prava/zastita-podataka-o-licnosti-gdpr/",
+      "permanent": true
+    },
+    {
+      "source": "/en/oblasti-prava/zastita-podata-o-licnosti-gdpr/?",
+      "destination": "/en/oblasti-prava/zastita-podataka-o-licnosti-gdpr/",
+      "permanent": true
+    }
   ],
   "rewrites": [
     { "source": "/studio/(.*)", "destination": "/studio/" }

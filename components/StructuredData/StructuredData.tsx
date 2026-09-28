@@ -106,7 +106,10 @@ export function StructuredData({ locale, content }: Props) {
     streetAddress: street,
     postalCode: place.postalCode,
     addressLocality: place.addressLocality,
-    addressCountry: country,
+    // schema.org wants the ISO 3166 code here, not the name — Google reads
+    // "Srbija" as an unknown country. The office is in Serbia either way; the
+    // name from Settings still goes into areaServed below.
+    addressCountry: country ? "RS" : undefined,
   });
 
   const coordinates = podesavanja?.koordinate ?? null;

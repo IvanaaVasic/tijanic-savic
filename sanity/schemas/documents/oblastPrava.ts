@@ -53,7 +53,14 @@ export const oblastPrava = defineType({
         source: "naziv.sr",
         slugify,
       },
-      validation: (Rule) => Rule.required(),
+      // A slug typed by hand skips slugify, and a "š" in it ends up in the
+      // address — the same rule slugify produces, enforced on publish.
+      validation: (Rule) =>
+        Rule.required().custom((value) =>
+          !value?.current || /^[a-z0-9]+(-[a-z0-9]+)*$/.test(value.current)
+            ? true
+            : "Adresa sme da ima samo mala slova bez kvačica, brojeve i crtice, na primer porodicno-pravo. Kliknite Generate.",
+        ),
     }),
 
     defineField({
