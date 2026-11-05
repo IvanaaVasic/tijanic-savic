@@ -18,7 +18,8 @@ ne preliva. `border-radius: 0` svuda, bez `box-shadow`, bez gradijenata.
 Od „bez gradijenata" postoje **tačno dva izuzetka**, oba dogovorena:
 
 1. Ravne dijagonalne pruge koje stoje kao placeholder za mapu. (Na karticama
-   advokata ih više nema — kartica bez fotografije jednostavno nema gornji deo.)
+   advokata ih više nema — kartica bez fotografije ide pravo od imena na
+   titulu, ništa ne stoji umesto slike.)
 2. **Fade preko preseka biografije** u kartici advokata — `LawyerBio.module.css`,
    `.bio::after`. Biografija je sklopljena na fiksnu visinu pa se tekst seče
    gde god red padne, a senka je takođe zabranjena. Ivana ga je tražila
@@ -33,6 +34,19 @@ i `mobile.png` (390). Tamo stoji kompletan raspored po sekcijama, sa svim
 paddinzima i mobilnim varijantama. Ovaj skill pokriva identitet — boje, slova,
 linije, copy — i prepisuje vrednosti iz design.md; ako se njih dvoje ikad
 raziđu, design.md je u pravu i ovaj fajl treba popraviti.
+
+**Izuzetak: sekcije O nama i Tim od 5.11.2026.** Za njih važe novije makete
+`o-nama-desktop.png`, `o-nama-mobilni.png`, `tim-desktop.png` i
+`tim-mobilni.png` (u `docs/design/`), ne raspored iz design.md — tamo je
+portret još na vrhu kartice, a O nama nema fotografija. Detalji su ispod, u
+delu **Fotografije**.
+
+Nove makete i uputstva uz njih pravi neko ko ne zna kako je sajt do sada rađen,
+pa ponekad vrate nešto što je već odlučeno drugačije. Takve stvari se ne
+preuzimaju, nego ostaje ono što je dogovoreno ovde: naslovi u **EB Garamondu**
+(ne Cormorant), boje i veličine kroz tokene, imena polja u Sanityju na srpskom
+(`fotografijeIznad`, ne `galleryTop`), alt kao `lokalniNaslov`. Uzima se
+raspored, ne zastareli detalji.
 
 Jedna kvaka: `docs/design/` je gitignorovan i postoji samo lokalno. Zato ovaj
 skill i `app/tokens.css` moraju da nose sve vrednosti koje su potrebne za rad —
@@ -291,7 +305,7 @@ Zlatna linija bez romba, uvek 1px:
   `--gold-70` — između monograma i imena u zaglavlju
 - **vodoravna**, `--hairline-tagline` (14px) — sa obe strane natpisa
   `ADVOKATSKA KANCELARIJA`
-- **vodoravna**, `--hairline-role` (16px) — ispred labele `ADVOKAT` u kartici
+- **vodoravna**, `--hairline-role` (10px) — ispred labele `ADVOKAT` u kartici
   advokatice
 - **okvir**, `--border-gold` — dugme sa telefonom u zaglavlju i sekundarna
   dugmad
@@ -360,7 +374,49 @@ monogram u zaglavlju, `--logo-vertical-footer` (132px) i
 
 ---
 
-## Animacije na sajtu — dve, obe dogovorene
+## Fotografije
+
+Sve fotografije dolaze iz Sanityja — nijedna ne stoji kao statičan fajl u
+repou. Pravila koja važe za svaku:
+
+- Ugao 0, bez okvira u boji, bez senke, bez natpisa ispod slike.
+- **Fiksna visina i `object-fit: cover`.** Kadar je isti koju god fotografiju
+  advokatice ubace. Tačka fokusa (hotspot) iz Studija postaje
+  `object-position`; bez nje važi rezervni položaj iz tabele ispod.
+- Slika ide kroz `photoSource()` u `sanity/lib/image.ts`: ceo kadar (minus
+  isečak iz Studija) u više širina kroz `srcset`, `width`/`height` iz
+  metapodataka, pa se stranica ne pomera dok se slika učitava. Nema blur
+  placeholdera.
+- Sve ispod prvog ekrana ima `loading="lazy"`.
+- Opis (alt) je `lokalniNaslov`, obavezan na srpskom. U Studiju polje nema
+  primer — fotografije se menjaju, pa bi primer zastareo.
+- Fotografije koje nedostaju se izostave, ništa ne stoji umesto njih.
+
+| Mesto | Desktop (od 900px) | Ispod 900px | Rezervni položaj |
+|---|---|---|---|
+| O nama, red od tri | 420px, 3 kolone, razmak 20px | 768–899: 280px, 3 kolone; ispod 768: slider, 380px | `center 20%` |
+| O nama, široka na dnu | 460px, cela širina panela | 240px | `center 40%` |
+| Portret u kartici advokata | 540px | 420px | `center 18%` |
+
+**O nama:** red od tri fotografije na vrhu krem panela → 50px → oznaka levo,
+naslov i tekst desno → 56px → zlatna linija sa rombom preko cele širine panela
+→ 26px → široka fotografija. Na telefonu je tekst levo poravnat; obostrano
+poravnanje počinje od 900px.
+
+**Slider ispod 768px** (`components/AboutGallery`): slajd je 84% širine
+kolone, razmak 10px, scroll-snap, sakriven scrollbar; traka izlazi do desne
+ivice panela pa se vidi ivica sledeće slike. Ispod je brojač `01 / 03`
+(`--text-label-mobile`, trenutni broj `--green-deep`, ostatak `--grey-green`)
+i tri linije od 2px — aktivna `--gold`, ostale `--line-light`. Linije su
+dugmad visine `--tap-min` i skroluju do slajda.
+
+**Kartica advokata:** jedan uokviren blok (`--green-deep`, `--border-dark`),
+redom: ime → portret → `— ADVOKAT` → biografija → mejl i telefon. Portret stoji
+unutar paddinga kartice, ne do ivica.
+
+---
+
+## Animacije na sajtu — tri, sve dogovorene
 
 Blok se podigne 16px i pojavi se kad uđe u kadar, jednom. To je sve — i to je
 dogovoreno, nije proizvoljno dodato. **Paralaks je odbijen**: traži transformaciju
@@ -405,6 +461,10 @@ zatvaranje izvuče više od ekrana teksta ispod čitaoca.
 `components/LawyerBio`.
 
 Sve preko ove tri i dalje pada pod „animacija koju niko nije tražio".
+
+Slider fotografija u O nama nije četvrta animacija: pomera se samo kad ga
+posetilac povuče ili tapne liniju, a uz `prefers-reduced-motion` i tap skače
+umesto da klizi.
 
 ---
 
@@ -546,9 +606,10 @@ Ako tekst nedostaje — pitaj. Ne piši „Lorem ipsum" ni izmišljene biografij
 - Razdelnik napravljen od teksta umesto od elemenata
 - Mono font malim slovima ili bez `letter-spacing`
 - Font bez latin-ext podrške
-- Animacija koju niko nije tražio — reveal, iscrtavanje razdelnika i otvaranje
-  mobilnog menija su jedini
-  dogovoreni, sve preko toga stani i pitaj
+- Animacija koju niko nije tražio — reveal (sa iscrtavanjem razdelnika),
+  otvaranje mobilnog menija i otvaranje biografije su jedini dogovoreni, sve
+  preko toga stani i pitaj
+- Fotografija kao statičan fajl u repou, sa zaobljenim uglom ili natpisom ispod
 - Naslov bez tačke na kraju
 - `outline: none` bez zamene
 
@@ -556,6 +617,7 @@ Ako tekst nedostaje — pitaj. Ne piši „Lorem ipsum" ni izmišljene biografij
 
 - `docs/design/design.md` — **merodavan izvor**: raspored po sekcijama, svi paddinzi, mobilne varijante. Gitignorovan, postoji samo lokalno
 - `docs/design/desktop.png` (1280), `docs/design/mobile.png` (390) — referentne makete
+- `docs/design/o-nama-desktop.png`, `o-nama-mobilni.png`, `tim-desktop.png`, `tim-mobilni.png` — novije makete za O nama i Tim (5.11.2026); za te dve sekcije važe one
 - `docs/design/Logo-horizontal.png`, `docs/design/Logo-vertical.png` — logotip
 - `app/tokens.css` — sve varijable; prepisano iz design.md, jedini izvor vrednosti u kodu
 - `CLAUDE.md` — pravila projekta (stack, deploy, dvojezičnost); za boje i dimenzije prati design.md

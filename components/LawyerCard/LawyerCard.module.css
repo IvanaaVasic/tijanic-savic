@@ -1,44 +1,13 @@
-/* Lawyer card — docs/design/design.md, part "3 — 02 Tim".
-   Desktop: portrait 380px, body 34/36/36, 16px gap, 27px narrower than the
-   portrait. Below 900px: portrait 340px, body 28/26/30, 14px gap, same width as
-   the portrait. Mobile-first, desktop arrives in the min-width query.
+/* Lawyer card — docs/design/design.md, part "3 — 02 Tim", with the portrait
+   between the name and the role as in tim-desktop.png and tim-mobilni.png.
+   Desktop: padding 34/36/36, 16px gap, portrait 540px tall. Below 900px:
+   padding 28/26/30, 14px gap, portrait 420px. The portrait sits inside the
+   padding, not out to the card's edges. Mobile-first, desktop arrives in the
+   min-width query. */
 
-   The card is not one rectangle: the portrait keeps the full column width while
-   the body below it is narrower. That is why the border and the background sit
-   on .portrait and .body separately, not on .card — that one is only the
-   carrier that stacks them and holds the row height. */
-
-/* flex: 1 together with .item from Team.module.css — the card fills the row
-   height, so every card in the row is the same height regardless of bio
-   length. */
+/* flex: 1 together with .item from Team.module.css — the card fills the width
+   of its grid cell. */
 .card {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-}
-
-/* ── Portrait ──────────────────────────────────────────────────────────── */
-
-/* Fixed height from design.md — 380px on desktop, 340px on mobile. In the
-   mockup the portrait is 408px and 362px respectively, but design.md wins. */
-.portrait {
-  flex: none;
-  width: 100%;
-  height: 340px;
-  border: var(--border-dark);
-  object-fit: cover;
-}
-
-/* A lawyer without a photograph gets no portrait at all — no hatching, no
-   frame, nothing standing in for it. The card is then the text block alone,
-   and .bodyAlone below closes it off. */
-
-/* ── Body ──────────────────────────────────────────────────────────────── */
-
-/* The top border is dropped: the portrait's bottom line already sits there, so
-   two lines would double up. On mobile the body is the same width as the
-   portrait — it only narrows from 900px up. */
-.body {
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -46,16 +15,25 @@
   padding: 28px 26px 30px;
   background: var(--green-deep);
   border: var(--border-dark);
-  border-top: 0;
 }
 
-/* The same block with no portrait above it: it takes back the top line, and on
-   desktop the full column width too — the 27px inset only makes sense measured
-   against a portrait that is no longer there. */
-.bodyAlone {
-  composes: body;
-  border-top: var(--border-dark);
+/* ── Portrait ──────────────────────────────────────────────────────────── */
+
+/* A fixed height and object-fit, so the frame is the same whatever photograph
+   comes in; object-position is set inline from the hotspot. The extra margins
+   give the photograph a little more air than the text rows have between them —
+   measured off the mockup, 20px under the name and 22px above the role. */
+.portrait {
+  display: block;
+  flex: none;
+  width: 100%;
+  height: 420px;
+  margin-block: 4px 6px;
+  object-fit: cover;
 }
+
+/* A lawyer without a photograph gets no portrait at all — no hatching, no
+   frame, nothing standing in for it. */
 
 .name {
   font-family: var(--font-display);
@@ -147,24 +125,13 @@
 /* ── From 900px up ─────────────────────────────────────────────────────── */
 
 @media (min-width: 900px) {
-  .portrait {
-    height: 380px;
-  }
-
-  /* The body is 27px narrower than the portrait — the portrait stays full width
-     while the framed text is inset, instead of the image spilling out of the
-     column. That way the last card in a row also stays inside the page margin,
-     whether there is one of them or three. The difference was measured in the
-     mockup (portrait 582px, body 555px on a 1280 canvas). The alignment is
-     left, so the inset only shows on the right. */
-  .body {
-    width: calc(100% - 27px);
+  .card {
     gap: 16px;
     padding: 34px 36px 36px;
   }
 
-  .bodyAlone {
-    width: 100%;
+  .portrait {
+    height: 540px;
   }
 
   .name {

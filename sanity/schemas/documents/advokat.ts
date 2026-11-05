@@ -1,6 +1,8 @@
 import { UsersIcon } from "@sanity/icons";
 import { defineField, defineType } from "sanity";
 
+import { photoAlt } from "../fields/photoAlt";
+
 export const advokat = defineType({
   name: "advokat",
   title: "Advokat",
@@ -33,27 +35,12 @@ export const advokat = defineType({
 
     defineField({
       name: "fotografija",
-      title: "Fotografija",
+      title: "Portret",
       type: "image",
       options: { hotspot: true },
       description:
-        "Portret na vrhu kartice. Uspravan, odnos stranica 4:5, snimljen na tamnoj pozadini.",
-      fields: [
-        defineField({
-          name: "alt",
-          title: "Opis fotografije",
-          type: "lokalniNaslov",
-          description:
-            "Kratak opis za posetioce koji koriste čitač ekrana i za slučaj da se slika ne učita. Na primer: Ana Tijanić, advokat.",
-          // Rule.required() na objektu prošlo bi i kad su oba jezika prazna, pa
-          // se traži srpska strana — engleska se na nju vraća kad ostane prazna.
-          // Tip se navodi jer Rule.custom za ugnežđeni objekat vidi samo {}.
-          validation: (Rule) =>
-            Rule.custom<{ sr?: string } | undefined>((value) =>
-              value?.sr?.trim() ? true : "Opis fotografije je obavezan.",
-            ),
-        }),
-      ],
+        "Portret u kartici, između imena i titule. Uspravan. Tačkom fokusa (ikonica olovke na slici) označite lice — ono ostaje u kadru i na telefonu.",
+      fields: [photoAlt()],
     }),
 
     defineField({

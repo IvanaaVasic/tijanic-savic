@@ -8,11 +8,28 @@ import { defineQuery } from "next-sanity";
 //
 // The field names below are the ones stored in the dataset, so they stay in
 // Serbian. Everything the code names itself is in English.
+// A photograph with what the page needs to lay it out before it loads: the
+// original dimensions give the <img> its width and height, the hotspot and the
+// crop come along for the image builder and for object-position.
+const PHOTO = `
+  alt,
+  hotspot,
+  crop,
+  asset->{_id, metadata{dimensions{width, height}}}
+`;
+
 export const CONTENT_QUERY = defineQuery(`{
   "podesavanja": *[_type == "podesavanja"][0]{...},
   "pocetna": *[_type == "pocetna"][0]{...},
-  "oNama": *[_type == "oNama"][0]{...},
-  "advokati": *[_type == "advokat"] | order(redosled asc){...},
+  "oNama": *[_type == "oNama"][0]{
+    ...,
+    fotografijeIznad[]{_key, ${PHOTO}},
+    sirokaFotografija{${PHOTO}}
+  },
+  "advokati": *[_type == "advokat"] | order(redosled asc){
+    ...,
+    fotografija{${PHOTO}}
+  },
   "oblastiPrava": *[_type == "oblastiPrava"][0]{...},
   "oblasti": *[_type == "oblastPrava" && defined(slug.current)] | order(redosled asc){
     _id,

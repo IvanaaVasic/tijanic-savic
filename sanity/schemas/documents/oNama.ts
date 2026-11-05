@@ -1,10 +1,41 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+import { photoAlt } from "../fields/photoAlt";
+
 export const oNama = defineType({
   name: "oNama",
   title: "O nama",
   type: "document",
   fields: [
+    defineField({
+      name: "fotografijeIznad",
+      title: "Fotografije iznad teksta (3)",
+      type: "array",
+      description:
+        "Tri fotografije u redu na vrhu svetlog polja, iste visine. Na telefonu se listaju prstom. Redosled ovde je redosled na sajtu. Tačkom fokusa (ikonica olovke na slici) označite lica.",
+      // Ne i required: dok fotografija nema, sekcija stoji bez reda slika.
+      validation: (Rule) =>
+        Rule.length(3).error("Potrebne su tačno tri fotografije."),
+      options: { layout: "grid" },
+      of: [
+        defineArrayMember({
+          type: "image",
+          options: { hotspot: true },
+          fields: [photoAlt()],
+        }),
+      ],
+    }),
+
+    defineField({
+      name: "sirokaFotografija",
+      title: "Široka fotografija ispod teksta",
+      type: "image",
+      options: { hotspot: true },
+      description:
+        "Jedna položena fotografija preko cele širine, na dnu svetlog polja, ispod zlatne linije.",
+      fields: [photoAlt()],
+    }),
+
     defineField({
       name: "naslovSekcije",
       title: "Naslov sekcije",

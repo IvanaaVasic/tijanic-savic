@@ -1,8 +1,11 @@
-/* About — section 2 from docs/design/design.md.
-   Desktop: wrapper 0/64/56, panel 64/72/56, two columns with an 80px gap —
-   a narrow 170px one on the left, a text column up to 720px on the right.
-   Below 900px: wrapper 0/16/32, panel 40/28/36, everything in one column,
-   22px gap. Mobile-first, desktop arrives in the min-width query. */
+/* About — section 2 from docs/design/design.md, with the photographs from
+   o-nama-desktop.png and o-nama-mobilni.png.
+   Desktop: wrapper 0/64/56, panel 64/72/56. Top to bottom: the photographs
+   (AboutGallery), 50px, two columns with an 80px gap — a narrow 170px one on
+   the left, a text column up to 720px on the right — 56px, the divider across
+   the panel, 26px, the wide photograph 460px tall.
+   Below 900px: wrapper 0/16/32, panel 40/28/36, everything in one column, the
+   photograph 240px tall. Mobile-first, desktop arrives in the min-width query. */
 
 /* The green band around the panel — content never touches the screen edge. Past
    --content-max the band stops growing and the panel sits in the middle of the
@@ -16,13 +19,20 @@
 .panel {
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 30px;
   padding: 40px 28px 36px;
   background: var(--cream);
 
   /* The default text colour on the cream background. The paragraphs override it
      to --ink, the small labels to --grey-green. */
   color: var(--green-deep);
+}
+
+/* The label and the text — one column on mobile, two from 900px. */
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
 }
 
 /* ── Section label ─────────────────────────────────────────────────────── */
@@ -71,12 +81,18 @@
   line-height: var(--leading-body);
   color: var(--ink);
 
-  /* Justified: the column is capped at --measure-text, so a ragged right edge
-     reads as an accident rather than as a measure. Flush on both sides it sits
-     square with the panel. hyphens: auto keeps the word spacing from opening up
-     where the browser has Serbian patterns; where it has none it does nothing. */
-  text-align: justify;
+  /* Left-aligned on the phone: in a column this narrow, justified text opens
+     holes between the words even with hyphenation. */
   hyphens: auto;
+}
+
+/* ── Wide photograph ───────────────────────────────────────────────────── */
+
+.wide {
+  display: block;
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
 }
 
 /* ── Stats ─────────────────────────────────────────────────────────────── */
@@ -122,9 +138,18 @@
   }
 
   .panel {
+    gap: 0;
+    padding: 64px 72px 56px;
+  }
+
+  /* The gaps between the parts are not equal, so they sit on the parts. */
+  .row {
     flex-direction: row;
     gap: 80px;
-    padding: 64px 72px 56px;
+  }
+
+  .row:not(:first-child) {
+    margin-top: 50px;
   }
 
   .label {
@@ -157,12 +182,22 @@
     line-height: var(--leading-heading);
   }
 
+  /* Justified from here: the column is capped at --measure-text, so a ragged
+     right edge reads as an accident rather than as a measure. Flush on both
+     sides it sits square with the panel. hyphens: auto keeps the word spacing
+     from opening up where the browser has Serbian patterns. */
   .paragraph {
     font-size: var(--text-body);
+    text-align: justify;
   }
 
   .divider {
-    margin-top: 12px;
+    margin-top: 56px;
+  }
+
+  .wide {
+    height: 460px;
+    margin-top: 26px;
   }
 
   /* The cells fill the row with no gaps: 1 / 1 / 1.5. The last one is wider

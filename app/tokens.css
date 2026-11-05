@@ -15,34 +15,34 @@
    are listed per section in design.md. */
 
 :root {
-  /* ── Colours ──────────────────────────────────────────── */
-  /* Two backgrounds in total: green for the page, cream for the panels.
+    /* ── Colours ──────────────────────────────────────────── */
+    /* Two backgrounds in total: green for the page, cream for the panels.
      Careful: --green-alt is the page background, --green-deep is the cards.
      The names sound the other way round, but the mockups are authoritative. */
-  --green-alt: #0b2f24; /* background of the whole page */
-  --green-deep: #0f382c; /* team cards; text on the cream ground */
-  --green-line: #1b4a3b; /* every rule and border on the dark ground */
-  --gold: #c49a45; /* rules, diamond, borders, button fill — never text */
-  --gold-bright: #d4af37; /* the only gold allowed to carry text, and only on dark */
-  --cream: #efece6; /* the panel of the light sections; body text on green */
-  --ink: #1e2622; /* body text on cream */
-  --grey-green: #55605a; /* mono captions and labels on cream */
-  --line-light: #dfdbd3; /* rules on the cream ground */
+    --green-alt: #0b2f24; /* background of the whole page */
+    --green-deep: #0f382c; /* team cards; text on the cream ground */
+    --green-line: #1b4a3b; /* every rule and border on the dark ground */
+    --gold: #c49a45; /* rules, diamond, borders, button fill — never text */
+    --gold-bright: #d4af37; /* the only gold allowed to carry text, and only on dark */
+    --cream: #efece6; /* the panel of the light sections; body text on green */
+    --ink: #1e2622; /* body text on cream */
+    --grey-green: #55605a; /* mono captions and labels on cream */
+    --line-light: #dfdbd3; /* rules on the cream ground */
 
-  /* semi-transparent variants */
-  --cream-62: rgba(239, 236, 230, 0.62); /* secondary text on green */
-  --gold-50: rgba(196, 154, 69, 0.5); /* the gold rules of the divider */
-  --gold-70: rgba(196, 154, 69, 0.7); /* the upright rule in the header */
+    /* semi-transparent variants */
+    --cream-62: rgba(239, 236, 230, 0.62); /* secondary text on green */
+    --gold-50: rgba(196, 154, 69, 0.5); /* the gold rules of the divider */
+    --gold-70: rgba(196, 154, 69, 0.7); /* the upright rule in the header */
 
-  /* hatching — placeholder for photographs and the map, 45°, 6px on 6px */
-  --stripe-width: 6px;
-  --stripe-dark-line: var(--green-line); /* stripe on the dark ground */
-  --stripe-dark-base: #164034; /* ground under the stripe */
-  --stripe-light-line: #dde0d6; /* stripe on the map */
-  --stripe-light-base: #e7e9df; /* the map's ground */
+    /* hatching — placeholder for photographs and the map, 45°, 6px on 6px */
+    --stripe-width: 6px;
+    --stripe-dark-line: var(--green-line); /* stripe on the dark ground */
+    --stripe-dark-base: #164034; /* ground under the stripe */
+    --stripe-light-line: #dde0d6; /* stripe on the map */
+    --stripe-light-base: #e7e9df; /* the map's ground */
 
-  /* ── Typography ───────────────────────────────────────── */
-  /* --font-eb-garamond, --font-plex-sans and --font-plex-mono come from
+    /* ── Typography ───────────────────────────────────────── */
+    /* --font-eb-garamond, --font-plex-sans and --font-plex-mono come from
      next/font, in lib/fonts.ts. The fallbacks in the stack hold the diacritics
      until the font loads.
 
@@ -50,150 +50,155 @@
      name: Cormorant places the caron and acute on the lower-case č, š, ž and ć
      high above the letter and shifted right, which at hero size comes apart.
      See lib/fonts.ts. */
-  --font-display: var(--font-eb-garamond), Georgia, "Times New Roman", serif;
-  --font-body: var(--font-plex-sans), system-ui, "Segoe UI", sans-serif;
-  --font-mono: var(--font-plex-mono), ui-monospace, "Consolas", monospace;
+    --font-display: var(--font-eb-garamond), Georgia, "Times New Roman", serif;
+    --font-body: var(--font-plex-sans), system-ui, "Segoe UI", sans-serif;
+    --font-mono: var(--font-plex-mono), ui-monospace, "Consolas", monospace;
 
-  /* EB Garamond has no 300, so the hero shares 400 with the section titles. The
+    /* EB Garamond has no 300, so the hero shares 400 with the section titles. The
      two never sit next to each other and are 76px against 38px apart, so the
      hierarchy is carried by size, as it already was. */
-  --weight-hero: 400; /* EB Garamond, hero title */
-  --weight-heading: 400; /* EB Garamond, section titles and names */
-  --weight-wordmark: 500; /* EB Garamond, the office name in the header */
-  --weight-body: 300; /* Plex Sans, all running text */
-  --weight-body-strong: 600; /* "bold" from Sanity; not from the mockups */
+    --weight-hero: 400; /* EB Garamond, hero title */
+    --weight-heading: 400; /* EB Garamond, section titles and names */
+    --weight-wordmark: 500; /* EB Garamond, the office name in the header */
+    --weight-body: 300; /* Plex Sans, all running text */
+    --weight-body-strong: 600; /* "bold" from Sanity; not from the mockups */
 
-  /* sizes — desktop, then the variant below 900px */
-  --text-hero: 76px;
-  --text-hero-mobile: 42px;
-  --text-h2: 38px; /* section title */
-  --text-h2-mobile: 30px;
-  --text-contact: 36px; /* the title in the Contact section */
-  --text-contact-mobile: 28px;
-  --text-stat: 34px; /* the figure in a stat; no mobile size, the row is dropped */
-  --text-name: 32px; /* a lawyer's name */
-  --text-name-mobile: 29px;
-  --text-wordmark: 21px; /* TIJANIĆ SAVIĆ in the header */
-  --text-wordmark-mobile: 13px;
-  /* lead paragraph and the hero subtitle — 2px above the 19/16 of design.md,
+    /* sizes — desktop, then the variant below 900px */
+    --text-hero: 76px;
+    --text-hero-mobile: 42px;
+    --text-h2: 38px; /* section title */
+    --text-h2-mobile: 30px;
+    --text-contact: 36px; /* the title in the Contact section */
+    --text-contact-mobile: 28px;
+    --text-stat: 34px; /* the figure in a stat; no mobile size, the row is dropped */
+    --text-name: 32px; /* a lawyer's name */
+    --text-name-mobile: 29px;
+    --text-wordmark: 21px; /* TIJANIĆ SAVIĆ in the header */
+    --text-wordmark-mobile: 13px;
+    /* lead paragraph and the hero subtitle — 2px above the 19/16 of design.md,
      by the lawyers' request */
-  --text-lead: 21px;
-  --text-lead-mobile: 17px;
-  --text-body: 17px; /* body text */
-  --text-body-mobile: 15.5px;
-  --text-value: 17px; /* the data in the Contact section */
-  --text-value-mobile: 16px;
-  --text-card: 16px; /* the bio in a card */
-  --text-card-mobile: 15.5px;
-  --text-suffix: 14px; /* the name next to a phone number */
-  --text-suffix-mobile: 13px;
-  --text-mono-contact: 12px; /* email and phone in a lawyer card */
-  --text-label: 11px; /* mono label: nav, eyebrow, button */
-  --text-label-mobile: 10px;
-  --text-micro: 10px; /* stat caption, hatching signature, ADVOKAT, legal line */
-  --text-micro-mobile: 9.5px;
-  --text-tagline: 8.5px; /* ADVOKATSKA KANCELARIJA in the header */
+    --text-lead: 21px;
+    --text-lead-mobile: 17px;
+    --text-body: 17px; /* body text */
+    --text-body-mobile: 15.5px;
+    --text-value: 17px; /* the data in the Contact section */
+    --text-value-mobile: 16px;
+    --text-card: 16px; /* the bio in a card */
+    --text-card-mobile: 15.5px;
+    --text-suffix: 14px; /* the name next to a phone number */
+    --text-suffix-mobile: 13px;
+    --text-mono-contact: 12px; /* email and phone in a lawyer card */
+    --text-label: 11px; /* mono label: nav, eyebrow, button */
+    --text-label-mobile: 10px;
+    --text-micro: 10px; /* stat caption, hatching signature, ADVOKAT, legal line */
+    --text-micro-mobile: 9.5px;
+    --text-tagline: 8.5px; /* ADVOKATSKA KANCELARIJA in the header */
 
-  /* Practice areas — measured off docs/design/oblasti/, not in design.md */
-  --text-page-title: 46px; /* the title of a practice area page */
-  --text-page-title-mobile: 32px;
-  --text-area-title: 24px; /* the name on a practice area card */
-  --text-area-title-mobile: 22px;
-  --text-small: 15px; /* card description, practice areas in the menu */
+    /* Practice areas — measured off docs/design/oblasti/, not in design.md */
+    --text-page-title: 46px; /* the title of a practice area page */
+    --text-page-title-mobile: 32px;
+    --text-area-title: 24px; /* the name on a practice area card */
+    --text-area-title-mobile: 22px;
+    --text-small: 15px; /* card description, practice areas in the menu */
 
-  --leading-display: 1.14; /* hero title */
-  --leading-display-mobile: 1.18;
-  --leading-heading: 1.28; /* section titles */
-  --leading-heading-mobile: 1.26;
-  --leading-lead: 1.75; /* lead paragraph */
-  --leading-lead-mobile: 1.78;
-  --leading-body: 1.85;
-  --leading-card: 1.8;
-  --leading-legal: 2; /* the two lines of legal text in the footer */
-  --leading-small: 1.65; /* --text-small */
-  --leading-title: 1.2; /* a card title that may wrap to two lines */
+    --leading-display: 1.14; /* hero title */
+    --leading-display-mobile: 1.18;
+    --leading-heading: 1.28; /* section titles */
+    --leading-heading-mobile: 1.26;
+    --leading-lead: 1.75; /* lead paragraph */
+    --leading-lead-mobile: 1.78;
+    --leading-body: 1.85;
+    --leading-card: 1.8;
+    --leading-legal: 2; /* the two lines of legal text in the footer */
+    --leading-small: 1.65; /* --text-small */
+    --leading-title: 1.2; /* a card title that may wrap to two lines */
 
-  --tracking-eyebrow: 0.26em; /* the eyebrow above the hero title */
-  --tracking-name: 0.24em; /* the office name in the header */
-  --tracking-name-mobile: 0.2em;
-  --tracking-micro: 0.24em; /* "ADVOKATSKA KANCELARIJA" */
-  --tracking-label: 0.22em; /* section labels */
-  --tracking-button: 0.2em; /* buttons */
-  --tracking-nav: 0.18em; /* navigation items */
-  --tracking-legal: 0.12em; /* the legal line in the footer */
+    --tracking-eyebrow: 0.26em; /* the eyebrow above the hero title */
+    --tracking-name: 0.24em; /* the office name in the header */
+    --tracking-name-mobile: 0.2em;
+    --tracking-micro: 0.24em; /* "ADVOKATSKA KANCELARIJA" */
+    --tracking-label: 0.22em; /* section labels */
+    --tracking-button: 0.2em; /* buttons */
+    --tracking-nav: 0.18em; /* navigation items */
+    --tracking-legal: 0.12em; /* the legal line in the footer */
 
-  /* ── Space ────────────────────────────────────────────── */
-  --pad-page-x: 64px; /* left and right, full-width content */
-  --pad-page-x-mobile: 24px;
-  --pad-panel-x: 64px; /* the green band around the cream panel */
-  --pad-panel-x-mobile: 16px;
-  --pad-nav-y: 32px; /* header, top and bottom */
-  --pad-nav-y-mobile: 20px;
-  --pad-nav-x-mobile: 22px; /* the header is narrower than the rest of the page */
+    /* ── Space ────────────────────────────────────────────── */
+    --pad-page-x: 64px; /* left and right, full-width content */
+    --pad-page-x-mobile: 24px;
+    --pad-panel-x: 64px; /* the green band around the cream panel */
+    --pad-panel-x-mobile: 16px;
+    --pad-nav-y: 32px; /* header, top and bottom */
+    --pad-nav-y-mobile: 20px;
+    --pad-nav-x-mobile: 22px; /* the header is narrower than the rest of the page */
 
-  /* The widest the content ever goes. Past this the page stops stretching and
+    /* The widest the content ever goes. Past this the page stops stretching and
      the content sits in the middle — on a 2560px monitor the header would
      otherwise pull the monogram to one edge and the phone button to the other.
      Only the content is capped: the page background, the rule under the header
      and the one above the footer still run from edge to edge. */
-  --content-max: 1440px;
+    --content-max: 1440px;
 
-  --measure: 900px; /* hero title */
-  --measure-lead: 640px; /* the lead paragraph in the hero */
-  --measure-text: 720px; /* the text column in the About section */
+    --measure: 900px; /* hero title */
+    --measure-lead: 640px; /* the lead paragraph in the hero */
+    --measure-text: 720px; /* the text column in the About section */
 
-  --header-height: 112px; /* 32 + 48 monogram + 32; anchors clear it */
-  --header-height-mobile: 74px;
-  --tap-min: 44px; /* the smallest tap target on mobile */
+    --header-height: 112px; /* 32 + 48 monogram + 32; anchors clear it */
+    --header-height-mobile: 74px;
+    --tap-min: 44px; /* the smallest tap target on mobile */
 
-  /* ── Motion ───────────────────────────────────────────── */
-  /* The one animation on the site: a block rises a little and fades in as it
+    /* ── Motion ───────────────────────────────────────────── */
+    /* The one animation on the site: a block rises a little and fades in as it
      comes into view, once. See components/Reveal. The values are deliberately
      small — the movement should be felt, not watched. */
-  --reveal-duration: 550ms;
-  --reveal-rise: 16px; /* how far below its place a block starts */
-  --reveal-stagger: 80ms; /* between two cards in the same row */
-  --reveal-ease: cubic-bezier(0.22, 1, 0.36, 1); /* quick, then a long settle */
+    --reveal-duration: 550ms;
+    --reveal-rise: 16px; /* how far below its place a block starts */
+    --reveal-stagger: 80ms; /* between two cards in the same row */
+    --reveal-ease: cubic-bezier(
+        0.22,
+        1,
+        0.36,
+        1
+    ); /* quick, then a long settle */
 
-  /* The gold divider draws itself out of the middle once the block around it
+    /* The gold divider draws itself out of the middle once the block around it
      has arrived — the brand's own mark, so it is the one thing allowed to draw
      attention to itself. Slower than the block it sits in. */
-  --draw-duration: 700ms;
-  --draw-delay: calc(var(--reveal-duration) * 0.55);
+    --draw-duration: 700ms;
+    --draw-delay: calc(var(--reveal-duration) * 0.55);
 
-  /* The mobile menu opening — asked for separately: the panel fades in and
+    /* The mobile menu opening — asked for separately: the panel fades in and
      its rows rise into place one after the other, a little quicker than the
      reveal, since the visitor is waiting on it. */
-  --menu-duration: 360ms;
-  --menu-stagger: 40ms; /* between two rows of the menu */
-  --menu-rise: 10px;
+    --menu-duration: 360ms;
+    --menu-stagger: 40ms; /* between two rows of the menu */
+    --menu-rise: 10px;
 
-  /* ── Rules and details ────────────────────────────────── */
-  /* "border" is an element's frame, "divider" is the gold rule with the diamond. */
-  --hairline: 1px;
-  --border-dark: var(--hairline) solid var(--green-line);
-  --border-light: var(--hairline) solid var(--line-light);
-  --border-gold: var(--hairline) solid var(--gold);
+    /* ── Rules and details ────────────────────────────────── */
+    /* "border" is an element's frame, "divider" is the gold rule with the diamond. */
+    --hairline: 1px;
+    --border-dark: var(--hairline) solid var(--green-line);
+    --border-light: var(--hairline) solid var(--line-light);
+    --border-gold: var(--hairline) solid var(--gold);
 
-  --diamond-size: 7px; /* the square rotated 45° between the rules */
-  --divider-hero: 340px;
-  --divider-hero-mobile: 180px;
-  --divider-footer: 420px;
-  --divider-footer-mobile: 200px;
-  --divider-page: 300px; /* under the title of a practice area page */
-  --divider-page-mobile: 160px;
+    --diamond-size: 7px; /* the square rotated 45° between the rules */
+    --divider-hero: 340px;
+    --divider-hero-mobile: 180px;
+    --divider-footer: 420px;
+    --divider-footer-mobile: 200px;
+    --divider-page: 300px; /* under the title of a practice area page */
+    --divider-page-mobile: 160px;
 
-  --hairline-vertical: 42px; /* the upright rule between monogram and name */
-  --hairline-vertical-mobile: 27px;
-  --hairline-tagline: 14px; /* the dashes left and right of the tagline */
-  --hairline-role: 16px; /* the dash in front of the ADVOKAT label */
+    --hairline-vertical: 42px; /* the upright rule between monogram and name */
+    --hairline-vertical-mobile: 27px;
+    --hairline-tagline: 14px; /* the dashes left and right of the tagline */
+    --hairline-role: 10px; /* the dash in front of the ADVOKAT label */
 
-  --radius: 0; /* no rounding, everything is sharp */
-  --focus-offset: 4px;
+    --radius: 0; /* no rounding, everything is sharp */
+    --focus-offset: 4px;
 
-  /* ── Logo ─────────────────────────────────────────────── */
-  --logo-mono-nav: 48px; /* the monogram height in the header */
-  --logo-mono-nav-mobile: 34px;
-  --logo-vertical-footer: 132px;
-  --logo-vertical-footer-mobile: 104px;
+    /* ── Logo ─────────────────────────────────────────────── */
+    --logo-mono-nav: 48px; /* the monogram height in the header */
+    --logo-mono-nav-mobile: 34px;
+    --logo-vertical-footer: 132px;
+    --logo-vertical-footer-mobile: 104px;
 }

@@ -95,6 +95,33 @@ export type ONama = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
+  fotografijeIznad?: Array<{
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: LokalniNaslov;
+    _type: "image";
+    _key: string;
+  }>;
+  sirokaFotografija?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: LokalniNaslov;
+    _type: "image";
+  };
   naslovSekcije?: LokalniNaslov;
   tekst?: LokalniBlok;
   statistike?: Array<{
@@ -338,7 +365,7 @@ export type AllSanitySchemaTypes = Kontakt | OblastPrava | OblastiPrava | Advoka
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/lib/queries.ts
 // Variable: CONTENT_QUERY
-// Query: {  "podesavanja": *[_type == "podesavanja"][0]{...},  "pocetna": *[_type == "pocetna"][0]{...},  "oNama": *[_type == "oNama"][0]{...},  "advokati": *[_type == "advokat"] | order(redosled asc){...},  "oblastiPrava": *[_type == "oblastiPrava"][0]{...},  "oblasti": *[_type == "oblastPrava" && defined(slug.current)] | order(redosled asc){    _id,    naziv,    "slug": slug.current,    kratakOpis  },  "kontakt": *[_type == "kontakt"][0]{...}}
+// Query: {  "podesavanja": *[_type == "podesavanja"][0]{...},  "pocetna": *[_type == "pocetna"][0]{...},  "oNama": *[_type == "oNama"][0]{    ...,    fotografijeIznad[]{_key,   alt,  hotspot,  crop,  asset->{_id, metadata{dimensions{width, height}}}},    sirokaFotografija{  alt,  hotspot,  crop,  asset->{_id, metadata{dimensions{width, height}}}}  },  "advokati": *[_type == "advokat"] | order(redosled asc){    ...,    fotografija{  alt,  hotspot,  crop,  asset->{_id, metadata{dimensions{width, height}}}}  },  "oblastiPrava": *[_type == "oblastiPrava"][0]{...},  "oblasti": *[_type == "oblastPrava" && defined(slug.current)] | order(redosled asc){    _id,    naziv,    "slug": slug.current,    kratakOpis  },  "kontakt": *[_type == "kontakt"][0]{...}}
 export type CONTENT_QUERYResult = {
   podesavanja: {
     _id: string;
@@ -392,6 +419,35 @@ export type CONTENT_QUERYResult = {
     _createdAt: string;
     _updatedAt: string;
     _rev: string;
+    fotografijeIznad: Array<{
+      _key: string;
+      alt: LokalniNaslov | null;
+      hotspot: SanityImageHotspot | null;
+      crop: SanityImageCrop | null;
+      asset: {
+        _id: string;
+        metadata: {
+          dimensions: {
+            width: number | null;
+            height: number | null;
+          } | null;
+        } | null;
+      } | null;
+    }> | null;
+    sirokaFotografija: {
+      alt: LokalniNaslov | null;
+      hotspot: SanityImageHotspot | null;
+      crop: SanityImageCrop | null;
+      asset: {
+        _id: string;
+        metadata: {
+          dimensions: {
+            width: number | null;
+            height: number | null;
+          } | null;
+        } | null;
+      } | null;
+    } | null;
     naslovSekcije?: LokalniNaslov;
     tekst?: LokalniBlok;
     statistike?: Array<{
@@ -411,19 +467,20 @@ export type CONTENT_QUERYResult = {
     ime?: string;
     titula?: LokalniNaslov;
     biografija?: LokalniBlok;
-    fotografija?: {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
-      media?: unknown;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      alt?: LokalniNaslov;
-      _type: "image";
-    };
+    fotografija: {
+      alt: LokalniNaslov | null;
+      hotspot: SanityImageHotspot | null;
+      crop: SanityImageCrop | null;
+      asset: {
+        _id: string;
+        metadata: {
+          dimensions: {
+            width: number | null;
+            height: number | null;
+          } | null;
+        } | null;
+      } | null;
+    } | null;
     mejl?: string;
     telefon?: string;
     redosled?: number;
@@ -573,7 +630,7 @@ export type AREA_PAGE_QUERYResult = {
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "{\n  \"podesavanja\": *[_type == \"podesavanja\"][0]{...},\n  \"pocetna\": *[_type == \"pocetna\"][0]{...},\n  \"oNama\": *[_type == \"oNama\"][0]{...},\n  \"advokati\": *[_type == \"advokat\"] | order(redosled asc){...},\n  \"oblastiPrava\": *[_type == \"oblastiPrava\"][0]{...},\n  \"oblasti\": *[_type == \"oblastPrava\" && defined(slug.current)] | order(redosled asc){\n    _id,\n    naziv,\n    \"slug\": slug.current,\n    kratakOpis\n  },\n  \"kontakt\": *[_type == \"kontakt\"][0]{...}\n}": CONTENT_QUERYResult;
+    "{\n  \"podesavanja\": *[_type == \"podesavanja\"][0]{...},\n  \"pocetna\": *[_type == \"pocetna\"][0]{...},\n  \"oNama\": *[_type == \"oNama\"][0]{\n    ...,\n    fotografijeIznad[]{_key, \n  alt,\n  hotspot,\n  crop,\n  asset->{_id, metadata{dimensions{width, height}}}\n},\n    sirokaFotografija{\n  alt,\n  hotspot,\n  crop,\n  asset->{_id, metadata{dimensions{width, height}}}\n}\n  },\n  \"advokati\": *[_type == \"advokat\"] | order(redosled asc){\n    ...,\n    fotografija{\n  alt,\n  hotspot,\n  crop,\n  asset->{_id, metadata{dimensions{width, height}}}\n}\n  },\n  \"oblastiPrava\": *[_type == \"oblastiPrava\"][0]{...},\n  \"oblasti\": *[_type == \"oblastPrava\" && defined(slug.current)] | order(redosled asc){\n    _id,\n    naziv,\n    \"slug\": slug.current,\n    kratakOpis\n  },\n  \"kontakt\": *[_type == \"kontakt\"][0]{...}\n}": CONTENT_QUERYResult;
     "\n  *[_type == \"podesavanja\"][0]{...}\n": SETTINGS_QUERYResult;
     "\n  *[_type == \"oblastPrava\" && defined(slug.current)].slug.current\n": AREA_SLUGS_QUERYResult;
     "{\n  \"oblast\": *[_type == \"oblastPrava\" && slug.current == $slug][0]{\n    ...,\n    \"slug\": slug.current\n  },\n  \"podesavanja\": *[_type == \"podesavanja\"][0]{...},\n  \"pocetna\": *[_type == \"pocetna\"][0]{tekstDugmeta, linkDugmeta, seo},\n  \"kontakt\": *[_type == \"kontakt\"][0]{telefoni}\n}": AREA_PAGE_QUERYResult;

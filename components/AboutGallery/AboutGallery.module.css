@@ -1,0 +1,152 @@
+/* The photographs at the top of the About panel — o-nama-desktop.png and
+   o-nama-mobilni.png in docs/design.
+   Below 768px: a sideways strip, slides 380px tall and 84% of the column wide
+   with 10px between them, running out to the panel's right edge; under it a
+   counter and three 2px lines.
+   From 768px: three equal columns 20px apart — 280px tall up to 899px, 420px
+   from 900px, where the panel turns desktop. Mobile-first. */
+
+.gallery {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── The strip ─────────────────────────────────────────────────────────── */
+
+/* The strip reaches past the panel's 28px padding on both sides, so a slide
+   runs out under the edge of the panel rather than stopping short of it; the
+   padding is put back on the list inside, which is what lines the first slide
+   up with the text. On the list and not here, because a scroller drops its own
+   right padding at the end of the scroll in some browsers.
+   container-type lets the slides size against the strip with cqi — a
+   percentage would point at the list, which is as wide as its content. */
+.track {
+  container-type: inline-size;
+  margin-inline: -28px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 28px;
+  scrollbar-width: none;
+}
+
+.track::-webkit-scrollbar {
+  display: none;
+}
+
+/* The strip sits flush with the panel's edges, so the focus ring is drawn
+   inside it. */
+.track:focus-visible {
+  outline-offset: -1px;
+}
+
+.slides {
+  display: flex;
+  gap: 10px;
+  width: max-content;
+  padding: 0 28px;
+  list-style: none;
+}
+
+/* 84% of the text column, the column being the strip minus the padding. */
+.slide {
+  flex: none;
+  width: calc((100cqi - 56px) * 0.84);
+  scroll-snap-align: start;
+}
+
+.photo {
+  display: block;
+  width: 100%;
+  height: 380px;
+  object-fit: cover;
+}
+
+/* ── Counter and lines ─────────────────────────────────────────────────── */
+
+.indicator {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+}
+
+/* 01 / 03 — the current number in the dark green, the rest grey. */
+.counter {
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: var(--text-label-mobile);
+  letter-spacing: var(--tracking-legal);
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--grey-green);
+}
+
+.current {
+  color: var(--green-deep);
+}
+
+.lines {
+  display: flex;
+  flex: 1;
+  gap: 6px;
+}
+
+/* The line is 2px, the button around it a full tap target tall — the line is
+   drawn by ::before in its middle. */
+.line {
+  flex: 1;
+  height: var(--tap-min);
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.line::before {
+  content: "";
+  display: block;
+  height: 2px;
+  background: var(--line-light);
+}
+
+.line[aria-current="true"]::before {
+  background: var(--gold);
+}
+
+/* ── From 768px up ─────────────────────────────────────────────────────── */
+
+/* Three columns: the strip stops scrolling and the counter goes. */
+@media (min-width: 768px) {
+  .track {
+    container-type: normal;
+    margin-inline: 0;
+    overflow: visible;
+  }
+
+  .slides {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    width: auto;
+    padding: 0;
+  }
+
+  .slide {
+    width: auto;
+    min-width: 0;
+  }
+
+  .photo {
+    height: 280px;
+  }
+
+  .indicator {
+    display: none;
+  }
+}
+
+@media (min-width: 900px) {
+  .photo {
+    height: 420px;
+  }
+}

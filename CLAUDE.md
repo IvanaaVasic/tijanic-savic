@@ -59,7 +59,7 @@ Copy pišeš na srpskom, latinica, sa dijakriticima (ć, č, š, ž, đ). URL-ov
 
 Brend
 
-Merodavan izvor za boje, dimenzije i tipografiju je docs/design/design.md, uz makete desktop.png i mobile.png. Sve vrednosti odatle prepisane su u app/tokens.css i u skill „brend" — taj folder je gitignorovan i postoji samo lokalno, pa ta dva fajla moraju da nose pune vrednosti. Ako se razilaze, design.md je u pravu.
+Merodavan izvor za boje, dimenzije i tipografiju je docs/design/design.md, uz makete desktop.png i mobile.png. Sve vrednosti odatle prepisane su u app/tokens.css i u skill „brend" — taj folder je gitignorovan i postoji samo lokalno, pa ta dva fajla moraju da nose pune vrednosti. Ako se razilaze, design.md je u pravu — osim za sekcije O nama i Tim, gde od 5.11.2026. važe makete o-nama-*.png i tim-*.png (raspored fotografija je upisan u skill „brend").
 
 Boje (iz postojećeg vizuelnog identiteta — logo, vizit karte, rokovnik):
 
